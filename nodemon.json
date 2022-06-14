@@ -1,0 +1,7 @@
+{
+   "delay": 1500,
+   "watch": ["server"],
+   "ext": ".ts",
+   "ignore": [],
+   "exec": "ts-node --files ./server/server.ts"
+}

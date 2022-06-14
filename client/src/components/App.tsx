@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Template from './template/Template.jsx';
+import Template from './template/Template';
 
 const App = () => {
    return (

@@ -2,6 +2,12 @@ require('dotenv').config();
 const path = require('path');
 const DIST_DIR = path.join(__dirname, '/client/dist');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin =
+   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+var FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
+
 let apiHost;
 
 let setupAPI = function () {
@@ -15,7 +21,10 @@ let setupAPI = function () {
 setupAPI();
 
 module.exports = {
-   entry: `${path.join(__dirname, '/client/src')}/index.jsx`,
+   resolve: {
+      extensions: ['.js', '.json', '.ts', '.tsx'],
+   },
+   entry: `${path.join(__dirname, '/client/src')}/index.tsx`,
    output: {
       filename: 'bundle.js',
       path: DIST_DIR,
@@ -24,28 +33,13 @@ module.exports = {
    module: {
       rules: [
          {
-            //enables webpack to handle jsx files
-            test: /\.jsx?$/,
+            test: /\.tsx?$/,
+            use: 'ts-loader',
             exclude: /node_modules/,
-            loader: 'babel-loader',
          },
          {
-            //enables webpack to handle css files
-            test: /\.css$/i,
-            // exclude: /node_modules/,
-            use: ['style-loader', 'css-loader'],
-         },
-         {
-            //enables webpack to handle scss files
-            test: /\.s[ac]ss$/i,
-            use: [
-               // Creates `style` nodes from JS strings
-               'style-loader',
-               // Translates CSS into CommonJS
-               'css-loader',
-               // Compiles Sass to CSS
-               'sass-loader',
-            ],
+            test: /.s?css$/,
+            use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
          },
          {
             //enables webpack to handle images
@@ -55,8 +49,16 @@ module.exports = {
       ],
    },
    plugins: [
+      new HtmlWebpackPlugin({
+         title: 'Frontend Capstone',
+         template: 'template.html',
+      }),
+      new MiniCssExtractPlugin(),
       new webpack.DefinePlugin({
          __API__: apiHost,
       }),
+      new FriendlyErrorsWebpackPlugin(),
+      //! uncomment this line to visualize webpack bundles in browser
+      // new BundleAnalyzerPlugin(),
    ],
 };

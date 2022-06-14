@@ -17,6 +17,7 @@ module.exports = merge(common, {
          },
       },
       static: DIST_DIR,
+      open: true,
       allowedHosts: 'auto',
       port: 3000,
       proxy: {

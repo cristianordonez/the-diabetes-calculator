@@ -60,12 +60,6 @@ Then navigate to port 8080 in your browser to view your application.
 npm start
 ```
 
--Run unit tests with Jest/React Testing Library:
-
-```bash
-npm start
-```
-
 -Then run end to end tests with Cypress:
 
 ```bash
