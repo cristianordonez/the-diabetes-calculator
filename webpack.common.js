@@ -50,7 +50,7 @@ module.exports = {
    },
    plugins: [
       new HtmlWebpackPlugin({
-         title: 'Frontend Capstone',
+         title: 'Meal Planner',
          template: 'template.html',
       }),
       new MiniCssExtractPlugin(),

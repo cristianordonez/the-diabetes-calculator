@@ -1,5 +1,5 @@
 {
-   "delay": 1500,
+   "delay": 500,
    "watch": ["server"],
    "ext": ".ts",
    "ignore": [],

@@ -24,6 +24,8 @@ This project was built with the following technologies:
 
 ## Setup/ Installation
 
+use command source server/database/schema.sql
+
 -  Clone this repository and navigate to project directory in the terminal
 -  Install necessary dependencies:
 
@@ -54,10 +56,12 @@ npm start
 
 Then navigate to port 8080 in your browser to view your application.
 
--Run unit tests with Jest/React Testing Library:
+## Testing
+
+-  Run unit tests with Jest/React Testing Library:
 
 ```bash
-npm start
+npm test
 ```
 
 -Then run end to end tests with Cypress:
@@ -70,3 +74,4 @@ npm run cypress
 
 -  [React code-splitting](https://reactjs.org/docs/code-splitting.html)
 -  [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+   https://spoonacular.com/food-api/docs

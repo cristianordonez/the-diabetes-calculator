@@ -1,8 +1,7 @@
 const url = 'https://api.spoonacular.com';
-// const axios = require('axios');
 import axios from 'axios';
 
-type Account = {
+type User = {
    username: string;
    firstName: string;
    lastName: string;
@@ -10,10 +9,17 @@ type Account = {
    password: string;
 };
 
-export const connectUser = async function (account: Account) {
-   const userAccountInfo = await axios.post(
+interface Account {
+   status: string;
+   username: string;
+   spoonacularPassword: string;
+   hash: string;
+}
+
+export const connectUser = async function (user: User) {
+   const promise = await axios.post<Account>(
       `${url}/users/connect?apiKey=${process.env.SPOONACULAR_API_KEY}`,
-      account
+      user
    );
-   return userAccountInfo;
+   return promise;
 };

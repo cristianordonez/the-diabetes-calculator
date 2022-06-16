@@ -17,7 +17,6 @@ import user from './routes/user';
 app.use(compression());
 
 app.use(express.static(path.join(__dirname, '../client/dist')));
-// app.use(express.static(path.join(__dirname, '/client/dist')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -30,7 +29,7 @@ app.get('/', (req: any, res: any) => {
    res.status(200).json({
       status: 'success',
       data: {
-         name: 'Diabetes Recipes',
+         name: 'Diabetes Meal Plan',
          version: '1.0.0',
       },
    });
