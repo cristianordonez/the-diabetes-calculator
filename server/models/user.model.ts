@@ -1,6 +1,7 @@
 //# connects controllers to the database
 
 import db from '../database/db';
+import { RowDataPacket } from 'mysql2';
 
 type User = {
    username: string;
@@ -15,23 +16,24 @@ type User = {
 };
 
 //creates a new user and stores in database;
-const create = (user: User) => {
+const create = async function (user: User) {
    const createQuery = `INSERT INTO users (username, first_name, last_name, email, spoonacular_username, spoonacular_password, spoonacular_hash, hash, id_user) VALUES ('${user.username}', '${user.firstName}', '${user.lastName}', '${user.email}', '${user.spoonacular_username}', '${user.spoonacular_password}', '${user.spoonacular_hash}', '${user.hash}', '${user.id_user}')`;
-   return db.promise().query(createQuery);
-   // promise.then((response) => {
-   //    console.log('response:', response);
-   //    return response;
-   // });
-   // promise.catch((err) => {
-   //    console.log('err:', err);
-   //    return err;
-   // });
+   let dbResponse = await db.promise().query<RowDataPacket[]>(createQuery);
+   console.log('dbResponse:', dbResponse);
+   return dbResponse;
 };
 
 //check if user already exists by their email address
-const get = (email: string) => {
-   const getQuery = `select * from users where email = '${email}'`;
-   return db.promise().query(getQuery);
+const getByEmail = async function (email: string) {
+   const getQuery = `SELECT * FROM USERS WHERE email='${email}'`;
+   let user = await db.promise().query<RowDataPacket[]>(getQuery);
+   return user;
 };
 
-export { create, get };
+const getByUsername = async function (username: string) {
+   const getQuery = `SELECT * FROM USERS WHERE username='${username}'`;
+   let user = await db.promise().query<RowDataPacket[]>(getQuery);
+   return user;
+};
+
+export { create, getByEmail, getByUsername };

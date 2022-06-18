@@ -6,7 +6,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin =
    require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-var FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
 
 let apiHost;
 
@@ -57,7 +56,6 @@ module.exports = {
       new webpack.DefinePlugin({
          __API__: apiHost,
       }),
-      new FriendlyErrorsWebpackPlugin(),
       //! uncomment this line to visualize webpack bundles in browser
       // new BundleAnalyzerPlugin(),
    ],

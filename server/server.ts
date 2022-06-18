@@ -1,18 +1,15 @@
 require('dotenv').config();
-// const path = require('path');
-
-// const express = require('express');
 import path from 'path';
 import express from 'express';
-// const bodyParser = require('body-parser');
 const port = 8080;
-// const compression = require('compression');
-// const user = require('./routes/user');
 import bodyParser from 'body-parser';
-const app = express();
 import compression from 'compression';
-import user from './routes/user';
+import user from './routes/user.route';
+import recipes from './routes/recipe.route';
+import menuItems from './routes/menuitems.route';
+import groceryProducts from './routes/groceryproducts.route';
 
+const app = express();
 //MIDDLEWARE
 app.use(compression());
 
@@ -24,8 +21,11 @@ app.use(bodyParser.json());
 
 //ROUTES
 app.use('/user', user);
+app.use('/recipes', recipes);
+app.use('/menuItems', menuItems);
+app.use('/groceryProducts', groceryProducts);
 
-app.get('/', (req: any, res: any) => {
+app.get('/', (req: express.Request, res: express.Response) => {
    res.status(200).json({
       status: 'success',
       data: {
