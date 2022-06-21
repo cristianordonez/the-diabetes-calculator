@@ -2,13 +2,17 @@
    "compilerOptions": {
       "outDir": "./client/dist/",
       "module": "CommonJS",
+      "noImplicitAny": true,
+      "noImplicitThis": true,
+      "strictNullChecks": true,
       "sourceMap": true,
       "target": "es5",
       "jsx": "react",
       "allowJs": true,
       "moduleResolution": "node",
-      "allowSyntheticDefaultImports": true,
       "strict": true,
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "skipLibCheck": true
    }
 }

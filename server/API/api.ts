@@ -23,7 +23,8 @@ const connectUser = async function (user: User) {
    );
    return spoonacularUser;
 };
-interface Query {
+
+type Query = {
    query: string;
    type: string;
    diet: string;
@@ -38,9 +39,12 @@ interface Query {
    maxFat: number;
    number: number; //number of items to return
    offset: number; //number of results to skip, useful for lazy loading
-}
+};
 
-const getSpoonacularRecipes = async function (recipeQuery: Query) {
+const getSpoonacularRecipes = async function (
+   recipeQuery: Query
+): Promise<object> {
+   console.log('recipeQuery:', recipeQuery);
    //if user does not send diet or intolerance, must enter in false instead for request to function
    let dietQuery = recipeQuery.diet.length ? recipeQuery.diet : false;
    let intoleranceQuery = recipeQuery.intolerance.length
@@ -48,7 +52,7 @@ const getSpoonacularRecipes = async function (recipeQuery: Query) {
       : false;
 
    const recipes = await axios.get(
-      `${url}/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&query=${recipeQuery.query}&type=${recipeQuery.type}&$minCalories=${recipeQuery.minCalories}&maxCalories=${recipeQuery.maxCalories}&minCarbs=${recipeQuery.minCarbs}&maxCarbs=${recipeQuery.maxCarbs}&minProtein=${recipeQuery.minProtein}&maxProtein=${recipeQuery.maxProtein}&minFat=${recipeQuery.minFat}&maxFat=${recipeQuery.maxFat}&intolerances=${intoleranceQuery}&diet=${dietQuery}&number=${recipeQuery.number}&offset=${recipeQuery.offset}`
+      `${url}/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&query=${recipeQuery.query}&type=${recipeQuery.type}&$minCalories=${recipeQuery.minCalories}&maxCalories=${recipeQuery.maxCalories}&minCarbs=${recipeQuery.minCarbs}&maxCarbs=${recipeQuery.maxCarbs}&minProtein=${recipeQuery.minProtein}&maxProtein=${recipeQuery.maxProtein}&minFat=${recipeQuery.minFat}&maxFat=${recipeQuery.maxFat}&intolerances=${intoleranceQuery}&diet=${dietQuery}`
    );
    return recipes.data.results;
 };

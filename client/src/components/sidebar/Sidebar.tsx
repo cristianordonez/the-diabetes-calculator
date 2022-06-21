@@ -1,7 +1,7 @@
 import React from 'react';
-import './Template.scss';
+import './Sidebar.scss';
 
-const Template = () => {
+const Sidebar = () => {
    return (
       <>
          <p>Hello World</p>
@@ -9,4 +9,4 @@ const Template = () => {
    );
 };
 
-export default Template;
+export default Sidebar;
