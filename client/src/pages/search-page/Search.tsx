@@ -49,7 +49,7 @@ const Search = () => {
       <>
          <DailyGoals />
          {apiData.length ? (
-            <FoodSearchList apiData={apiData} />
+            <FoodSearchList apiData={apiData} route={route} />
          ) : (
             <SearchForm
                handleSubmit={handleSubmit}

@@ -1,8 +1,18 @@
 import React from 'react';
 import FoodSearchItem from './food-search-item/FoodSearchItem';
+import Grid from '@mui/material/Grid';
 
-type Nutrients = {
+type RecipeNutrients = {
    nutrients: [];
+};
+
+type RecipeItem = {
+   id: number;
+   image: string;
+   nutrition: RecipeNutrients;
+   title: string;
+   sourceUrl: string;
+   servings: number;
 };
 
 type GroceryNutrients = {
@@ -10,15 +20,6 @@ type GroceryNutrients = {
    carbs: string;
    fat: string;
    protein: string;
-};
-
-type RecipeItem = {
-   id: number;
-   image: string;
-   nutrition: Nutrients;
-   title: string;
-   sourceUrl: string;
-   servings: number;
 };
 
 type GroceryItem = {
@@ -34,44 +35,72 @@ type GroceryItem = {
    ingredientList: string;
 };
 
+type MenuItem = {
+   id: number;
+   image: string;
+   title: string;
+   nutrition: MenuItemNutrients;
+   restaurantChain: string;
+   servingSize: string;
+};
+
+type MenuItemNutrients = {
+   calories: number;
+   carbs: string;
+   fat: string;
+   protein: string;
+   nutrients: [
+      {
+         name: string;
+         amount: number;
+         unit: string;
+         percentOfDailyNeeds: number;
+      }
+   ];
+};
+
 const FoodSearchList = ({ apiData, route }: any) => {
    console.log('apiData:', apiData);
 
    return (
       <>
-         {route === 'recipes' &&
-            apiData.map((item: RecipeItem) => (
-               <FoodSearchItem
-                  key={item.id}
-                  image={item.image}
-                  title={item.title}
-                  nutrition={item.nutrition.nutrients}
-                  route={route}
-               />
-            ))}
-         {route === 'groceryProducts' &&
-            apiData.map((item: GroceryItem) => (
-               <FoodSearchItem
-                  key={item.id}
-                  description={item.description}
-                  image={item.image}
-                  title={item.title}
-                  nutrition={item.nutrition}
-                  price={item.price}
-                  ingredientList={item.ingredientList}
-                  route={route}
-               />
-            ))}
-         {route === 'menuItems' &&
-            apiData.map((item: RecipeItem) => (
-               <FoodSearchItem
-                  key={item.id}
-                  image={item.image}
-                  title={item.title}
-                  nutrition={item.nutrition.nutrients}
-                  route={route}
-               />
-            ))}
+         <Grid container spacing={2}>
+            {route === 'recipes' &&
+               apiData.map((item: RecipeItem) => (
+                  <FoodSearchItem
+                     key={item.id}
+                     image={item.image}
+                     title={item.title}
+                     nutrition={item.nutrition.nutrients}
+                     route={route}
+                     url={item.sourceUrl}
+                  />
+               ))}
+            {route === 'groceryProducts' &&
+               apiData.map((item: GroceryItem) => (
+                  <FoodSearchItem
+                     key={item.id}
+                     description={item.description}
+                     image={item.image}
+                     title={item.title}
+                     nutrition={item.nutrition}
+                     price={item.price}
+                     ingredientList={item.ingredientList}
+                     route={route}
+                  />
+               ))}
+            {route === 'menuItems' &&
+               apiData.map((item: MenuItem) => (
+                  <FoodSearchItem
+                     key={item.id}
+                     image={item.image}
+                     title={item.title}
+                     nutrition={item.nutrition}
+                     route={route}
+                     restaurantChain={item.restaurantChain}
+                  />
+               ))}
+         </Grid>
       </>
    );
 };
