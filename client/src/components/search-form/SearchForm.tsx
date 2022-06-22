@@ -7,33 +7,16 @@ import Tab from '@mui/material/Tab';
 import SearchFormSuggested from './search-form-suggested/SearchFormSuggested';
 import SearchFormCustom from './search-form-custom/SearchFormCustom';
 
-const SearchForm = () => {
-   const [currentTab, setCurrentTab] = useState<string>('custom-search');
-   const [route, setRoute] = useState<string>('recipes');
-   const [values, setValues] = useState({
-      query: '',
-      type: '',
-      diet: '',
-      intolerance: '',
-      minCalories: '',
-      maxCalories: '',
-      minCarbs: '',
-      maxCarbs: '',
-      minProtein: '',
-      maxProtein: '',
-      minFat: '',
-      maxFat: '',
-      number: '', //number of items to return
-      offset: '', //number of results to skip, useful for lazy loading
-   });
-   const handleChange = (event: React.SyntheticEvent, currentValue: string) => {
-      setCurrentTab(currentValue);
-   };
-
-   const handleSubmit = (event: React.SyntheticEvent) => {
-      event.preventDefault();
-      console.log(values);
-   };
+const SearchForm = ({
+   handleSubmit,
+   route,
+   setRoute,
+   setCurrentTab,
+   currentTab,
+   handleChange,
+   values,
+   setValues,
+}: any) => {
    return (
       <>
          <Stack direction='row' spacing={1}>

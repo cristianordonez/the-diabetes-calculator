@@ -1,5 +1,6 @@
 const url = 'https://api.spoonacular.com';
 import axios from 'axios';
+import { Query } from '../types/QueryType';
 
 type User = {
    username: string;
@@ -24,23 +25,6 @@ const connectUser = async function (user: User) {
    return spoonacularUser;
 };
 
-type Query = {
-   query: string;
-   type: string;
-   diet: string;
-   intolerance: string;
-   minCalories: number;
-   maxCalories: number;
-   minCarbs: number;
-   maxCarbs: number;
-   minProtein: number;
-   maxProtein: number;
-   minFat: number;
-   maxFat: number;
-   number: number; //number of items to return
-   offset: number; //number of results to skip, useful for lazy loading
-};
-
 const getSpoonacularRecipes = async function (
    recipeQuery: Query
 ): Promise<object> {
@@ -52,7 +36,7 @@ const getSpoonacularRecipes = async function (
       : false;
 
    const recipes = await axios.get(
-      `${url}/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&query=${recipeQuery.query}&type=${recipeQuery.type}&$minCalories=${recipeQuery.minCalories}&maxCalories=${recipeQuery.maxCalories}&minCarbs=${recipeQuery.minCarbs}&maxCarbs=${recipeQuery.maxCarbs}&minProtein=${recipeQuery.minProtein}&maxProtein=${recipeQuery.maxProtein}&minFat=${recipeQuery.minFat}&maxFat=${recipeQuery.maxFat}&intolerances=${intoleranceQuery}&diet=${dietQuery}`
+      `${url}/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&query=${recipeQuery.query}&type=${recipeQuery.type}&$minCalories=${recipeQuery.minCalories}&maxCalories=${recipeQuery.maxCalories}&minCarbs=${recipeQuery.minCarbs}&maxCarbs=${recipeQuery.maxCarbs}&minProtein=${recipeQuery.minProtein}&maxProtein=${recipeQuery.maxProtein}&minFat=${recipeQuery.minFat}&maxFat=${recipeQuery.maxFat}&intolerances=${intoleranceQuery}&diet=${dietQuery}&addRecipeNutrition=true`
    );
    return recipes.data.results;
 };

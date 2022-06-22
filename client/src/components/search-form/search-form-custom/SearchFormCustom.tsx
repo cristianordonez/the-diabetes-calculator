@@ -12,22 +12,6 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from '@mui/icons-material/Search';
 
-// type Query = {
-//    query: string;
-//    type: string;
-//    diet: string;
-//    intolerance: string;
-//    minCalories: number;
-//    maxCalories: number;
-//    minCarbs: number;
-//    maxCarbs: number;
-//    minProtein: number;
-//    maxProtein: number;
-//    minFat: number;
-//    maxFat: number;
-//    number: number; //number of items to return
-//    offset: number; //number of results to skip, useful for lazy loading
-// };
 interface Props {
    route: any;
    values: any;
@@ -44,31 +28,33 @@ const SearchFormCustom = ({
    handleSubmit,
 }: Props): JSX.Element => {
    const handleRouteChange = (event: SelectChangeEvent) => {
-      console.log('route:', route);
       setRoute(event.target.value);
    };
 
    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      console.log('event:', event);
       setValues({ ...values, [event.target.id]: event.target.value });
-      console.log('values:', values);
+   };
+
+   const handleTypeSelect = (event: SelectChangeEvent) => {
+      setValues({ ...values, type: event.target.value });
    };
 
    return (
       <>
          <form onSubmit={handleSubmit}>
             <Stack spacing={3}>
-               {/* ROUTES */}
                <Typography variant='body1'>
                   Search for either recipe, a grocery product, or a menu item
                   from large list of restaurants
                </Typography>
+               {/* ROUTES */}
                <FormControl>
-                  <InputLabel>Type</InputLabel>
+                  <InputLabel>Search</InputLabel>
                   <Select
                      value={route}
                      onChange={handleRouteChange}
-                     label='Type'
+                     label='Search'
+                     required
                   >
                      <MenuItem value={'recipes'}>Recipes</MenuItem>
                      <MenuItem value={'groceryProducts'}>
@@ -80,9 +66,10 @@ const SearchFormCustom = ({
                      Choose the type of item you are searching for.
                   </FormHelperText>
                </FormControl>
-               {/* Query */}
+               {/* QUERY */}
                <TextField
                   id='query'
+                  required
                   InputProps={{
                      startAdornment: (
                         <InputAdornment position='start'>
@@ -90,13 +77,42 @@ const SearchFormCustom = ({
                         </InputAdornment>
                      ),
                   }}
-                  label='Search'
-                  helperText='Enter any food you want the item to contain'
+                  label='Item'
+                  helperText='Enter an ingredient or item you want your search to contain (i.e. chicken, greek yogurt, etc.)'
                   value={values.query}
                   onChange={handleInputChange}
                />
-               {/* CALORIES */}
+               {/* TYPE */}
+               <FormControl>
+                  <InputLabel>Type</InputLabel>
+                  <Select
+                     value={values.type}
+                     onChange={handleTypeSelect}
+                     label='Type'
+                     required
+                     id='type'
+                  >
+                     <MenuItem value={'maincourse'}>Main Course</MenuItem>
+                     <MenuItem value={'sidedish'}>Side Dish</MenuItem>
+                     <MenuItem value={'dessert'}>Dessert</MenuItem>
+                     <MenuItem value={'appetizer'}>Appetizer</MenuItem>
+                     <MenuItem value={'salad'}>Salad</MenuItem>
+                     <MenuItem value={'bread'}>Bread</MenuItem>
+                     <MenuItem value={'breakfast'}>Breakfast</MenuItem>
+                     <MenuItem value={'soup'}>Soup</MenuItem>
+                     <MenuItem value={'beverage'}>Beverage</MenuItem>
+                     <MenuItem value={'sauce'}>Sauce</MenuItem>
+                     <MenuItem value={'marinade'}>Marinade</MenuItem>
+                     <MenuItem value={'fingerfood'}>Fingerfood</MenuItem>
+                     <MenuItem value={'snack'}>Snack</MenuItem>
+                     <MenuItem value={'drink'}>Drink</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                     Choose the type of item you are searching for.
+                  </FormHelperText>
+               </FormControl>
                <Typography variant='h6'>Choose Calorie Range</Typography>
+               {/* CALORIES */}
                <Stack direction='row'>
                   {/* MIN KCAL */}
                   <FormControl
@@ -106,6 +122,7 @@ const SearchFormCustom = ({
                      <Input
                         id='minCalories'
                         type='number'
+                        required
                         value={values.minCalories}
                         onChange={handleInputChange}
                         endAdornment={
@@ -125,6 +142,7 @@ const SearchFormCustom = ({
                      <Input
                         id='maxCalories'
                         type='number'
+                        required
                         value={values.maxCalories}
                         onChange={handleInputChange}
                         endAdornment={
@@ -138,8 +156,8 @@ const SearchFormCustom = ({
                   </FormControl>
                </Stack>
 
-               {/* CARBS */}
                <Typography variant='h6'>Choose Carb Range</Typography>
+               {/* CARBS */}
                <Stack direction='row'>
                   {/* MIN CARBS */}
                   <FormControl
@@ -149,6 +167,7 @@ const SearchFormCustom = ({
                      <Input
                         id='minCarbs'
                         type='number'
+                        required
                         value={values.minCarbs}
                         onChange={handleInputChange}
                         endAdornment={
@@ -168,6 +187,7 @@ const SearchFormCustom = ({
                      <Input
                         id='maxCarbs'
                         type='number'
+                        required
                         value={values.maxCarbs}
                         onChange={handleInputChange}
                         endAdornment={
@@ -180,8 +200,8 @@ const SearchFormCustom = ({
                      <FormHelperText>Maximum Carbs</FormHelperText>
                   </FormControl>
                </Stack>
-               {/* PROTEIN */}
                <Typography variant='h6'>Choose Protein Range</Typography>
+               {/* PROTEIN */}
                <Stack direction='row'>
                   {/* MIN PROTEIN */}
                   <FormControl
@@ -190,6 +210,7 @@ const SearchFormCustom = ({
                   >
                      <Input
                         id='minProtein'
+                        required
                         type='number'
                         value={values.minProtein}
                         onChange={handleInputChange}
@@ -209,6 +230,7 @@ const SearchFormCustom = ({
                   >
                      <Input
                         id='maxProtein'
+                        required
                         type='number'
                         value={values.maxProtein}
                         onChange={handleInputChange}
@@ -222,8 +244,8 @@ const SearchFormCustom = ({
                      <FormHelperText>Maximum Protein</FormHelperText>
                   </FormControl>
                </Stack>
-               {/* FAT */}
                <Typography variant='h6'>Choose Fat Range</Typography>
+               {/* FAT */}
                <Stack direction='row'>
                   {/* MIN FAT*/}
                   <FormControl
@@ -233,6 +255,7 @@ const SearchFormCustom = ({
                      <Input
                         id='minFat'
                         type='number'
+                        required
                         value={values.minFat}
                         onChange={handleInputChange}
                         endAdornment={
@@ -251,6 +274,7 @@ const SearchFormCustom = ({
                   >
                      <Input
                         id='maxFat'
+                        required
                         type='number'
                         value={values.maxFat}
                         onChange={handleInputChange}

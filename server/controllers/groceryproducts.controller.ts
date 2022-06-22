@@ -1,16 +1,14 @@
 //#connects server to the models
-import express from 'express';
+import { Request, Response } from 'express';
 import * as apiHelpers from '../API/api';
+import { Query } from '../types/QueryType';
 
-const getGroceryProducts = async function (
-   req: express.Request,
-   res: express.Response
-) {
+const getGroceryProducts = async function (req: Request, res: Response) {
+   const query = req.query as unknown as Query;
    try {
       let groceryProducts = await apiHelpers.getSpoonacularGroceryProducts(
-         req.body
+         query
       );
-      console.log('groceryProducts:', groceryProducts);
       res.send(groceryProducts);
    } catch (err) {
       console.log('err:', err);
