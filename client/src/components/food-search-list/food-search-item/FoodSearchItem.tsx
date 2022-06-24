@@ -10,6 +10,13 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
+type NutrientType = {
+   name: string;
+   amount: number;
+   percentOfDailyNeeds: number;
+   unit: string;
+};
+
 const FoodSearchItem = ({
    route,
    image,
@@ -22,6 +29,29 @@ const FoodSearchItem = ({
    url,
 }: any) => {
    //item that appears in every item is image, title, nutrition,
+   console.log('nutrition in foodsearchitem:', nutrition);
+
+   let calories, carbs, fat, protein;
+
+   if (route === 'recipes') {
+      nutrition.nutrients.forEach((nutrient: NutrientType) => {
+         if (nutrient.name === 'Calories') {
+            calories = Math.floor(nutrition.nutrients[0].amount);
+         } else if (nutrient.name === 'Protein') {
+            protein = Math.floor(nutrition.nutrients[1].amount) + 'g';
+         } else if (nutrient.name === 'Fat') {
+            fat = Math.floor(nutrition.nutrients[1].amount) + 'g';
+         } else if (nutrient.name === 'Carbohydrates') {
+            carbs = Math.floor(nutrition.nutrients[3].amount) + 'g';
+         }
+      });
+   } else {
+      calories = nutrition.calories;
+      protein = nutrition.protein;
+      fat = nutrition.fat;
+      carbs = nutrition.carbs;
+   }
+   console.log('url:', url);
 
    return (
       <>
@@ -35,49 +65,57 @@ const FoodSearchItem = ({
                      image={image}
                   />
                   <CardContent>
-                     <Typography variant='overline'>{title}</Typography>
+                     {route === 'recipes' ? (
+                        <CardActions>
+                           <a href={url} target='_blank'>
+                              <Typography variant='overline'>
+                                 {title}
+                              </Typography>
+                           </a>
+                        </CardActions>
+                     ) : (
+                        <Typography variant='overline'>{title}</Typography>
+                     )}
+                     {route === 'menuItems' && (
+                        <Typography variant='overline'>
+                           {restaurantChain}
+                        </Typography>
+                     )}
                      <div className='search-item-nutrition'>
+                        {/* CALORIES */}
                         <div className='search-item-nutrient'>
                            <Typography variant='subtitle2'>
                               <strong>Calories</strong>
                            </Typography>
-                           <Typography variant='body1'>
-                              {nutrition.calories || nutrition[0].amount}
-                           </Typography>
+                           <Typography variant='body1'>{calories}</Typography>
                         </div>
+                        {/*   CARBS  */}
                         <div className='search-item-nutrient'>
-                           {' '}
                            <Typography variant='subtitle2'>
                               <strong>Carbs</strong>
                            </Typography>
-                           <Typography variant='body1'>
-                              {nutrition.carbs || nutrition[3].amount}
-                           </Typography>
+                           <Typography variant='body1'>{carbs}</Typography>
                         </div>
+                        {/* PROTEIN */}
                         <div className='search-item-nutrient'>
-                           {' '}
                            <Typography variant='subtitle2'>
                               <strong>Protein</strong>
                            </Typography>
-                           <Typography variant='body1'>
-                              {nutrition.protein || nutrition[8].amount}
-                           </Typography>
+                           <Typography variant='body1'>{protein}</Typography>
                         </div>
+                        {/* FAT */}
                         <div className='search-item-nutrient'>
-                           {' '}
                            <Typography variant='subtitle2'>
                               <strong>Fat</strong>
                            </Typography>
-                           <Typography variant='body1'>
-                              {nutrition.fat || nutrition[1].amount}
-                           </Typography>
+                           <Typography variant='body1'>{fat}</Typography>
                         </div>
                      </div>
                   </CardContent>
                   <CardActions>
-                     <Button variant='outlined'>
+                     <Button fullWidth variant='outlined'>
                         <AddShoppingCartIcon />
-                        Add to Cart
+                        Add to Mealplan
                      </Button>
                   </CardActions>
                </Card>

@@ -12,6 +12,7 @@ type RecipeItem = {
    nutrition: RecipeNutrients;
    title: string;
    sourceUrl: string;
+   spoonacularSourceUrl: string;
    servings: number;
 };
 
@@ -71,9 +72,9 @@ const FoodSearchList = ({ apiData, route }: any) => {
                      key={item.id}
                      image={item.image}
                      title={item.title}
-                     nutrition={item.nutrition.nutrients}
+                     nutrition={item.nutrition}
                      route={route}
-                     url={item.sourceUrl}
+                     url={item.spoonacularSourceUrl}
                   />
                ))}
             {route === 'groceryProducts' &&

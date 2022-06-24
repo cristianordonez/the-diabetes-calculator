@@ -7,4 +7,4 @@ const pool = createPool({
    database: 'meal-planner',
 });
 
-export default pool;
+export { pool };
