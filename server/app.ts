@@ -38,13 +38,9 @@ const conObject = {
    database: database,
 };
 
-const test = `postgres://${process.env.USER}:${process.env.PASSWORD}@${process.env.HOST}:5432/${database}`;
-console.log('test:', test);
 const pgStoreConfig = {
    conObject: conObject,
    // conString: `postgres://${process.env.USER}:${process.env.PASSWORD}@${process.env.HOST}:5432/${database}`,
-   // conObject: conObject,// or this,
-   // pool: new (require('pg').Pool({ /* pool options here*/}))// or this
 };
 
 app.use(
@@ -62,39 +58,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-// passport.use(
-//    new LocalStrategy((username, password, cb) => {
-//       console.log('here in new local strategy');
-//       db.query(
-//          `SELECT id, username, hash, email FROM users WHERE username=${username}`,
-
-//          (err: any, result: any) => {
-//             if (err) {
-//                console.log('err in new local strategt:', err);
-//                return cb(err);
-//             }
-//             if (result.rows.length > 0) {
-//                const first = result.rows[0];
-//                bcrypt.compare(password, first.hash, function (err, res) {
-//                   if (res) {
-//                      cb(null, {
-//                         id: first.id,
-//                         username: first.username,
-//                         // email: first.email,
-//                      });
-//                   } else {
-//                      console.log('err in bcrypt:', err);
-//                      cb(null, false, { message: 'bad password' });
-//                   }
-//                });
-//             } else {
-//                cb(null, false);
-//             }
-//          }
-//       );
-//    })
-// );
 
 passport.use(
    new LocalStrategy((username, password, cb) => {
@@ -130,23 +93,6 @@ passport.serializeUser((user: any, done) => {
    console.log('user:', user);
    done(null, user.id);
 });
-
-// passport.deserializeUser((id: string, cb) => {
-//    console.log('here in deserialize user');
-
-//    db.query(
-//       'SELECT id, username, email, spoonacular_username FROM users WHERE id = $1',
-//       [parseInt(id, 10)],
-//       (err: any, results: any) => {
-//          if (err) {
-//             console.log('err in deserialize user:', err);
-//             return cb(err);
-//          } else {
-//             cb(null, results.rows[0]);
-//          }
-//       }
-//    );
-// });
 
 passport.deserializeUser((id: string, cb) => {
    db.query(

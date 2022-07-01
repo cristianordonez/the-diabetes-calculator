@@ -35,6 +35,8 @@ export const createGoals = (goals: Goals) => {
 };
 
 export const getGoals = (user_id: string) => {
+   console.log('user_id:', user_id);
+   console.log('here in get goals');
    let dbQuery = `SELECT * FROM daily_goals WHERE user_id = ${user_id}`;
    let response = db.query(dbQuery);
    return response;

@@ -68,7 +68,8 @@ export const createMetrics = async (req: Request, res: Response) => {
 //# checks if user is logged in
 export const checkAuthentication = async (req: any, res: Response) => {
    let session: any = req.session;
-   if (session.passport) {
+   console.log('session:', session);
+   if (session.passport || session.user_id) {
       res.status(201).send('User is logged in.');
    } else {
       res.status(500).send('User is not logged in. ');
@@ -79,7 +80,9 @@ export const checkAuthentication = async (req: any, res: Response) => {
 export const getMetrics = async (req: any, res: Response) => {
    try {
       let user_id = req.session.user_id;
+      console.log('req.session.user_id:', req.session);
       let userGoals: any = await dailyGoalsModel.getGoals(user_id);
+      console.log('userGoals:', userGoals);
       res.json(userGoals[0]);
    } catch (err) {
       console.log('err:', err);

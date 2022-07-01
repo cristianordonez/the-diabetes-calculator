@@ -42,6 +42,9 @@ router.post(
    }),
    (req: Request, res: Response) => {
       console.log('req.user:', req.user);
+      let session: any = req.session;
+      let user: any = req.user;
+      session.user_id = user.id;
       res.status(200).send(req.user);
    }
 );
