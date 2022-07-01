@@ -82,7 +82,7 @@ export const LoginPage = () => {
       event.preventDefault();
       try {
          let response = await axios.post(`/api/login`, loginValues);
-         if (response.status === 201) {
+         if (response.status === 200) {
             setError(false);
             navigate(`/${response.data.id}/search`, { replace: true });
          }

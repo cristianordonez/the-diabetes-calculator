@@ -14,6 +14,7 @@ type Body = {
 
 //# create initial account if not already exists
 export const createAccount = async (req: Request, res: Response) => {
+   console.log('req.body:', req.body);
    try {
       let checkForExistingEmail: any = await userModel.getByEmail(
          req.body.email
@@ -21,9 +22,10 @@ export const createAccount = async (req: Request, res: Response) => {
       let checkForExistingUsername: any = await userModel.getByUsername(
          req.body.username
       );
+
       if (
-         checkForExistingEmail.rows.length || // if either email or username already exists in db, cancel the request
-         checkForExistingUsername.rows.length
+         checkForExistingEmail.length || // if either email or username already exists in db, cancel the request
+         checkForExistingUsername.length
       ) {
          res.status(500).send(
             'An account with your email or username already exists.'
@@ -40,7 +42,7 @@ export const createAccount = async (req: Request, res: Response) => {
          user.hash = hash;
          let dbResponse = await userModel.create(user); // then, send data to model to store all info in db
          let session: any = req.session; // put user id into req.sessions
-         session.user_id = dbResponse.rows[0].id;
+         session.user_id = dbResponse[0].id;
          res.status(201).send('You have successfully created an account!');
       }
    } catch (err) {
@@ -78,7 +80,7 @@ export const getMetrics = async (req: any, res: Response) => {
    try {
       let user_id = req.session.user_id;
       let userGoals: any = await dailyGoalsModel.getGoals(user_id);
-      res.json(userGoals.rows[0]);
+      res.json(userGoals[0]);
    } catch (err) {
       console.log('err:', err);
       res.status(500).send('Unable to retrieve daily goals.');
