@@ -115,7 +115,6 @@ export const SearchPage = () => {
          suggestedValues.maxProtein = goals.max_protein_per_meal;
          suggestedValues.minFat = goals.min_fat_per_meal;
          suggestedValues.maxFat = goals.max_fat_per_meal;
-         console.log('suggestedValues:', suggestedValues);
          let foodItems = await axios.get(`/api/${route}`, {
             params: suggestedValues,
          });
@@ -224,7 +223,7 @@ export const SearchPage = () => {
                {/* ERROR SNACKBAR */}
 
                <Snackbar
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                   open={openSnackbar}
                   autoHideDuration={6000}
                   onClose={handleClose}

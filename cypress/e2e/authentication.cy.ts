@@ -1,15 +1,6 @@
-
-
 describe('The Login Page', () => {
-   
-   // reset and seed the database prior to all test
-   // before(() => {
-   //    cy.task('db:seed');
-   // });
-
-   //then drop the database after all tests are completed
    after(() => {
-      cy.task('db:teardown');
+      cy.task('db:teardown'); //deletes all users and sessions from database 
    });
 
    it('Successfully allows user to create an account', () => {

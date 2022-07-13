@@ -4,6 +4,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import session from 'express-session';
+import cors from 'cors';
 import passport from 'passport';
 import { router as authRoute } from './routes/auth.route';
 import { router as recipesRoute } from './routes/recipe.route';
@@ -14,12 +15,15 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { db } from './database/db';
 // import pgSession from 'connect-pg-simple';
 
+
 import bcrypt from 'bcrypt';
 const pgSession = require('connect-pg-simple')(session);
 const app = express();
 
 console.log('here in app.ts')
 //MIDDLEWARE
+app.use(cors())
+
 app.use(compression());
 
 app.use(express.static(path.join(__dirname, '../client/dist')));

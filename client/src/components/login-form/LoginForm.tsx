@@ -34,10 +34,11 @@ export const LoginForm = ({
    const handleLogin = async (event: React.SyntheticEvent) => {
       event.preventDefault();
       try {
-         let response = await axios.post(`/api/login`, loginValues);
+         let response = await axios.post(`http://localhost:8080/api/login`, loginValues);
+         console.log('response: ', response)
          if (response.status === 200) {
             setShowTextFieldError(false);
-            navigate(`/${response.data.id}/search`, { replace: true });
+            navigate(`/search`, { replace: true });
          }
       } catch (err: any) {
          setErrorMessage('No matching username and password found.'); //showTextFieldError message used in the snackbar
