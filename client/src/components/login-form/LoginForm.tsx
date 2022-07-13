@@ -34,9 +34,10 @@ export const LoginForm = ({
    const handleLogin = async (event: React.SyntheticEvent) => {
       event.preventDefault();
       try {
-         let response = await axios.post(`http://localhost:8080/api/login`, loginValues);
-         console.log('response: ', response)
+         let response = await axios.post(`/api/login`, loginValues);
+         console.log('1. response: ', response)
          if (response.status === 200) {
+            console.log('4. here in handlelogin before navigation')
             setShowTextFieldError(false);
             navigate(`/search`, { replace: true });
          }

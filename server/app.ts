@@ -51,10 +51,11 @@ app.use(
    session({
       store: new pgSession(pgStoreConfig),
       secret: `${process.env.SESSION_SECRET}`,
-      saveUninitialized: true,
-      resave: true,
+      saveUninitialized: false,
+      resave: false,
       cookie: {
          secure: false,
+         httpOnly: false,
          maxAge: 30 * 24 * 60 * 60 * 1000, //30 days
       },
    })
@@ -110,10 +111,10 @@ passport.deserializeUser((id: string, cb) => {
 });
 
 //ROUTES
-app.use('/api', authRoute);
 app.use('/api/recipes', recipesRoute);
 app.use('/api/menuItems', menuItemsRoute);
 app.use('/api/groceryProducts', groceryProductsRoute);
 app.use('/api/mealplan', mealplanRoute);
+app.use('/api', authRoute);
 
 export default app; //export to be used for tests and in server.js
