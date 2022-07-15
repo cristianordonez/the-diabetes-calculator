@@ -33,6 +33,11 @@ export const MealPlanPage = () => {
             console.log('response in meal plan:', response)
             setMealplanItems(response.data.items);
 
+        }).catch(err => {
+            console.log('err in useeffect meal plan page:', err)
+            setAlertSeverity('info')
+            setAlertMessage('You have no items saved on this day for your mealplan.')
+            setOpenSnackbar(true);
         })
     }, [])
 

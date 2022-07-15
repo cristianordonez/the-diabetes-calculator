@@ -112,6 +112,6 @@ export const MealplanDay = ({mealplanItems, setMealPlanItems, setOpenSnackbar, s
         </>
     )
         } else {
-            return (<>Loading...</>)
+            return (<></>)
         }
 }
