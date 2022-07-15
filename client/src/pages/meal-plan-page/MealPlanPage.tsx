@@ -44,7 +44,7 @@ export const MealPlanPage = () => {
         <Tabs value={dayIndex} onChange={handleTabChange}>
             {days.map(day => <Tab key={day} label={day}/>)}
         </Tabs>
-        <MealplanDay mealplanItems={mealplanItems}/>
+        <MealplanDay mealplanItems={mealplanItems} setOpenSnackbar={setOpenSnackbar} setAlertSeverity={setAlertSeverity} setAlertMessage={setAlertMessage}/>
         <CustomAlert openAlert={openSnackbar} handleAlert={handleClose} alertSeverity={alertSeverity} alertMessage={alertMessage}/>
         
         </>

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import {MealplanItem} from './MealplanItem';
-
+import { AlertColor } from '@mui/material';
 export type MealplanItemType = {
     id: number; 
     position: number;
@@ -16,10 +16,13 @@ export type MealplanItemType = {
 
 interface Props {
     mealplanItems: MealplanItemType[];
+    setOpenSnackbar: Dispatch<SetStateAction<boolean>>;
+    setAlertSeverity: Dispatch<SetStateAction<AlertColor | undefined>>
+    setAlertMessage: Dispatch<SetStateAction<string>>;
 }
 
 //gets list of meal plan items, then renders one mealplanitem component per item
-export const MealplanDay = ({mealplanItems}: Props) => {
+export const MealplanDay = ({mealplanItems, setOpenSnackbar, setAlertSeverity, setAlertMessage}: Props) => {
     console.log('mealplanItems', mealplanItems)
     if (mealplanItems.length) {
     return (
@@ -30,9 +33,13 @@ export const MealplanDay = ({mealplanItems}: Props) => {
             slot={item.slot}
             type={item.type}
             id={item.value.id}
+            shoppingListId={item.id}
             imageType={item.value.imageType}
             servings={item.value.servings}
             title={item.value.title}
+            setOpenSnackbar={setOpenSnackbar}
+            setAlertSeverity={setAlertSeverity}
+            setAlertMessage={setAlertMessage}
         />
         )}
         </>
