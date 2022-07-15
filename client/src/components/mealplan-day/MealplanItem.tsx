@@ -17,9 +17,11 @@ interface Props {
     setOpenSnackbar: Dispatch<SetStateAction<boolean>>;
     setAlertSeverity: Dispatch<SetStateAction<AlertColor | undefined>>
     setAlertMessage: Dispatch<SetStateAction<string>>;
+    setMealPlanItems: Dispatch<SetStateAction<[]>>; 
+    currentDay:string;
 }
 
-export const MealplanItem = ({position, slot, type, id, shoppingListId, imageType, servings, title, setOpenSnackbar, setAlertSeverity, setAlertMessage }: Props) => {
+export const MealplanItem = ({position, slot, type, id, shoppingListId, setMealPlanItems, currentDay, imageType, servings, title, setOpenSnackbar, setAlertSeverity, setAlertMessage }: Props) => {
     const [itemData, setItemData] = useState<null | FoodItemType>(null); //will hold value of the items data after calling endpoint
    const [openDialog, setOpenDialog] = useState<boolean>(false);
 
@@ -59,7 +61,7 @@ export const MealplanItem = ({position, slot, type, id, shoppingListId, imageTyp
              handleOpeningDialog={handleOpeningDialog}
              isMealPlanItem={true} //used to add a X icon to delete mealplans
           />
-            <ConfirmDeleteDialog setOpenSnackbar={setOpenSnackbar} setAlertSeverity={setAlertSeverity} setAlertMessage={setAlertMessage} shoppingListId={shoppingListId} openDialog={openDialog} setOpenDialog={setOpenDialog} handleOpeningDialog={handleOpeningDialog}/>
+            <ConfirmDeleteDialog setMealPlanItems={setMealPlanItems} currentDay={currentDay} setOpenSnackbar={setOpenSnackbar} setAlertSeverity={setAlertSeverity} setAlertMessage={setAlertMessage} shoppingListId={shoppingListId} openDialog={openDialog} setOpenDialog={setOpenDialog} handleOpeningDialog={handleOpeningDialog}/>
             </>
         )
     } else {

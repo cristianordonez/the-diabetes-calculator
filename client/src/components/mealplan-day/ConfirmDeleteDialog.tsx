@@ -18,9 +18,11 @@ import {
     setOpenSnackbar: Dispatch<SetStateAction<boolean>>;
     setAlertSeverity: Dispatch<SetStateAction<AlertColor | undefined>>
     setAlertMessage: Dispatch<SetStateAction<string>>;
+    setMealPlanItems: Dispatch<SetStateAction<[]>>; 
+    currentDay:string;
  }
 
-export const ConfirmDeleteDialog = ({shoppingListId, openDialog, setOpenDialog, handleOpeningDialog, setOpenSnackbar, setAlertSeverity, setAlertMessage}: Props) => {
+export const ConfirmDeleteDialog = ({shoppingListId, openDialog, setMealPlanItems, currentDay, setOpenDialog, handleOpeningDialog, setOpenSnackbar, setAlertSeverity, setAlertMessage}: Props) => {
     const handleDelete = async (event: SyntheticEvent) => {
         event.preventDefault();
         console.log('id:', shoppingListId)
@@ -32,6 +34,9 @@ try {
     setAlertMessage('Mealplan item has been deleted.')
     setOpenSnackbar(true);
     setOpenDialog(false);
+    let updatedItems = await axios.get('/api/mealplan/day', {params: {date: currentDay}, withCredentials: true})
+        console.log('response in meal plan:', response)
+    setMealPlanItems(updatedItems.data.items);
 } catch(err) {
     setAlertSeverity('error');
     setAlertMessage('Unable to delete mealplan item.')

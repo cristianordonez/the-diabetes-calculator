@@ -19,10 +19,12 @@ interface Props {
     setOpenSnackbar: Dispatch<SetStateAction<boolean>>;
     setAlertSeverity: Dispatch<SetStateAction<AlertColor | undefined>>
     setAlertMessage: Dispatch<SetStateAction<string>>;
+    setMealPlanItems: Dispatch<SetStateAction<[]>>; 
+    currentDay: string;
 }
 
 //gets list of meal plan items, then renders one mealplanitem component per item
-export const MealplanDay = ({mealplanItems, setOpenSnackbar, setAlertSeverity, setAlertMessage}: Props) => {
+export const MealplanDay = ({mealplanItems, setMealPlanItems, setOpenSnackbar, setAlertSeverity, setAlertMessage, currentDay}: Props) => {
     console.log('mealplanItems', mealplanItems)
     if (mealplanItems.length) {
     return (
@@ -40,6 +42,8 @@ export const MealplanDay = ({mealplanItems, setOpenSnackbar, setAlertSeverity, s
             setOpenSnackbar={setOpenSnackbar}
             setAlertSeverity={setAlertSeverity}
             setAlertMessage={setAlertMessage}
+            setMealPlanItems={setMealPlanItems}
+            currentDay={currentDay}
         />
         )}
         </>
