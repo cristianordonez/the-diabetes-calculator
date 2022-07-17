@@ -22,9 +22,6 @@ interface Props {
    setAlertMessage: Dispatch<SetStateAction<string>>;
    setMealPlanItems: Dispatch<SetStateAction<[]>>;
    currentDay: string;
-   // breakfastItems: MealplanItemType[];
-   // lunchItems: MealplanItemType[];
-   // dinnerItems: MealplanItemType[];
 }
 
 //gets list of meal plan items, then renders one mealplanitem component per item
@@ -35,10 +32,7 @@ export const MealplanDay = ({
    setAlertSeverity,
    setAlertMessage,
    currentDay,
-}: // breakfastItems,
-// lunchItems,
-// dinnerItems,
-Props) => {
+}: Props) => {
    if (mealplanItems.length) {
       console.log('mealplanItems: ', mealplanItems);
 
@@ -77,9 +71,9 @@ Props) => {
                   />
                </React.Fragment>
             ))}
+            <Typography variant='h3'>Lunch</Typography>
             {lunchItems.map((item) => (
                <React.Fragment key={item.id}>
-                  <Typography variant='h3'>Lunch</Typography>
                   <MealplanItem
                      position={item.position}
                      slot={item.slot}
@@ -97,9 +91,9 @@ Props) => {
                   />
                </React.Fragment>
             ))}
+            <Typography variant='h3'>Dinner</Typography>
             {dinnerItems.map((item) => (
                <React.Fragment key={item.id}>
-                  <Typography variant='h3'>Dinner</Typography>
                   <MealplanItem
                      position={item.position}
                      slot={item.slot}

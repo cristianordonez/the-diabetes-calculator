@@ -86,7 +86,7 @@ export const SideBar = ({
                </Drawer>
             </>
          )}
-         {page === 'mealplan' && nutritionSummary !== undefined && (
+         {page === 'mealplan' && (
             <>
                <Drawer
                   variant='temporary'

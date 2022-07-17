@@ -26,10 +26,6 @@ export const GoalCardItem = ({
       );
    }
 
-   console.log('nutrientsTotal: ', nutrientsTotal);
-   console.log('type: ', type);
-   console.log('nutrientsInMealPlan: ', nutrientsInMealPlan);
-
    return (
       <>
          <Card>

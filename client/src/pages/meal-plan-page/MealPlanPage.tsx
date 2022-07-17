@@ -4,12 +4,21 @@ import { SidebarMealplan } from '../../components/sidebar-mealplan/SideBarMealPl
 import { DateSelectForm } from '../../components/date-select-form/DateSelectForm';
 import { MealplanDay, MealplanItemType } from '../../components/mealplan-day';
 import { CustomAlert } from '../../components/shared/CustomAlert';
-import { Typography, Tabs, Tab, AlertColor, Stack } from '@mui/material';
+import {
+   Typography,
+   Tabs,
+   Tab,
+   AlertColor,
+   Stack,
+   Toolbar,
+   IconButton,
+} from '@mui/material';
 import axios from 'axios';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const days = [
    'Sunday',
@@ -123,6 +132,17 @@ export const MealPlanPage = () => {
 
    return (
       <div className='mealplan-page'>
+         <Toolbar>
+            <IconButton
+               color='inherit'
+               aria-label='open drawer'
+               edge='start'
+               onClick={handleDrawerToggle}
+               sx={{ mr: 2, display: { sm: 'none' } }}
+            >
+               <ArrowForwardIosIcon />
+            </IconButton>
+         </Toolbar>
          <SidebarMealplan
             mobileOpen={mobileOpen}
             page={'mealplan'}

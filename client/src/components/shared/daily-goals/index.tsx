@@ -32,8 +32,6 @@ export interface Props {
 
 export const DailyGoals = ({ goals, nutritionSummary, page }: Props) => {
    let nutrients = ['Carbohydrates', 'Protein', 'Fat'];
-   console.log('goals in dailygoals:', goals);
-   console.log('nutritionSummary: ', nutritionSummary);
 
    //! conditional renders return a '0' on page when falsy, need to declare null to be rendered
 
@@ -53,7 +51,6 @@ export const DailyGoals = ({ goals, nutritionSummary, page }: Props) => {
          goals.total_calories
       );
    }
-   console.log(calories);
 
    return (
       <>
