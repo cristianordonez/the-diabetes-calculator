@@ -9,6 +9,7 @@ interface Props {
    page: string;
    nutritionSummary: any[];
    mealplanItems: [];
+   mealplanItemsFound: boolean;
 }
 
 export const SidebarMealplan = ({
@@ -17,6 +18,7 @@ export const SidebarMealplan = ({
    page,
    nutritionSummary,
    mealplanItems,
+   mealplanItemsFound,
 }: Props) => {
    const [goals, setGoals] = useState<CurrentGoals>();
 
@@ -44,6 +46,7 @@ export const SidebarMealplan = ({
                page={page}
                nutritionSummary={nutritionSummary}
                goals={goals}
+               mealplanItemsFound={mealplanItemsFound}
             />
          )}
       </>

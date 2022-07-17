@@ -148,6 +148,7 @@ export const SideBar = ({
                         page={'mealplan'}
                      />
                   ) : null}
+                  {/* SHOWN ON DAYS WITH NO MEALPLANS */}
                   {!nutritionSummary.length && !mealplanItemsFound ? (
                      <DailyGoals goals={goals} page={'search'} />
                   ) : null}

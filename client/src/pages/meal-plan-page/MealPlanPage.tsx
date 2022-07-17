@@ -152,7 +152,12 @@ export const MealPlanPage = () => {
             handleDrawerToggle={handleDrawerToggle}
             nutritionSummary={nutritionSummary}
             mealplanItems={mealplanItems}
+            mealplanItemsFound={mealplanItemsFound}
          />
+         <Typography variant='subtitle2'>
+            Note: no snacks are included by default to help keep carbohydrate
+            levels stable. For low carb snack ideas, check out ...
+         </Typography>
          <Stack direction={'row'}>
             <Typography variant='h1'>Meal Planner</Typography>
             <DateSelectForm
