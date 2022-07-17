@@ -48,6 +48,8 @@ export const MealPlanPage = () => {
 
    //need to configure so that day is also changed when tab changes
    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+      setMealplanItems([]); //when tab changes, reset the nutrition summary and the mealplan items
+      setNutritionSummary([]);
       const prevDate = currentDay; //create variable to store the previous date and previous tab index
       const prevDayIndex = dayIndex;
       let differenceInDays = newValue - dayIndex; //find out how many days before or after current date is new selected date by finding difference between previous tab and current tab
@@ -67,10 +69,7 @@ export const MealPlanPage = () => {
       }
       if (newDate !== undefined) {
          setValue(newDate); //updates the date textfield value
-         setBreakfastItems([]);
          setDayIndex(newValue);
-         setLunchItems([]);
-         setDinnerItems([]);
          setCurrentDay(format(newDate, 'yyyy-MM-dd'));
       }
    };
@@ -87,8 +86,10 @@ export const MealPlanPage = () => {
       handleDateChange();
    }, [currentDay]);
 
-   //handles gettings updated mealplan using currentDate state
+   //handles gettings updated mealplan when date is changed from date textfield using currentDate state
    const handleDateChange = async () => {
+      setMealplanItems([]); //when tab changes, reset the nutrition summary and the mealplan items
+      setNutritionSummary([]);
       try {
          let response = await axios.get('/api/mealplan/day', {
             params: { date: currentDay },
@@ -147,9 +148,6 @@ export const MealPlanPage = () => {
             ))}
          </Tabs>
          <MealplanDay
-            // breakfastItems={breakfastItems}
-            // lunchItems={lunchItems}
-            // dinnerItems={dinnerItems}
             setMealPlanItems={setMealplanItems}
             currentDay={currentDay}
             mealplanItems={mealplanItems}
