@@ -124,12 +124,12 @@ export const MealPlanPage = () => {
    console.log('mealplanItems:', mealplanItems);
    return (
       <div className='mealplan-page'>
-        
-        <SidebarMealplan
+         <SidebarMealplan
             mobileOpen={mobileOpen}
             page={'mealplan'}
             handleDrawerToggle={handleDrawerToggle}
             nutritionSummary={nutritionSummary}
+            mealplanItems={mealplanItems}
          />
          <Stack direction={'row'}>
             <Typography variant='h1'>Meal Planner</Typography>

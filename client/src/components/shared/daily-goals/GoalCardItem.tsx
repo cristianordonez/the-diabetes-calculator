@@ -26,6 +26,10 @@ export const GoalCardItem = ({
       );
    }
 
+   console.log('nutrientsTotal: ', nutrientsTotal);
+   console.log('type: ', type);
+   console.log('nutrientsInMealPlan: ', nutrientsInMealPlan);
+
    return (
       <>
          <Card>
@@ -36,7 +40,7 @@ export const GoalCardItem = ({
                   </Typography>
                   {nutrientsInMealPlan !== undefined ? (
                      <Typography align='center' variant='subtitle1'>
-                        {nutrientsInMealPlan} / {nutrientsTotal}
+                        {Math.floor(nutrientsInMealPlan)} / {nutrientsTotal}
                      </Typography>
                   ) : (
                      <Typography align='center' variant='h6'>
@@ -47,7 +51,7 @@ export const GoalCardItem = ({
 
                <LinearProgress
                   variant='determinate'
-                  value={nutrientsInMealPlan || 100}
+                  value={percentageTotal || 100}
                />
             </CardContent>
          </Card>

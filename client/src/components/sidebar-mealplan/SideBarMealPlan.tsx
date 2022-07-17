@@ -8,6 +8,7 @@ interface Props {
    handleDrawerToggle: any;
    page: string;
    nutritionSummary: any[];
+   mealplanItems: [];
 }
 
 export const SidebarMealplan = ({
@@ -15,6 +16,7 @@ export const SidebarMealplan = ({
    handleDrawerToggle,
    page,
    nutritionSummary,
+   mealplanItems,
 }: Props) => {
    console.log(nutritionSummary);
 
@@ -22,7 +24,7 @@ export const SidebarMealplan = ({
 
    useEffect(() => {
       getGoals();
-   }, []);
+   }, [mealplanItems]);
 
    const getGoals = async () => {
       try {
@@ -38,14 +40,15 @@ export const SidebarMealplan = ({
 
    return (
       <>
-       {goals !== undefined && Object.keys(goals).length &&
-         <SideBar
-            mobileOpen={mobileOpen}
-            handleDrawerToggle={handleDrawerToggle}
-            page={page}
-            nutritionSummary={nutritionSummary}
-            goals={goals}
-         />}
+         {goals !== undefined && Object.keys(goals).length && (
+            <SideBar
+               mobileOpen={mobileOpen}
+               handleDrawerToggle={handleDrawerToggle}
+               page={page}
+               nutritionSummary={nutritionSummary}
+               goals={goals}
+            />
+         )}
       </>
    );
 };

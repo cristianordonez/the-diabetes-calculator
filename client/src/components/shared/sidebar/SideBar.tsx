@@ -62,7 +62,7 @@ export const SideBar = ({
                   {apiData !== undefined && apiData.length ? (
                      SearchFormComponent
                   ) : (
-                     <DailyGoals goals={goals} page={'search'}/>
+                     <DailyGoals goals={goals} page={'search'} />
                   )}
                </Drawer>
 
@@ -82,7 +82,7 @@ export const SideBar = ({
                   {apiData !== undefined && apiData.length ? (
                      SearchFormComponent
                   ) : (
-                     <DailyGoals goals={goals} page={'search'}/>
+                     <DailyGoals goals={goals} page={'search'} />
                   )}
                </Drawer>
             </>
@@ -143,9 +143,8 @@ export const SideBar = ({
                         goals={goals}
                         nutritionSummary={nutritionSummary}
                         page={'mealplan'}
-
                      />
-                  )} 
+                  )}
                </Drawer>
             </>
          )}
