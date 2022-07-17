@@ -14,6 +14,7 @@ interface Props {
    goals?: CurrentGoals | any;
    page: string;
    nutritionSummary?: any;
+   mealplanItemsFound?: boolean;
 }
 
 const drawerWidth = 350;
@@ -26,6 +27,7 @@ export const SideBar = ({
    goals,
    page,
    nutritionSummary,
+   mealplanItemsFound,
 }: Props) => {
    return (
       <>
@@ -86,7 +88,7 @@ export const SideBar = ({
                </Drawer>
             </>
          )}
-         {page === 'mealplan' && (
+         {page === 'mealplan' && goals !== undefined && (
             <>
                <Drawer
                   variant='temporary'
@@ -115,13 +117,14 @@ export const SideBar = ({
                         <ArrowBackIosIcon />
                      </IconButton>
                   </Toolbar>
-                  {goals !== undefined && nutritionSummary.length && (
+                  {/* MOBILE */}
+                  {nutritionSummary ? (
                      <DailyGoals
                         goals={goals}
                         nutritionSummary={nutritionSummary}
                         page={'mealplan'}
                      />
-                  )}
+                  ) : null}
                </Drawer>
 
                <Drawer
@@ -137,13 +140,17 @@ export const SideBar = ({
                      },
                   }}
                >
-                  {goals !== undefined && nutritionSummary && (
+                  {/* DESKTOP - RENDER WHOLE VIEW AT ONCE */}
+                  {nutritionSummary.length ? (
                      <DailyGoals
                         goals={goals}
                         nutritionSummary={nutritionSummary}
                         page={'mealplan'}
                      />
-                  )}
+                  ) : null}
+                  {!nutritionSummary.length && !mealplanItemsFound ? (
+                     <DailyGoals goals={goals} page={'search'} />
+                  ) : null}
                </Drawer>
             </>
          )}

@@ -115,6 +115,12 @@ export const MealplanDay = ({
       );
    } else {
       //todo render a sample mealplan here
-      return <></>;
+      return (
+         <>
+            <Typography variant='h3'>Breakfast</Typography>
+            <Typography variant='h3'>Lunch</Typography>
+            <Typography variant='h3'>Dinner</Typography>
+         </>
+      );
    }
 };

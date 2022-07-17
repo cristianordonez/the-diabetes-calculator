@@ -33,6 +33,7 @@ const days = [
 export const MealPlanPage = () => {
    const [dayIndex, setDayIndex] = useState<number>(getDay(Date.now())); //used for tab highlighting
    const [mealplanItems, setMealplanItems] = useState<[]>([]);
+   const [mealplanItemsFound, setMealplanItemsFound] = useState(true); //use this to display different page if no items are found
    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
    const [alertSeverity, setAlertSeverity] = useState<AlertColor | undefined>(
       'error'
@@ -127,9 +128,10 @@ export const MealPlanPage = () => {
             'You have no items saved on this day for your mealplan.'
          );
          setOpenSnackbar(true);
+         setMealplanItemsFound(false);
       }
    };
-
+   //todo if there is an error, or no meals are saved, display different component
    return (
       <div className='mealplan-page'>
          <Toolbar>
@@ -143,11 +145,13 @@ export const MealPlanPage = () => {
                <ArrowForwardIosIcon />
             </IconButton>
          </Toolbar>
+
          <SidebarMealplan
             mobileOpen={mobileOpen}
             page={'mealplan'}
             handleDrawerToggle={handleDrawerToggle}
             nutritionSummary={nutritionSummary}
+            mealplanItems={mealplanItems}
          />
          <Stack direction={'row'}>
             <Typography variant='h1'>Meal Planner</Typography>
@@ -167,6 +171,7 @@ export const MealPlanPage = () => {
                <Tab key={day} label={day} />
             ))}
          </Tabs>
+
          <MealplanDay
             setMealPlanItems={setMealplanItems}
             currentDay={currentDay}
@@ -175,6 +180,7 @@ export const MealPlanPage = () => {
             setAlertSeverity={setAlertSeverity}
             setAlertMessage={setAlertMessage}
          />
+
          <CustomAlert
             openAlert={openSnackbar}
             handleAlert={handleClose}

@@ -17,7 +17,6 @@ import { useAuth } from '../../context/authContext';
 import axios from 'axios';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-//todo change 0
 export type Goals = {
    user_id: number;
    total_carbohydrates: number;

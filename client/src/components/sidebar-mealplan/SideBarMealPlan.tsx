@@ -8,6 +8,7 @@ interface Props {
    handleDrawerToggle: any;
    page: string;
    nutritionSummary: any[];
+   mealplanItems: [];
 }
 
 export const SidebarMealplan = ({
@@ -15,6 +16,7 @@ export const SidebarMealplan = ({
    handleDrawerToggle,
    page,
    nutritionSummary,
+   mealplanItems,
 }: Props) => {
    const [goals, setGoals] = useState<CurrentGoals>();
 
@@ -32,6 +34,7 @@ export const SidebarMealplan = ({
       }
    };
 
+   console.log('goals in sidebarmealplan: ', goals);
    return (
       <>
          {goals !== undefined && Object.keys(goals).length && (
