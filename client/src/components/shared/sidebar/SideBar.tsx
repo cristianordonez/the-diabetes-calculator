@@ -16,6 +16,8 @@ interface Props {
    nutritionSummary?: any;
 }
 
+const drawerWidth = 350;
+
 export const SideBar = ({
    mobileOpen,
    handleDrawerToggle,
@@ -25,9 +27,6 @@ export const SideBar = ({
    page,
    nutritionSummary,
 }: Props) => {
-   const drawerWidth = 350;
-   console.log('goals in sidebar shared:', goals);
-
    return (
       <>
          {page === 'search' && (

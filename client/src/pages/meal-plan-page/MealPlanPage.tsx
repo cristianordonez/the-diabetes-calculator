@@ -87,18 +87,16 @@ export const MealPlanPage = () => {
       handleDateChange();
    }, [currentDay]);
 
+   //handles gettings updated mealplan using currentDate state
    const handleDateChange = async () => {
       try {
          let response = await axios.get('/api/mealplan/day', {
             params: { date: currentDay },
             withCredentials: true,
          });
-         console.log(
-            'response.data:',
-            response.data.nutritionSummary.nutrients
-         );
+
          setNutritionSummary(response.data.nutritionSummary.nutrients);
-         console.log('nutritionSummary:', nutritionSummary);
+
          setMealplanItems(response.data.items);
          response.data.items.forEach((item: MealplanItemType) => {
             if (item.slot === 1) {
@@ -121,7 +119,7 @@ export const MealPlanPage = () => {
          setOpenSnackbar(true);
       }
    };
-   console.log('mealplanItems:', mealplanItems);
+
    return (
       <div className='mealplan-page'>
          <SidebarMealplan
@@ -129,7 +127,6 @@ export const MealPlanPage = () => {
             page={'mealplan'}
             handleDrawerToggle={handleDrawerToggle}
             nutritionSummary={nutritionSummary}
-            mealplanItems={mealplanItems}
          />
          <Stack direction={'row'}>
             <Typography variant='h1'>Meal Planner</Typography>
@@ -150,9 +147,9 @@ export const MealPlanPage = () => {
             ))}
          </Tabs>
          <MealplanDay
-            breakfastItems={breakfastItems}
-            lunchItems={lunchItems}
-            dinnerItems={dinnerItems}
+            // breakfastItems={breakfastItems}
+            // lunchItems={lunchItems}
+            // dinnerItems={dinnerItems}
             setMealPlanItems={setMealplanItems}
             currentDay={currentDay}
             mealplanItems={mealplanItems}
