@@ -14,6 +14,7 @@ export const FoodSearchList = ({
    setAlertMessage,
    setOpenSnackbar,
    setAlertSeverity,
+   showLoadMoreBtn,
 }: any) => {
    console.log('apiData:', apiData);
    return (
@@ -42,9 +43,11 @@ export const FoodSearchList = ({
                />
             ))}
          </Grid>
-         <Button fullWidth onClick={handleLoadMore}>
-            Load More
-         </Button>
+         {showLoadMoreBtn ? (
+            <Button fullWidth onClick={handleLoadMore}>
+               Load More
+            </Button>
+         ) : null}
       </>
    );
 };

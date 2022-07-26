@@ -84,6 +84,7 @@ export const FoodItemContents = ({
          {isMealPlanItem && (
             <Stack direction='row'>
                <IconButton
+                  sx={{ flexGrow: 1 }}
                   aria-label='delete from mealplan'
                   onClick={handleOpeningDialog}
                >
