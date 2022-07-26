@@ -33,17 +33,16 @@ export const Home = (props: any) => {
    ];
 
    const cardImages = [CalculateSvg, MaleChefSvg, ScheduleSvg];
-   /**
-    * 1. pic for home page top -
-    * 2. card pic for calculator - dietitian svg
-    * 3. card pic for recipes search - chef image or chef isometric or chef monochromatic
-    * 4. card pic for mealplan - diet_meal_plan
-    * 5. pic for login page - secure_login
-    */
+
    return (
       <>
          <NavBar isLoggedIn={false} />
-         <Stack direction='row' className='home-title-image'>
+         <Stack
+            direction='row'
+            className='home-title-image'
+            alignItems='center'
+            justifyContent='center'
+         >
             <div>
                <Typography variant='h1'>Diabetes Meal Plan</Typography>
                <Button variant='contained'>
