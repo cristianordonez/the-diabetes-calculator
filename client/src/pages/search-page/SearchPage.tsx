@@ -102,6 +102,7 @@ export const SearchPage = () => {
    //# handles submission when it comes from suggested goals form
    //# must be different because values are coming from goals state object
    const handleSuggestedSubmit = async (event: React.SyntheticEvent) => {
+      console.log('values in searchpage.tsx: ', values);
       let newValues = { ...values, offset: 0 }; //declare new values so that there are no async bugs, and reset offset to 0 in case user changed it
       setValues(newValues);
       try {
@@ -116,10 +117,13 @@ export const SearchPage = () => {
          suggestedValues.maxProtein = goals.max_protein_per_meal;
          suggestedValues.minFat = goals.min_fat_per_meal;
          suggestedValues.maxFat = goals.max_fat_per_meal;
+         console.log('suggestedValues: ', suggestedValues);
+         console.log('route: ', route);
          let foodItems = await axios.get(`/api/${route}`, {
             params: suggestedValues,
          });
          foodItems.data.length ? setOpenSnackbar(false) : setOpenSnackbar(true);
+         setValues(suggestedValues);
          setAPIData(foodItems.data);
          setLoading(false);
       } catch (err) {
@@ -132,6 +136,7 @@ export const SearchPage = () => {
    const handleLoadMore = async (event: React.SyntheticEvent) => {
       try {
          setLoading(true); //update new offset so that we only receive the correct items from API
+         console.log('values.offset: ', typeof values.offset);
          let newValues = { ...values, offset: values.offset + 6 };
          setValues(newValues);
          let newItems: any = await axios.get(`/api/${route}`, {
