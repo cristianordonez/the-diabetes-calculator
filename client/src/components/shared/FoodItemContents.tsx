@@ -8,6 +8,7 @@ import {
    CardActions,
    Button,
    IconButton,
+   Stack,
 } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
@@ -32,6 +33,7 @@ interface Props {
    url?: string | undefined;
    handleOpeningDialog: MouseEventHandler<HTMLButtonElement>;
    isMealPlanItem?: boolean;
+   servings?: number;
 }
 
 type NutrientType = {
@@ -51,6 +53,7 @@ export const FoodItemContents = ({
    url,
    handleOpeningDialog,
    isMealPlanItem,
+   servings,
 }: Props) => {
    let calories, carbs, fat, protein;
    console.log('route in food item contents: ', route);
@@ -79,12 +82,15 @@ export const FoodItemContents = ({
       <Paper elevation={1} className='food-search-paper'>
          {/* opens the dialog to confirm delete */}
          {isMealPlanItem && (
-            <IconButton
-               aria-label='delete from mealplan'
-               onClick={handleOpeningDialog}
-            >
-               <ClearIcon />
-            </IconButton>
+            <Stack direction='row'>
+               <IconButton
+                  aria-label='delete from mealplan'
+                  onClick={handleOpeningDialog}
+               >
+                  <ClearIcon />
+               </IconButton>
+               <Typography variant='body1'>Servings: {servings}</Typography>
+            </Stack>
          )}
          <Card className='search-item' data-testid='food-search-item'>
             <CardMedia
