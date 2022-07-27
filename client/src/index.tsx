@@ -11,7 +11,7 @@ let theme = createTheme({
       mode: 'dark',
    },
    typography: {
-      h1: {
+      h2: {
          fontFamily: 'Open-sans',
       },
       allVariants: {

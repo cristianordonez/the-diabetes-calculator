@@ -43,12 +43,13 @@ export const Home = (props: any) => {
             direction={{ xs: 'column', sm: 'row' }}
             className='home-title-image'
             alignItems='center'
+            gap={4}
             // justifyContent='center'
          >
             <Stack direction='column'>
                <Typography
                   textAlign={{ xs: 'center', sm: 'left' }}
-                  variant='h1'
+                  variant='h2'
                >
                   Diabetes Meal Plan
                </Typography>

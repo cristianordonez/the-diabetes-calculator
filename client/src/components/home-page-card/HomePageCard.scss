@@ -1,16 +1,5 @@
 @use '../../index.scss' as *;
 
-.home-page-card {
-   // height: auto;
-   // max-height: 200px;
-   // align-self: stretch;
-   align-content: stretch;
-   // height: 100%;
-
-   // @include set-size(100%);
-   // align-items: stretch;
-}
-
 .home-page-card-image {
    @include cover-background();
    @include set-size(100%);
