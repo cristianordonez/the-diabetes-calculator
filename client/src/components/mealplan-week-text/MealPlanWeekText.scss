@@ -1,0 +1,11 @@
+@use '../../index.scss' as *;
+
+.mealplan-week-text {
+   @include set-size(100%);
+   padding: 0.5rem;
+   background-color: $secondary-color;
+   display: flex;
+   gap: 1em;
+   justify-content: center;
+   //    @include flex-center();
+}
