@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Paper } from '@mui/material';
 import './MealPlanWeekText.scss';
 import startOfWeek from 'date-fns/startOfWeek';
 import format from 'date-fns/format';
@@ -23,12 +24,12 @@ export const MealPlanWeekText = ({ currentDay }: Props) => {
 
    return (
       <>
-         <div className='mealplan-week-text'>
+         <Paper className='mealplan-week-text' color='secondary'>
             <Typography variant='body1'>Viewing Week:</Typography>
             <Typography variant='body1'>{startDate}</Typography>
             <Typography variant='body1'>-</Typography>
             <Typography variant='body1'>{endDate}</Typography>
-         </div>
+         </Paper>
       </>
    );
 };
