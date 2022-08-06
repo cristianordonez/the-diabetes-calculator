@@ -50,7 +50,7 @@ export const FoodSearchItem = ({
 
    return (
       <>
-         <Grid item xs={12} sm={6} md={4} xl={3} data-testid='food-search-item'>
+         <Grid item xs={12} sm={6} md={4} data-testid='food-search-item'>
             <FoodItemContents
                route={route}
                image={image}
