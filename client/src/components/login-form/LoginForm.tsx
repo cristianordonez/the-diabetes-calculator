@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import './LoginForm.scss';
 import LoginImage from '../../../img/healthy-eating.svg';
-import { Grid, Stack, Paper, Button } from '@mui/material';
-import { Typography } from '@mui/material';
+import { Typography, Stack, Divider, Grid, Paper, Button } from '@mui/material';
 import { PasswordTextField } from '../text-fields/password-textfield/PasswordTextField';
 import { UsernameTextField } from '../text-fields/username-textfield/UsernameTextField';
 import { useNavigate } from 'react-router-dom';
 import LoginSvg from '../../../img/secure_login.svg';
-
+import GoogleIcon from '@mui/icons-material/Google';
 import axios from 'axios';
 
 export const LoginForm = ({
@@ -39,7 +38,6 @@ export const LoginForm = ({
          let response = await axios.post(`/api/login`, loginValues, {
             withCredentials: true,
          }); //! when using http://localhost:8080/api/login route sessions were not saved
-         console.log('1. response: ', response);
          if (response.status === 200) {
             setShowTextFieldError(false);
             navigate(`/search`, { replace: true });
@@ -48,7 +46,6 @@ export const LoginForm = ({
          setErrorMessage('No matching username and password found.'); //showTextFieldError message used in the snackbar
          setShowTextFieldError(true); //used to show showTextFieldError helper text in text field
          handleErrorAlert();
-         console.log('err:', err);
       }
    };
 
@@ -63,10 +60,24 @@ export const LoginForm = ({
                   onSubmit={handleLogin}
                   className='login-form-input'
                >
-                  <Typography variant='h6'>Welcome Back...</Typography>
-                  <Typography variant='subtitle1'>
-                     Please enter your details
-                  </Typography>
+                  <Typography variant='h6'>Log in</Typography>
+                  <Button
+                     variant='contained'
+                     fullWidth
+                     component='a'
+                     color='error'
+                     href='/api/login/federated/google'
+                  >
+                     <GoogleIcon />
+                     <Typography
+                        variant='button'
+                        align='right'
+                        sx={{ marginLeft: '10px' }}
+                     >
+                        Sign in with Google
+                     </Typography>
+                  </Button>
+                  <Typography variant='h6'>or</Typography>
                   <UsernameTextField
                      showSignup={showSignup}
                      handleLoginChange={handleLoginChange}

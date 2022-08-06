@@ -181,8 +181,6 @@ export const SearchPage = () => {
          let newItems: any = await axios.get(`/api/${route}`, {
             params: newValues,
          });
-         console.log('newItems.data in handle load more: ', newItems.data);
-         console.log('newItems: ', newItems);
          if (newItems.data.length < 6) {
             setShowLoadMoreBtn(false);
          } else {
@@ -229,12 +227,7 @@ export const SearchPage = () => {
          {isLoading ? null : (
             <>
                <NavBar isLoggedIn={true} />
-               <Box
-                  className='search-page'
-                  // container
-                  // spacing={0}
-                  sx={{ width: '100vw' }}
-               >
+               <Box className='search-page' sx={{ width: '100vw' }}>
                   {/* PROGRESS BAR */}
                   {loading && <CircularProgress size={68} />}
                   <Toolbar sx={{ display: { sm: 'none' } }}>
@@ -258,7 +251,6 @@ export const SearchPage = () => {
                   {/* MAIN SECTION  */}
                   {apiData.length ? (
                      <>
-                        {/* <Grid item xs={12} sm={8}> */}
                         <FoodSearchList
                            apiData={apiData}
                            route={route}
@@ -268,14 +260,9 @@ export const SearchPage = () => {
                            setAlertSeverity={setAlertSeverity}
                            showLoadMoreBtn={showLoadMoreBtn}
                         />
-                        {/* </Grid> */}
                      </>
                   ) : (
-                     <>
-                        {/* <Grid item xs={12} sm={8}> */}
-                        {SearchFormComponent}
-                        {/* </Grid> */}
-                     </>
+                     <>{SearchFormComponent}</>
                   )}
                   {/* ERROR SNACKBAR */}
                   <CustomAlert

@@ -119,15 +119,19 @@ const NavBar = ({ isLoggedIn, isSettingsPage }: Props) => {
                   mr: 1,
                   objectFit: 'contain',
                   height: '2.5rem',
+                  '&:hover': {
+                     cursor: 'pointer',
+                  },
                }}
-               onClick={handleNavigateToHome}
+               onClick={handleLogout}
             ></Box>
             <Typography
                variant='h6'
                noWrap
                data-testid='navlink'
-               component='a'
-               href='/'
+               // component='a'
+               // href='/'
+               onClick={handleLogout}
                sx={{
                   mr: 2,
                   display: { xs: 'none', md: 'flex' },
@@ -137,6 +141,9 @@ const NavBar = ({ isLoggedIn, isSettingsPage }: Props) => {
                   color: 'inherit',
                   textDecoration: 'none',
                   flexGrow: 1,
+                  '&:hover': {
+                     cursor: 'pointer',
+                  },
                }}
             >
                DiabetesCalculator
