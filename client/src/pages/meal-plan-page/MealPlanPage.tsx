@@ -156,7 +156,7 @@ export const MealPlanPage = () => {
 
             <SidebarMealplan
                mobileOpen={mobileOpen}
-               page={'mealplan'}
+               page='mealplan'
                handleDrawerToggle={handleDrawerToggle}
                nutritionSummary={nutritionSummary}
                mealplanItems={mealplanItems}

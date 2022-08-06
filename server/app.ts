@@ -112,7 +112,6 @@ passport.use(
 
          getById(profile.id)
             .then((response) => {
-               console.log('response in get by id : ', response);
                //if user exists, redirect
                if (response.length > 0) {
                   //other wise create account
@@ -137,7 +136,6 @@ passport.use(
                               spoonacularAccount.data.spoonacularPassword;
                            user.spoonacular_hash = spoonacularAccount.data.hash;
                            user.hash = hash;
-                           console.log('user: ', user);
                            user.username = profile.displayName;
                            user.email = profile.emails[0].value;
                            user.id = profile.id;

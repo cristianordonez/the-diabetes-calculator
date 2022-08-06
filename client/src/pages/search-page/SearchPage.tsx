@@ -127,7 +127,6 @@ export const SearchPage = () => {
    //todo check if there are more items present, if not then toggle load more buton off
    //# handles submission when it comes from suggested goals form, must be different because values are coming from goals state object
    const handleSuggestedSubmit = async (event: React.SyntheticEvent) => {
-      console.log('values in searchpage.tsx: ', values);
       let newValues = { ...values, offset: 0 }; //declare new values so that there are no async bugs, and reset offset to 0 in case user changed it
       setValues(newValues);
       try {

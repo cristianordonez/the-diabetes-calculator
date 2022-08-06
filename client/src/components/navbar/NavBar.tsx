@@ -93,8 +93,6 @@ const NavBar = ({ isLoggedIn, isSettingsPage }: Props) => {
       navigate('/');
    };
 
-   // if (location.pathname)
-   console.log('colorMode: ', colorMode);
    return (
       <AppBar
          position='fixed'
