@@ -40,10 +40,8 @@ export const FoodSearchItem = ({
    setOpenSnackbar,
    setAlertSeverity,
 }: Props) => {
-   //item that appears in every item is image, title, nutrition,
    const [openDialog, setOpenDialog] = useState<boolean>(false);
 
-   //open the dialog window when add to cart button is clicked
    const handleOpeningDialog = () => {
       setOpenDialog(!openDialog);
    };

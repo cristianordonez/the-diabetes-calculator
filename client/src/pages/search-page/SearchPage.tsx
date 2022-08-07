@@ -4,13 +4,10 @@ import { SearchForm } from '../../components/search-form';
 import { CustomAlert } from '../../components/shared/CustomAlert';
 import { FoodSearchList } from '../../components/food-search-list';
 import {
-   Grid,
    Box,
    Toolbar,
    IconButton,
-   Alert,
    CircularProgress,
-   Snackbar,
    AlertColor,
 } from '@mui/material';
 import { SideBarSearchPage } from '../../components/sidebar-searchpage/SideBarSearchPage';
@@ -111,20 +108,13 @@ export const SearchPage = () => {
                setShowLoadMoreBtn(true);
             }
          }
-         // setAlertMessage(
-         //    'No options matched your search. Try again with a broader search'
-         // );
-         // setAlertSeverity('warning');
-         // foodItems.data.length ? setOpenSnackbar(false) : setOpenSnackbar(true);
          setAPIData(foodItems.data);
          setLoading(false); //used to trigger the loading circle
       } catch (err) {
          setLoading(false); //used to trigger the loading circle
-         console.log('err', err);
       }
    };
 
-   //todo check if there are more items present, if not then toggle load more buton off
    //# handles submission when it comes from suggested goals form, must be different because values are coming from goals state object
    const handleSuggestedSubmit = async (event: React.SyntheticEvent) => {
       let newValues = { ...values, offset: 0 }; //declare new values so that there are no async bugs, and reset offset to 0 in case user changed it
@@ -194,7 +184,6 @@ export const SearchPage = () => {
    };
 
    //# at first render grabs the users metrics from db, no need to send userId as
-   //# it will be stored in the express session
    useEffect(() => {
       let promise = axios.get('/api/metrics', { withCredentials: true });
       promise.then((results) => {

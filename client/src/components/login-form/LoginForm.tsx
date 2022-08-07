@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './LoginForm.scss';
-import LoginImage from '../../../img/healthy-eating.svg';
-import { Typography, Stack, Divider, Grid, Paper, Button } from '@mui/material';
+import { Typography, Stack, Paper, Button } from '@mui/material';
 import { PasswordTextField } from '../text-fields/password-textfield/PasswordTextField';
 import { UsernameTextField } from '../text-fields/username-textfield/UsernameTextField';
 import { useNavigate } from 'react-router-dom';
@@ -37,7 +36,7 @@ export const LoginForm = ({
       try {
          let response = await axios.post(`/api/login`, loginValues, {
             withCredentials: true,
-         }); //! when using http://localhost:8080/api/login route sessions were not saved
+         });
          if (response.status === 200) {
             setShowTextFieldError(false);
             navigate(`/search`, { replace: true });
@@ -116,7 +115,6 @@ export const LoginForm = ({
                   </Stack>
                </Paper>
             </div>
-            {/* </Grid> */}
          </div>
       </>
    );
