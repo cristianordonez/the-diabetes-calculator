@@ -56,6 +56,7 @@ export const SignupForm = ({
             setShowNextPage(true);
          } catch (err: any) {
             console.log('err:', err);
+            setAlertSeverity('error');
             setErrorMessage(
                'An account with that username or email already exists. Try logging in instead.'
             );
