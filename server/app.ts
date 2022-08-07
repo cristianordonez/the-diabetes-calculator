@@ -257,5 +257,7 @@ app.use('/api/menuItems', menuItemsRoute);
 app.use('/api/groceryProducts', groceryProductsRoute);
 app.use('/api/mealplan', mealplanRoute);
 app.use('/api', authRoute);
-
+app.get('/*', (req, res) => {
+   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
 export default app; //export to be used for tests and in server.js
