@@ -256,12 +256,7 @@ app.use('/api/mealplan', mealplanRoute);
 app.use('/api', authRoute);
 
 app.get('/*', (req, res) => {
-   //set pm2 to run index.html file that will be in same directory after being built
-   if (process.env.NODE_ENV === 'production') {
-      res.sendFile(path.join(__dirname, '../index.html'));
-   } else {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-      // res.sendFile(path.join(__dirname, '../index.html'));
-   }
+   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
+
 export default app; //export to be used for tests and in server.js

@@ -1,0 +1,1 @@
+ts-node -T server/server.ts
