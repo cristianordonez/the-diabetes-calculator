@@ -235,9 +235,6 @@ passport.serializeUser((user: any, done) => {
 });
 
 passport.deserializeUser((id: string, cb) => {
-   console.log('here in deserializeUser');
-   console.log('id: ', id);
-   console.log('typeof id: ', typeof id);
    db.query(
       `SELECT id, username, email, spoonacular_username FROM users WHERE id='${id}'`
    )
@@ -257,7 +254,14 @@ app.use('/api/menuItems', menuItemsRoute);
 app.use('/api/groceryProducts', groceryProductsRoute);
 app.use('/api/mealplan', mealplanRoute);
 app.use('/api', authRoute);
+
 app.get('/*', (req, res) => {
-   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+   //set pm2 to run index.html file that will be in same directory after being built
+   if (process.env.NODE_ENV === 'production') {
+      res.sendFile(path.join(__dirname, '../index.html'));
+   } else {
+      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+      // res.sendFile(path.join(__dirname, '../index.html'));
+   }
 });
 export default app; //export to be used for tests and in server.js
