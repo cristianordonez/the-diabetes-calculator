@@ -21,7 +21,7 @@ router.get('/login/federated/google', passport.authenticate('google'));
 router.get(
    '/oauth2/redirect/google',
    passport.authenticate('google', {
-      failureRedirect: 'http://localhost:3000/login',
+      failureRedirect: '/login',
       failureMessage: true,
    }), //fires second part of passport strategy
    (req: Request, res: Response) => {
@@ -29,7 +29,7 @@ router.get(
       req.session.user_id = session.passport.user;
 
       //redirect user to the search page where session will be checked
-      res.redirect('http://localhost:3000/search');
+      res.redirect('/search');
    }
 );
 

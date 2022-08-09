@@ -17,7 +17,7 @@ import {
    GroceryItemNutrition,
    RecipeItemNutrition,
    MenuItemNutrition,
-} from '../food-search-list/food-search-list.types';
+} from '../../food-search-list/food-search-list.types';
 
 interface Props {
    route: string;
