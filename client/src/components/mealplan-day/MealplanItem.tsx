@@ -56,7 +56,7 @@ export const MealplanItem = ({
             setItemData(itemInfo.data);
          })
          .catch((err) => {
-            console.log('err in meal plan itemData', err);
+            console.log(err);
          });
    }, [id]);
 

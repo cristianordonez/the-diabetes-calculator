@@ -4,7 +4,6 @@ import passport from 'passport';
 const router = Router();
 
 router.get('/', (req: Request, res: Response) => {
-   console.log('req.session:', req.session);
    res.status(200).json({
       status: 'success',
       data: {
@@ -38,7 +37,6 @@ router.get(
 
 //# handles checking if user is logged in for protected routes
 router.get('/authentication', (req: Request, res: Response) => {
-   console.log('1. in authentication route');
    userController.checkAuthentication(req, res);
 });
 
@@ -49,7 +47,6 @@ router.post('/signup', (req: Request, res: Response) => {
 
 //# handles updating the users metrics at signup
 router.post('/metrics', (req: Request, res: Response) => {
-   console.log('here in post metrics');
    userController.createMetrics(req, res);
 });
 
