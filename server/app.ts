@@ -70,6 +70,7 @@ passport.use(
          `SELECT id, username, hash, email FROM users WHERE username='${username}'`
       )
          .then(function (result: any) {
+            console.log('result in use local strat passport: ', result);
             if (result.length) {
                const first = result[0];
                bcrypt.compare(password, first.hash, function (err, res) {
@@ -81,6 +82,12 @@ passport.use(
                   } else {
                      cb(null, false, { message: 'Incorrect password' });
                   }
+               });
+            } else {
+               //todo handle if username does not exist
+               console.log('username does not exist passport local strat');
+               cb(null, false, {
+                  message: 'No account with that username exists',
                });
             }
          })

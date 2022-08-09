@@ -32,6 +32,7 @@ export const SignupForm = ({
    const handleCreateAccountChange = (
       event: React.ChangeEvent<HTMLInputElement>
    ) => {
+      console.log('event.target.name: ', event.target.name);
       setSignupValues({
          ...signupValues,
          [event.target.name]: event.target.value,
