@@ -79,22 +79,23 @@ export const FoodItemContents = ({
          {/* opens the dialog to confirm delete */}
 
          <Card className='search-item' data-testid='food-search-item'>
-            <Tooltip title='Delete from Mealplan'>
-               <IconButton
-                  sx={{
-                     position: 'absolute',
-                     // backgroundColor: '#1E1E1E',
-                     alignSelf: 'flex-end',
-                  }}
-                  // color='primary'
-                  size='small'
-                  color='error'
-                  aria-label='delete from mealplan'
-                  onClick={handleOpeningDialog}
-               >
-                  <ClearIcon />
-               </IconButton>
-            </Tooltip>
+            {isMealPlanItem ? (
+               <Tooltip title='Delete from Mealplan'>
+                  <IconButton
+                     sx={{
+                        position: 'absolute',
+                        alignSelf: 'flex-end',
+                     }}
+                     // color='primary'
+                     size='small'
+                     color='error'
+                     aria-label='delete from mealplan'
+                     onClick={handleOpeningDialog}
+                  >
+                     <ClearIcon />
+                  </IconButton>
+               </Tooltip>
+            ) : null}
             <CardMedia
                component='img'
                alt='food item image'

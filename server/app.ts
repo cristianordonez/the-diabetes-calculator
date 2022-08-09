@@ -100,8 +100,6 @@ passport.use(
          scope: ['profile', 'email'], //the data we are asking for from google
       },
       (issuer: any, profile: any, done: any) => {
-         //todo search for user
-
          getById(profile.id)
             .then((response) => {
                //if user exists, redirect
