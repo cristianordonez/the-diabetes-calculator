@@ -2,7 +2,7 @@
 
 A meal planning application that allows users to calculate their recommended carbohydrate needs per meal to maintain stable blood glucose levels for T2DM, and then search for recipes, menu items, or grocery products that fit within these ranges.
 
-View Miro: https://miro.com/app/board/uXjVOtvKH2s=/?share_link_id=990354105433
+View Miro: https://miro.com/app/board/uXjVOtvKH2s=/?share_link_id=720508772353
 
 ## Features & Usage
 
