@@ -4,6 +4,10 @@ A meal planning application that allows users to calculate their recommended car
 
 View Miro: https://miro.com/app/board/uXjVOtvKH2s=/?share_link_id=720508772353
 
+## Live Link
+
+View live deployment [here]("https://thediabetescalculator.com") or see the demo below.
+
 ## Features & Usage
 
 -  create account with username, email, password or sign in using Google
@@ -24,15 +28,23 @@ View Miro: https://miro.com/app/board/uXjVOtvKH2s=/?share_link_id=720508772353
 
 ## Demo
 
+![homepage](./gifs/ezgif.com-gif-maker.gif)
+![searchpage](./gifs/search-page.gif)
+![mealplanpage](./gifs/mealplan-page.gif)
+
 ## Tech Stack
 
 This project was built with the following technologies:
 
-<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" />
 <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" />
+<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
 <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
-<img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
+<img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
 <img src="https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white" />
+<img src="https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" />
+<img src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white" />
+<img src="https://img.shields.io/badge/Material%20UI-007FFF?style=for-the-badge&logo=mui&logoColor=white" />
 <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
 <img src="https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E" />
 <img src="https://img.shields.io/badge/Webpack-8DD6F9?style=for-the-badge&logo=Webpack&logoColor=white" />
@@ -41,8 +53,6 @@ This project was built with the following technologies:
 <img src="https://img.shields.io/badge/Cypress-17202C?style=for-the-badge&logo=cypress&logoColor=white" />
 
 ## Setup/ Installation
-
-use command source server/database/schema.sql
 
 -  Clone this repository and navigate to project directory in the terminal
 -  Install necessary dependencies:
@@ -53,7 +63,7 @@ npm install
 
 -  Create a client/dist directory and a index.html file for webpack to output content to.
 
--  Then, if environment is set to development, run the application like so:
+-  Then, if environment is set for development, run the application like so:
 
 ```bash
 npm run dev
@@ -61,10 +71,11 @@ npm run dev
 
 This opens a development server in your local browser at port 3000.
 
--  When application is ready for production, have webpack build your bundle and minimize your files:
+-  When application is ready for production, have webpack build your bundle and minimize your files and then start the Express server:
 
 ```bash
 npm run build
+npm start
 ```
 
 Then navigate to port 8080 in your browser to view your application.
@@ -93,11 +104,7 @@ npm run test
 
 -  [React code-splitting](https://reactjs.org/docs/code-splitting.html)
 -  [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
-   https://spoonacular.com/food-api/docs
-   https://www.rithmschool.com/courses/intermediate-node-express/api-tests-with-jest
-
-https://stackoverflow.com/questions/42749033/fatal-password-authentication-failed-for-user-root-postgresql
-
-https://stackoverflow.com/questions/3949876/how-to-switch-databases-in-psql
-
-https://stackoverflow.com/questions/65877048/pgadmin-on-ubuntu-20-04-fatal-password-authentication-failed-for-user
+-  [Spoonacular API](https://spoonacular.com/food-api/docs)
+-  [Set up tests with Jest and Supertest](https://www.rithmschool.com/courses/intermediate-node-express/api-tests-with-jest)
+-  [Set up users for PostgreSQL](https://stackoverflow.com/questions/42749033/fatal-password-authentication-failed-for-user-root-postgresql)
+-  [Fixing issues with setting up PostgreSQL on RDS](https://stackoverflow.com/questions/65877048/pgadmin-on-ubuntu-20-04-fatal-password-authentication-failed-for-user)

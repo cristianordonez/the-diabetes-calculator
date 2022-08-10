@@ -50,7 +50,7 @@ export const DailyGoals = ({
          goals.total_calories
       );
    }
-   console.log('nutritionSummary: ', nutritionSummary);
+
    return (
       <>
          <div className='daily-goals'>
