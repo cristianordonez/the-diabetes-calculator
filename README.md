@@ -1,16 +1,28 @@
-# Skeleton Template App
+# The Diabetes Calculator
 
-Repository template with custom Webpack, prettier, Jest, Cypress, and Babel configuration files.
+A meal planning application that allows users to calculate their recommended carbohydrate needs per meal to maintain stable blood glucose levels for T2DM, and then search for recipes, menu items, or grocery products that fit within these ranges.
+
 View Miro: https://miro.com/app/board/uXjVOtvKH2s=/?share_link_id=990354105433
 
 ## Features & Usage
 
+-  create account with username, email, password or sign in using Google
+-  Enter height, weight, age, gender, and activity level to calculate your total daily recommended calories, carbohydrates, protein, and fat for someone with Type 2 Diabetes Mellitus
+-  Search for recipes, grocery products, or menu items from a list of over 800+ American restaurants (search results provided by [Spoonacular API](https://spoonacular.com/food-api))
+-  Save your favorite food items to the day and meal of your choice to create a custom mealplan
+-  Search for food items with any custom nutrient ranges
+-  Edit your recommended nutrient ranges by using the Diabetes Calculator again or simply entering your preferred nutrient ranges
+-  Dark and light modes are available for preferred viewing option, with preferred option being saved to local storage
+
+## Roadmap
+
+-  Allow other sign in methods including Apple or Facebook
+-  Be able to search for specific ingredients
+-  Can include food intolerances when searching for items
+-  User can create a shopping list from their meal plan
+-  Provide user the option to create a sample meal plan
+
 ## Demo
-
-!! do not delete, quick notes to highlight
-run npm run build to build files with webpack and compile typescript files, do not use include section in ts config because it then gives errors with finding svgs
-
-!!
 
 ## Tech Stack
 
@@ -48,16 +60,11 @@ npm run dev
 ```
 
 This opens a development server in your local browser at port 3000.
-If seeing errors try killing all nodemon servers:
-
-```bash
-pkill -f nodemon
-```
 
 -  When application is ready for production, have webpack build your bundle and minimize your files:
 
 ```bash
-npm start
+npm run build
 ```
 
 Then navigate to port 8080 in your browser to view your application.
@@ -67,13 +74,19 @@ Then navigate to port 8080 in your browser to view your application.
 -  Run unit tests with Jest/React Testing Library:
 
 ```bash
-npm test
+npm run jest
 ```
 
 -Then run end to end tests with Cypress:
 
 ```bash
 npm run cypress
+```
+
+-Or run both tests concurrently:
+
+```bash
+npm run test
 ```
 
 ## Resources
