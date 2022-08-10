@@ -6,7 +6,7 @@ View Miro: https://miro.com/app/board/uXjVOtvKH2s=/?share_link_id=720508772353
 
 ## Live Link
 
-View live deployment [here]("https://thediabetescalculator.com") or see the demo below.
+View live deployment [here](https://thediabetescalculator.com) or see the demo below.
 
 ## Features & Usage
 
