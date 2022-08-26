@@ -33,7 +33,6 @@ interface Props {
 }
 
 export const SampleRecipeList = ({ popularRecipes, route }: Props) => {
-   console.log('route:', route);
    return (
       <>
          <Grid

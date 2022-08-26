@@ -51,7 +51,7 @@ const SampleAppFeaturesPage = () => {
    const [mobileOpen, setMobileOpen] = React.useState(false);
    const [route, setRoute] = useState<string>('recipes');
    const [isLoading, setIsLoading] = useState<boolean>(false);
-   const [values, setValues] = useState<RouteValues>({
+   const initialState = {
       query: '',
       type: '',
       minCalories: '',
@@ -64,7 +64,8 @@ const SampleAppFeaturesPage = () => {
       maxFat: '',
       offset: 0,
       number: 10,
-   });
+   };
+   const [values, setValues] = useState<RouteValues>(initialState);
    const [searchedRecipes, setSearchedRecipes] = useState([]);
 
    const handleDrawerToggle = () => {
@@ -116,33 +117,24 @@ const SampleAppFeaturesPage = () => {
             withCredentials: true,
          });
          if (foodItems.data.length === 0) {
+            setIsLoading(false);
             setAlertMessage(
                'No options matched your search. Try again with a broader search'
             );
             setAlertSeverity('warning');
             setOpenAlert(true);
-            setShowLoadMoreBtn(false);
          } else {
+            setValues(initialState);
             setAlertSeverity('success');
             setAlertMessage('Success! Here are your matching items.');
             setOpenAlert(true);
-            if (foodItems.data.length < 6) {
-               setShowLoadMoreBtn(false);
-            } else {
-               setShowLoadMoreBtn(true);
-            }
+            setPopularRecipes(foodItems.data);
          }
-         setPopularRecipes(foodItems.data);
-
-         console.log('foodItems.data:', foodItems.data);
          setIsLoading(false); //used to trigger the loading circle
       } catch (err) {
          setIsLoading(false); //used to trigger the loading circle
       }
    };
-
-   //todo complete handling loading more from api but only when searching
-   const handleLoadMore = () => {};
 
    return (
       <>
@@ -168,9 +160,12 @@ const SampleAppFeaturesPage = () => {
             handleTypeSelect={handleTypeSelect}
             handleSubmit={handleSubmit}
          />
-         {popularRecipes.length &&
-         location.state.featureView === 'recipes' &&
-         isLoading === false ? (
+         {isLoading ? (
+            <Stack alignItems='center'>
+               <CircularProgress size={100} />
+            </Stack>
+         ) : null}
+         {popularRecipes.length && location.state.featureView === 'recipes' ? (
             <SampleRecipeList popularRecipes={popularRecipes} route={route} />
          ) : (
             <Stack alignItems='center'>
