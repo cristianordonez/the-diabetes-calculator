@@ -6,9 +6,9 @@ import { expect } from '../../../../jestGlobals';
 
 import { renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { useMetrics } from './useMetrics';
+import { getMetrics } from './getMetrics';
 import userEvent from '@testing-library/user-event';
-import { MetricsType } from './useMetrics.types';
+import { MetricsType } from './getMetrics.types';
 
 interface Props {
    goals: MetricsType;
@@ -21,7 +21,7 @@ const goals = {
    age: 27,
    activityLevel: 1.2,
 };
-describe('useMetrics hook ', () => {
+describe('getMetrics hook ', () => {
    test('calculates correct values ', async () => {
       const user = userEvent.setup();
       const { result } = renderHook(() => useMetrics(goals));

@@ -24,15 +24,6 @@ export const GoalCardItemCard = ({
    setGoals,
    goals,
 }: Props): ReactJSXElement => {
-   // const Arrow: JSX.Element = (
-   //    <>
-   //       <Stack direction={'column'}>
-   //          <KeyboardArrowUpIcon />
-   //          <KeyboardArrowDownIcon />
-   //       </Stack>
-   //    </>
-   // );
-
    //takes in total macronutrient amount entered and also changes associated min and max amounts
    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (setGoals !== undefined) {
