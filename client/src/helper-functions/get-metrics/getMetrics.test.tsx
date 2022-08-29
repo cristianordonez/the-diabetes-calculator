@@ -24,7 +24,7 @@ const goals = {
 describe('getMetrics hook ', () => {
    test('calculates correct values ', async () => {
       const user = userEvent.setup();
-      const { result } = renderHook(() => useMetrics(goals));
+      const { result } = renderHook(() => getMetrics(goals));
       expect(result.current.total_calories).toEqual(1737);
       expect(result.current.total_carbohydrates).toEqual(162);
       expect(result.current.total_protein).toEqual(68);

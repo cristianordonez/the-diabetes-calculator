@@ -76,6 +76,14 @@ const SampleCalculatorPage = () => {
             sx={{ pt: '2rem' }}
             spacing={2}
          >
+            {goals.total_calories !== 0 ? (
+               <>
+                  <Typography variant='h3'>Recommended Daily Goals</Typography>
+                  <div className='goal-card-items'>
+                     <GoalCardItemList goals={goals} page={'mealplan'} />
+                  </div>
+               </>
+            ) : null}
             <Typography variant='h2'>MacroCalculator</Typography>
             <Paper
                elevation={1}
@@ -109,14 +117,6 @@ const SampleCalculatorPage = () => {
                alertSeverity={alertSeverity}
                alertMessage={alertMessage}
             />
-            {goals !== undefined ? (
-               <>
-                  <Typography variant='h3'>Goals</Typography>
-                  <div className='goal-card-items'>
-                     <GoalCardItemList goals={goals} page={'mealplan'} />
-                  </div>
-               </>
-            ) : null}
          </Stack>
       </>
    );
