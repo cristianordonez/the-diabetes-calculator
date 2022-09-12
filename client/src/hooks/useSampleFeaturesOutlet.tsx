@@ -25,9 +25,9 @@ interface OutletContext {
    setGender: any;
    gender: any;
    age: any;
-   route: any;
    setAge: any;
    height: any;
+   route: any;
    setHeight: any;
    weight: any;
    setWeight: any;

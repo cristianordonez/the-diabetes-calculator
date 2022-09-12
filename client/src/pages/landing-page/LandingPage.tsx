@@ -12,10 +12,10 @@ import { LandingPageCard } from './landing-page-card/LandingPageCard';
 import { CustomAlert } from '../../components/custom-alert/CustomAlert';
 import NavBar from '../../components/navbar/NavBar';
 import './LandingPage.scss';
-import DietitianSvg from '../../../img/dietitian.svg';
-import MaleChefSvg from '../../../img/male-chef.svg';
-import ScheduleSvg from '../../../img/schedule.svg';
-import CalculateSvg from '../../../img/calculate.svg';
+import DietitianSvg from '../../img/dietitian.svg';
+import MaleChefSvg from '../../img/male-chef.svg';
+import ScheduleSvg from '../../img/schedule.svg';
+import CalculateSvg from '../../img/calculate.svg';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 

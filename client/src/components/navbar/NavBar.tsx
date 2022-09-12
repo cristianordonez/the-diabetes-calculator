@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import './Navbar.scss';
 import { ColorModeContext } from '../../pages/App';
 import { useNavigate } from 'react-router-dom';
-import DefaultAvatar from '../../../img/default-avatar.svg';
-import { Link } from 'react-router-dom';
+import DefaultAvatar from '../../img/default-avatar.svg';
+import { CustomNavLink } from './CustomNavLink';
 import {
    AppBar,
    Box,
@@ -16,15 +16,17 @@ import {
    Tooltip,
    MenuItem,
    Stack,
+   Link,
 } from '@mui/material';
 import { useAuth } from '../../context/authContext';
 import { useTheme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
+import { NavLink } from 'react-router-dom';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useLocation } from 'react-router-dom';
-import { MainTitleLogo } from '../main-title-logo/MainTitleLogo';
-import { LogoIcon } from '../logo-icon/LogoIcon';
+import { LogoIcon } from '../main-title-logo/LogoIcon';
+import { MainTitleLogo } from '../main-title-logo';
 
 const pages = ['Search', 'Macro Calculator', 'Meal Plan'];
 
@@ -34,7 +36,6 @@ const NavBar = () => {
    const colorMode = useContext(ColorModeContext);
    const navigate = useNavigate();
    const { isLoading, isLoggedIn, username, handleLogout } = useAuth(); //used to check if data is still being retrieved from database
-   const [isOpen, setIsOpen] = useState(false);
 
    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
       null
@@ -63,6 +64,8 @@ const NavBar = () => {
       navigate('/home/settings');
    };
 
+   console.log(location.pathname.split('/'));
+   console.log(location.pathname);
    return (
       <AppBar
          position='fixed'
@@ -77,6 +80,34 @@ const NavBar = () => {
       >
          <Toolbar disableGutters>
             {/* USER IS LOGGED IN */}
+            <Box sx={{ pl: '1rem', display: { xs: 'flex', sm: 'none' } }}>
+               <LogoIcon />
+            </Box>
+
+            {location.pathname === '/' ||
+            location.pathname === '/login' ||
+            location.pathname === '/account-recovery' ||
+            location.pathname === '/passwordReset' ? (
+               <Box sx={{ pl: '1rem', display: { xs: 'none', sm: 'flex' } }}>
+                  <MainTitleLogo />
+               </Box>
+            ) : null}
+
+            {location.pathname.split('/')[1] ===
+            'diabetes-calculator-features' ? (
+               <Button
+                  sx={{
+                     paddingLeft: {
+                        xs: 0,
+                        sm: '350px',
+                     },
+                  }}
+                  variant='text'
+                  onClick={() => history.back()}
+               >
+                  Go Back
+               </Button>
+            ) : null}
             {isLoggedIn === true ? (
                <>
                   {/* MOBILE ONLY */}
@@ -84,10 +115,6 @@ const NavBar = () => {
                      sx={{
                         flexGrow: 1,
                         display: { xs: 'flex', md: 'none' },
-                        paddingLeft: {
-                           xs: 0,
-                           sm: '350px',
-                        },
                      }}
                   >
                      <IconButton
@@ -122,6 +149,8 @@ const NavBar = () => {
                            {pages.map((page) => (
                               <Link
                                  onClick={handleCloseNavMenu}
+                                 underline='none'
+                                 component={CustomNavLink}
                                  key={page}
                                  to={`/home/${page
                                     .toLowerCase()
@@ -132,13 +161,15 @@ const NavBar = () => {
                            ))}
                         </Stack>
                      </Menu>
+
                      {location.pathname === '/settings' ? (
                         <Button variant='text' onClick={() => history.back()}>
                            Go Back
                         </Button>
                      ) : null}
                   </Box>
-                  {/* CONTINUE DESKTOP ONLY */}
+                  {/* END MOBILE ONLY */}
+                  {/* DESKTOP ONLY */}
                   <Box
                      sx={{
                         flexGrow: 1,
@@ -148,8 +179,8 @@ const NavBar = () => {
                         justifyContent: 'center',
                      }}
                   >
-                     {/* SHOW ONLY ON SETTINGS PAGE WHEN ON DESKTOP*/}
-                     {location.pathname === '/settings' ? (
+                     {/* SHOW ONLY ON SETTINGS PAGE WHEN ON DESKTOP AND LOGGED IN*/}
+                     {location.pathname === '/home/settings' ? (
                         <Button
                            variant='text'
                            color='inherit'
@@ -158,20 +189,28 @@ const NavBar = () => {
                            Go Back
                         </Button>
                      ) : (
-                        // SHOW ON ALL PAGES WHEN ON DESKTOP
+                        // SHOW ON ALL PAGES WHEN ON DESKTOP AND LOGGED IN
                         pages.map((page) => (
                            <Link
+                              component={NavLink}
                               key={page}
+                              sx={{
+                                 '&.active': {
+                                    color: 'inherit',
+                                 },
+                              }}
+                              underline='none'
                               to={`/home/${page
                                  .toLowerCase()
                                  .replace(/ /g, '')}`}
+                              end
                            >
                               {page}
                            </Link>
                         ))
                      )}
                   </Box>
-                  {/* SHOW THIS ON ALL PAGES */}
+                  {/* SHOW THIS ON ALL PAGES WHEN LOGGED IN */}
                   <Box sx={{ flexGrow: 0 }}>
                      <Tooltip title='Open settings'>
                         <IconButton
@@ -212,16 +251,20 @@ const NavBar = () => {
                      </Menu>
                   </Box>
                </>
-            ) : // END USER IS LOGGED IN
-            null}
-
-            {isLoading === false && isLoggedIn === false && (
-               <Link to='/login' data-testid='home-page' className='login-link'>
+            ) : (
+               // END USER IS LOGGED IN
+               <Link
+                  component={CustomNavLink}
+                  to='/login'
+                  underline='none'
+                  data-testid='home-page'
+               >
                   <Typography sx={{ fontWeight: '500' }} variant='body2'>
                      Log in
                   </Typography>
                </Link>
             )}
+
             <Tooltip title='Toggle theme'>
                <IconButton
                   sx={{ ml: '1rem' }}

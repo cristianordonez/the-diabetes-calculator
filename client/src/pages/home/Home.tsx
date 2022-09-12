@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SearchForm } from './search-page/search-form';
+import { CustomAlert } from '../../components/custom-alert/CustomAlert';
 import { SideBarSearchPage } from './search-page/sidebar-searchpage/SideBarSearchPage';
 import { SideBar } from '../../components/sidebar/SideBar';
 import { SidebarMealplan } from './meal-plan-page/sidebar-mealplan/SideBarMealPlan';
@@ -23,9 +24,7 @@ const Home = () => {
    const [breakfastItems, setBreakfastItems] = useState<MealplanItemType[]>([]);
    const [lunchItems, setLunchItems] = useState<MealplanItemType[]>([]);
    const [dinnerItems, setDinnerItems] = useState<MealplanItemType[]>([]);
-   const [alertMessage, setAlertMessage] = useState<string>(
-      'No options matched your search. Try again with a broader search.'
-   );
+   const [alertMessage, setAlertMessage] = useState<string>('');
    const [mealplanItems, setMealplanItems] = useState<[]>([]);
    const [showLoadMoreBtn, setShowLoadMoreBtn] = useState<boolean>(false);
    const [nutritionSummary, setNutritionSummary] = useState<any[]>([]);
@@ -193,43 +192,6 @@ const Home = () => {
       });
    }, []);
 
-   useEffect(() => {
-      handleDateChange();
-   }, [currentDay]);
-
-   const handleDateChange = async () => {
-      setMealplanItems([]); //when tab changes, reset the nutrition summary and the mealplan items
-      setNutritionSummary([]);
-      try {
-         let response = await axios.get('/api/mealplan/day', {
-            params: { date: currentDay },
-            withCredentials: true,
-         });
-         setNutritionSummary(response.data.nutritionSummary.nutrients);
-         setMealplanItems(response.data.items);
-         response.data.items.forEach((item: MealplanItemType) => {
-            if (item.slot === 1) {
-               let currentBreakfastItems = [...breakfastItems, item];
-               setBreakfastItems(currentBreakfastItems);
-            } else if (item.slot === 2) {
-               let currentLunchItems = [...lunchItems, item];
-               setLunchItems(currentLunchItems);
-            } else {
-               let currentDinnerItems = [...dinnerItems, item];
-               setDinnerItems(currentDinnerItems);
-            }
-         });
-      } catch (err) {
-         console.log(err);
-         setAlertSeverity('info');
-         setAlertMessage(
-            'You have no items saved on this day for your mealplan.'
-         );
-         setOpenAlert(true);
-         setMealplanItemsFound(false);
-      }
-   };
-
    return (
       <>
          <Routes>
@@ -272,6 +234,7 @@ const Home = () => {
          <Outlet
             context={{
                loading,
+               setGoals,
                handleDrawerToggle,
                apiData,
                route,
@@ -291,10 +254,20 @@ const Home = () => {
                currentDay,
                setCurrentDay,
                mealplanItems,
+               breakfastItems,
                setBreakfastItems,
+               lunchItems,
                setLunchItems,
+               dinnerItems,
+               goals,
                setDinnerItems,
             }}
+         />
+         <CustomAlert
+            openAlert={openAlert}
+            handleAlert={handleAlert}
+            alertSeverity={alertSeverity}
+            alertMessage={alertMessage}
          />
       </>
    );

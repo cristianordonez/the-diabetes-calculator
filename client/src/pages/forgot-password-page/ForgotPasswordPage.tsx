@@ -26,6 +26,7 @@ const ForgotPasswordPage = () => {
 
       try {
          let axiosResponse = await axios.post('/api/forgotPassword', { email });
+         console.log('axiosResponse:', axiosResponse);
          setEmail('');
          setAlertSeverity('success');
          setAlertMessage(axiosResponse.data);

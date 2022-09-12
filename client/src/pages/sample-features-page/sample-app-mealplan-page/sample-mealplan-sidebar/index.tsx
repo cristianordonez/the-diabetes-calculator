@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from 'react';
 import { IconButton, Toolbar, Drawer, Typography } from '@mui/material';
-import { SampleMealplanSidebarContents } from './SampleMealplanSidebarContents';
+import { SampleMealplanSidebarContents } from '../../sample-features-sidebars/SampleMealplanSidebarContents';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { GoalCardItemLinearProgress } from '../../../../components/goal-card-item-linear-progress/GoalCardItemLinearProgress';
 import { CaloriesCircularProgress } from '../../../../components/calories-circular-progress/CaloriesCircularProgress';
