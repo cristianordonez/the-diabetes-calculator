@@ -7,27 +7,6 @@ import { useSampleFeaturesOutlet } from '../../../hooks/useSampleFeaturesOutlet'
 
 const SampleCalculatorPage = () => {
    const {
-      mobileOpen,
-      handleDrawerToggle,
-      setNutritionSummary,
-      setAlertSeverity,
-      openAlert,
-      setOpenAlert,
-      handleAlert,
-      setValues,
-      setAlertMessage,
-      setSampleMealplanItems,
-      setMealplanItems,
-      isLoading,
-      mealplanItems,
-      setPopularRecipes,
-      popularRecipes,
-      alertSeverity,
-      showPopularRecipes,
-      alertMessage,
-      sampleMealplanItems,
-      goals,
-      setGoals,
       setGender,
       gender,
       age,
@@ -97,12 +76,6 @@ const SampleCalculatorPage = () => {
                   Calculate
                </Button>
             </Paper>
-            <CustomAlert
-               openAlert={openAlert}
-               handleAlert={handleAlert}
-               alertSeverity={alertSeverity}
-               alertMessage={alertMessage}
-            />
          </Stack>
       </>
    );

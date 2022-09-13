@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './SampleFeaturesPage.scss';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import { SampleFeaturesSidebar } from './sample-features-sidebars';
+import { CustomAlert } from '../../components/custom-alert/CustomAlert';
 import { getMetrics } from '../../utils/get-metrics/getMetrics';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {
@@ -10,7 +11,6 @@ import {
    AlertColor,
    SelectChangeEvent,
    Tooltip,
-   Button,
 } from '@mui/material';
 import { RouteValues } from '../../../../types/types';
 import axios from 'axios';
@@ -183,7 +183,6 @@ const SampleFeaturesPage = () => {
                   openAlert,
                   route,
                   setOpenAlert,
-                  handleAlert,
                   setValues,
                   setAlertMessage,
                   setSampleMealplanItems,
@@ -212,6 +211,12 @@ const SampleFeaturesPage = () => {
                }}
             />
          </div>
+         <CustomAlert
+            openAlert={openAlert}
+            handleAlert={handleAlert}
+            alertSeverity={alertSeverity}
+            alertMessage={alertMessage}
+         />
       </>
    );
 };

@@ -10,13 +10,13 @@ import { CurrentGoals } from '../../../../types/types';
 import axios from 'axios';
 import { AlertColor } from '@mui/material';
 import format from 'date-fns/format';
-import { MealplanItemType } from '../../../../types/types';
+import { MealplanItemType, ValuesType } from '../../../../types/types';
 
 const Home = () => {
    const [goals, setGoals] = useState({} as CurrentGoals);
    const [mealplanItemsFound, setMealplanItemsFound] = useState<boolean>(true); //use this to display different page if no items are found
    const [mobileOpen, setMobileOpen] = useState(false);
-   const [apiData, setAPIData] = useState([]);
+   const [apiData, setAPIData] = useState<MealplanItemType[]>([]);
    const [currentTab, setCurrentTab] = useState<string>('custom-search');
    const [route, setRoute] = useState<string>('recipes');
    const [openAlert, setOpenAlert] = useState<boolean>(false);
@@ -25,12 +25,28 @@ const Home = () => {
    const [lunchItems, setLunchItems] = useState<MealplanItemType[]>([]);
    const [dinnerItems, setDinnerItems] = useState<MealplanItemType[]>([]);
    const [alertMessage, setAlertMessage] = useState<string>('');
-   const [mealplanItems, setMealplanItems] = useState<[]>([]);
+   const [mealplanItems, setMealplanItems] = useState<MealplanItemType[]>([]);
    const [showLoadMoreBtn, setShowLoadMoreBtn] = useState<boolean>(false);
    const [nutritionSummary, setNutritionSummary] = useState<any[]>([]);
    const [currentDay, setCurrentDay] = useState(
       format(new Date(Date.now()), 'yyyy-MM-dd')
    ); //spoonacular api needs date in format '2022-07-13'
+   const [alertSeverity, setAlertSeverity] = useState<AlertColor>('error');
+   const [values, setValues] = useState<ValuesType>({
+      query: '',
+      type: '',
+      intolerance: '',
+      minCalories: '',
+      maxCalories: '',
+      minCarbs: '',
+      maxCarbs: '',
+      minProtein: '',
+      maxProtein: '',
+      minFat: '',
+      maxFat: '',
+      number: 6,
+      offset: 0, //number of results to skip, useful for lazy loading
+   });
 
    //# handles showing more items from api
    const handleLoadMore = async (event: React.SyntheticEvent) => {
@@ -64,22 +80,6 @@ const Home = () => {
       setCurrentTab(currentValue);
    };
 
-   const [alertSeverity, setAlertSeverity] = useState<AlertColor>('error');
-   const [values, setValues] = useState({
-      query: '',
-      type: '',
-      intolerance: '',
-      minCalories: '',
-      maxCalories: '',
-      minCarbs: '',
-      maxCarbs: '',
-      minProtein: '',
-      maxProtein: '',
-      minFat: '',
-      maxFat: '',
-      number: 6,
-      offset: 0, //number of results to skip, useful for lazy loading
-   });
    const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
    };
@@ -119,57 +119,10 @@ const Home = () => {
       }
    };
 
-   //# handles submission when it comes from suggested goals form, must be different because values are coming from goals state object
-   const handleSuggestedSubmit = async (event: React.SyntheticEvent) => {
-      let newValues = { ...values, offset: 0 }; //declare new values so that there are no async bugs, and reset offset to 0 in case user changed it
-      setValues(newValues);
-      try {
-         setLoading(true); //used to trigger the loading circle
-         event.preventDefault();
-         let suggestedValues: any = values;
-         suggestedValues.minCalories = goals.min_calories_per_meal;
-         suggestedValues.maxCalories = goals.max_calories_per_meal;
-         suggestedValues.minCarbs = goals.min_carbs_per_meal;
-         suggestedValues.maxCarbs = goals.max_carbs_per_meal;
-         suggestedValues.minProtein = goals.min_protein_per_meal;
-         suggestedValues.maxProtein = goals.max_protein_per_meal;
-         suggestedValues.minFat = goals.min_fat_per_meal;
-         suggestedValues.maxFat = goals.max_fat_per_meal;
-         let foodItems = await axios.get(`/api/${route}`, {
-            params: suggestedValues,
-         });
-         //if there are no items returned
-         if (foodItems.data.length === 0) {
-            setAlertMessage(
-               'No options matched your search. Try again with a broader search'
-            );
-            setAlertSeverity('warning');
-            setOpenAlert(true);
-            setShowLoadMoreBtn(false);
-         } else {
-            setAlertSeverity('success');
-            setAlertMessage('Success! Here are your matching items.');
-            setOpenAlert(true);
-            if (foodItems.data.length < 6) {
-               setShowLoadMoreBtn(false);
-            } else {
-               setShowLoadMoreBtn(true);
-            }
-         }
-         setValues(suggestedValues);
-         setAPIData(foodItems.data);
-         setLoading(false);
-      } catch (err) {
-         console.log(err);
-         setLoading(false); //used to trigger the loading circle
-      }
-   };
-
    //# SearchForm component is rendered in the sidebar as well as on main content of page
    const SearchFormComponent: JSX.Element = (
       <SearchForm
          handleSubmit={handleSubmit}
-         handleSuggestedSubmit={handleSuggestedSubmit}
          route={route}
          setRoute={setRoute}
          handleChange={handleChange}
@@ -178,6 +131,12 @@ const Home = () => {
          values={values}
          setValues={setValues}
          goals={goals}
+         setAlertMessage={setAlertMessage}
+         setAlertSeverity={setAlertSeverity}
+         setLoading={setLoading}
+         setOpenAlert={setOpenAlert}
+         setShowLoadMoreBtn={setShowLoadMoreBtn}
+         setAPIData={setAPIData}
       />
    );
 
@@ -244,10 +203,6 @@ const Home = () => {
                setAlertSeverity,
                showLoadMoreBtn,
                SearchFormComponent,
-               openAlert,
-               handleAlert,
-               alertSeverity,
-               alertMessage,
                setNutritionSummary,
                setMealplanItemsFound,
                setMealplanItems,
@@ -261,6 +216,7 @@ const Home = () => {
                dinnerItems,
                goals,
                setDinnerItems,
+               mobileOpen,
             }}
          />
          <CustomAlert

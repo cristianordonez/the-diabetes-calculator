@@ -141,6 +141,8 @@ export const LoginForm = ({
                            data-testid='create-account-btn'
                            className='login-form-text'
                            variant='caption'
+                           color='textPrimary'
+                           sx={{textDecoration: 'underline'}}
                         >
                            Create Account
                         </Typography>

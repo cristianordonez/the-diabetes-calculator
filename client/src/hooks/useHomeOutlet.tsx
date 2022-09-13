@@ -1,34 +1,34 @@
+import { AlertColor } from '@mui/material';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { CurrentGoals, MealplanItemType } from '../../../types/types';
 
 interface OutletContext {
-   loading: any;
-   handleDrawerToggle: any;
-   apiData: any;
-   route: any;
-   handleLoadMore: any;
-   setAlertMessage: any;
-   setOpenAlert: any;
-   setAlertSeverity: any;
-   showLoadMoreBtn: any;
-   SearchFormComponent: any;
-   openAlert: any;
-   handleAlert: any;
-   alertSeverity: any;
-   alertMessage: any;
-   setNutritionSummary: any;
-   setMealplanItemsFound: any;
-   setMealplanItems: any;
-   currentDay: any;
-   setCurrentDay: any;
-   mealplanItems: any;
-   breakfastItems: any;
-   setBreakfastItems: any;
-   lunchItems: any;
-   setLunchItems: any;
-   dinnerItems: any;
-   setDinnerItems: any;
-   goals: any;
-   setGoals: any;
+   loading: boolean;
+   handleDrawerToggle: () => void;
+   apiData: [];
+   route: string;
+   handleLoadMore: () => void;
+   setAlertMessage: Dispatch<SetStateAction<string>>;
+   setOpenAlert: Dispatch<SetStateAction<boolean>>;
+   setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
+   showLoadMoreBtn: boolean;
+   SearchFormComponent: ReactNode;
+   setNutritionSummary: Dispatch<SetStateAction<[]>>;
+   setMealplanItemsFound: Dispatch<SetStateAction<boolean>>;
+   setMealplanItems: Dispatch<SetStateAction<MealplanItemType[] | []>>;
+   currentDay: string;
+   setCurrentDay: Dispatch<SetStateAction<string>>;
+   mealplanItems: MealplanItemType[];
+   breakfastItems: MealplanItemType[];
+   setBreakfastItems: Dispatch<SetStateAction<MealplanItemType[]>>;
+   lunchItems: MealplanItemType[];
+   setLunchItems: Dispatch<SetStateAction<MealplanItemType[]>>;
+   dinnerItems: MealplanItemType[];
+   setDinnerItems: Dispatch<SetStateAction<MealplanItemType[]>>;
+   goals: CurrentGoals;
+   setGoals: Dispatch<SetStateAction<CurrentGoals>>;
+   mobileOpen: boolean;
 }
 
 export const useHomeOutlet = () => {

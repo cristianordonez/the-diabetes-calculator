@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SampleRecipeList } from './sample-recipe-list';
-import { CustomAlert } from '../../../components/custom-alert/CustomAlert';
+import { SampleRecipeList } from './sample-recipe-list/SampleRecipeList';
 import { CircularProgress, Stack } from '@mui/material';
 import axios from 'axios';
 import { useSampleFeaturesOutlet } from '../../../hooks/useSampleFeaturesOutlet';
@@ -11,7 +10,6 @@ const SampleAppRecipePage = () => {
       setAlertSeverity,
       openAlert,
       setOpenAlert,
-      handleAlert,
       setAlertMessage,
       isLoading,
       setPopularRecipes,
@@ -57,13 +55,6 @@ const SampleAppRecipePage = () => {
                <CircularProgress size={100} />
             </Stack>
          )}
-
-         <CustomAlert
-            openAlert={openAlert}
-            alertSeverity={alertSeverity}
-            alertMessage={alertMessage}
-            handleAlert={handleAlert}
-         />
       </>
    );
 };

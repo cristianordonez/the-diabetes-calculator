@@ -31,7 +31,10 @@ const ForgotPasswordPage = () => {
          setAlertSeverity('success');
          setAlertMessage(axiosResponse.data);
          setOpenAlert(true);
-         navigate('/login');
+         navigate('/login', {
+            state: { sentRecoveryEmail: true },
+            replace: true,
+         });
       } catch (err: any) {
          setAlertSeverity('error');
          setAlertMessage(err.response.data);

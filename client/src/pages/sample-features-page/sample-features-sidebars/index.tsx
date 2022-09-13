@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react';
 import './SampleFeatureSidebars.scss';
-import { Drawer, Toolbar, IconButton } from '@mui/material';
+import { Drawer, Toolbar, IconButton, Box } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useLocation } from 'react-router-dom';
 import { SearchFormCustom } from '../../../components/search-forms/SearchFormCustom';
@@ -109,7 +109,7 @@ export const SampleFeaturesSidebar = ({
             }}
          >
             <MainTitleLogo />
-
+            <Box sx={{pt: '1rem'}}>
             {location.pathname === '/diabetes-calculator-features/recipes' ? (
                <SearchFormCustom
                   route={route}
@@ -130,6 +130,7 @@ export const SampleFeaturesSidebar = ({
             '/diabetes-calculator-features/calculator' ? (
                <SampleCalculatorSidebarContents goals={goals} />
             ) : null}
+            </Box>
          </Drawer>
       </>
    );

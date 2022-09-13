@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './SampleMealPlanPage.scss';
 import { SampleMealPlanDay } from './sample-mealplan-day/SampleMealplanDay';
-import { CustomAlert } from '../../../components/custom-alert/CustomAlert';
+
 import { MealPlanWeekText } from '../../../components/mealplan-week-text/MealPlanWeekText';
 import { Tabs, Tab, CircularProgress } from '@mui/material';
 import { SampleMealplanItem, FoodItemType } from '../../../../../types/types';
@@ -32,7 +32,7 @@ const SampleMealPlanPage = () => {
       setNutritionSummary,
       setAlertSeverity,
       setOpenAlert,
-      handleAlert,
+
       setValues,
       setSampleMealplanItems,
       setMealplanItems,
@@ -156,12 +156,6 @@ const SampleMealPlanPage = () => {
                <CircularProgress size={100} />
             )}
          </div>
-         <CustomAlert
-            openAlert={openAlert}
-            handleAlert={handleClose}
-            alertSeverity={alertSeverity}
-            alertMessage={alertMessage}
-         />
       </>
    );
 };

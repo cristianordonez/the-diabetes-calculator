@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './MealPlanPage.scss';
 import { DateSelectForm } from './date-select-form/DateSelectForm';
 import { MealplanDays } from './mealplan-days';
-import { CustomAlert } from '../../../components/custom-alert/CustomAlert';
 import { MealPlanWeekText } from '../../../components/mealplan-week-text/MealPlanWeekText';
 import {
    Typography,
@@ -43,10 +42,6 @@ const MealPlanPage = () => {
       setAlertMessage,
       setOpenAlert,
       setAlertSeverity,
-      openAlert,
-      handleAlert,
-      alertSeverity,
-      alertMessage,
       setNutritionSummary,
       setMealplanItemsFound,
       setMealplanItems,
