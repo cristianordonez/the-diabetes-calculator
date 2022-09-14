@@ -63,12 +63,14 @@ const NavBar = () => {
       navigate('/home/settings');
    };
 
+   console.log('anchorElUser:', anchorElUser);
+
    return (
       <AppBar
          position='fixed'
          sx={{
             boxShadow: 'none',
-            
+
             padding: '0 1vw',
             backdropFilter: 'blue(20px)',
          }}
@@ -81,10 +83,9 @@ const NavBar = () => {
                <LogoIcon />
             </Box>
 
-            {location.pathname === '/' ||
-            location.pathname === '/login' ||
-            location.pathname === '/account-recovery' ||
-            location.pathname === '/passwordReset' ? (
+            {location.pathname.split('/')[1] !== 'home' &&
+            location.pathname.split('/')[1] !==
+               'diabetes-calculator-features' ? (
                <Box sx={{ pl: '1rem', display: { xs: 'none', sm: 'flex' } }}>
                   <MainTitleLogo />
                </Box>
@@ -105,7 +106,7 @@ const NavBar = () => {
                   Go Back
                </Button>
             ) : null}
-            {isLoggedIn === true ? (
+            {isLoggedIn === true && isLoading === false ? (
                <>
                   {/* MOBILE ONLY */}
                   <Box
@@ -154,6 +155,7 @@ const NavBar = () => {
                                  sx={{
                                     '&.active': {
                                        color: 'inherit',
+                                       textDecoration: 'underline',
                                     },
                                  }}
                                  key={page}
@@ -181,6 +183,7 @@ const NavBar = () => {
                         display: { xs: 'none', md: 'flex' },
                         gap: 4,
                         pl: { xs: 0, sm: '350px' },
+                        width: '100%',
                         justifyContent: 'center',
                      }}
                   >
@@ -202,6 +205,7 @@ const NavBar = () => {
                               sx={{
                                  '&.active': {
                                     color: 'inherit',
+                                    textDecoration: 'underline',
                                  },
                               }}
                               underline='none'
@@ -234,7 +238,7 @@ const NavBar = () => {
                            vertical: 'top',
                            horizontal: 'right',
                         }}
-                        keepMounted
+                        keepMounted={false}
                         transformOrigin={{
                            vertical: 'top',
                            horizontal: 'right',
@@ -256,8 +260,8 @@ const NavBar = () => {
                      </Menu>
                   </Box>
                </>
-            ) : (
-               // END USER IS LOGGED IN
+            ) : // END USER IS LOGGED IN
+            isLoading === false ? (
                <Link
                   component={NavLink}
                   to='/login'
@@ -270,7 +274,7 @@ const NavBar = () => {
                      Log in
                   </Typography>
                </Link>
-            )}
+            ) : null}
 
             <Tooltip title='Toggle theme'>
                <IconButton
