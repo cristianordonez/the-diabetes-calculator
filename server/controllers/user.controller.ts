@@ -136,6 +136,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
          );
       }
    } catch (err) {
+      console.log('err:', err);
       res.status(400).send('Unable to send an email. Please try again later.');
    }
 };
