@@ -53,7 +53,6 @@ const AuthProvider = ({ children }: Props) => {
    };
 
    useEffect(() => {
-      console.log('use effect in auth context is running');
       setIsLoading(true);
       axios
          .get('/api/authentication')

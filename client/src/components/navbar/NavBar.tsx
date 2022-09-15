@@ -63,8 +63,6 @@ const NavBar = () => {
       navigate('/home/settings');
    };
 
-   console.log('anchorElUser:', anchorElUser);
-
    return (
       <AppBar
          position='fixed'
