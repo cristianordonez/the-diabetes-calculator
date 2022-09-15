@@ -127,6 +127,11 @@ const SampleFeaturesPage = () => {
          activityLevel,
       });
       setGoals(currentGoals);
+      setAlertSeverity('success');
+      setAlertMessage(
+         'Your custom macronutrient values have been calculated! View the sidebar to see your calculations'
+      );
+      setOpenAlert(true);
    };
 
    const handleRouteChange = (event: SelectChangeEvent) => {
