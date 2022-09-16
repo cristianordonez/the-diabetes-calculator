@@ -8,19 +8,6 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const BundleAnalyzerPlugin =
    require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-let apiHost;
-
-let setupAPI = function () {
-   console.log('process.env:', process.env);
-   if (process.env.NODE_ENV === 'production') {
-      apiHost = JSON.stringify('https://thediabetescalculator.com');
-   } else if (process.env.NODE_ENV === 'development') {
-      apiHost = JSON.stringify('http://localhost:8080');
-   }
-};
-
-setupAPI();
-
 module.exports = {
    resolve: {
       extensions: ['.js', '.json', '.ts', '.tsx'],
@@ -49,9 +36,6 @@ module.exports = {
       ],
    },
    plugins: [
-      new webpack.DefinePlugin({
-         __API__: apiHost,
-      }),
       new HtmlWebpackPlugin({
          title: 'The Diabetes Calculator',
          template: 'template.html',

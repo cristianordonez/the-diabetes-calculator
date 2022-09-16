@@ -11,7 +11,6 @@ import LandingPage from './landing-page/LandingPage';
 
 const Home = lazy(() => import(/* webpackChunkName: "Home" */ './home/Home'));
 
-console.log('__API__: ', __API__);
 const MacroCalculatorPage = lazy(
    () =>
       import(
