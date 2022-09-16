@@ -1,10 +1,8 @@
-import React, { lazy, Suspense } from 'react';
-
-import { Route, Routes } from 'react-router-dom';
-
 import { ThemeProvider } from '@emotion/react';
 import { CssBaseline, PaletteMode } from '@mui/material'; //used to provide mui color theme to all components
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+import React, { lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import NavBar from '../components/navbar/NavBar';
 import AuthProvider from '../context/authContext';
 import { useLocalStorageState } from '../hooks/useLocalStorage';
