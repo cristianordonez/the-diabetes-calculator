@@ -23,6 +23,7 @@ export const MealplanDays = ({
    let breakfastItems: MealplanItemType[] = [];
    let lunchItems: MealplanItemType[] = [];
    let dinnerItems: MealplanItemType[] = [];
+
    if (mealplanItems.length) {
       mealplanItems.forEach((item) => {
          if (item.slot === 1) {
@@ -52,14 +53,4 @@ export const MealplanDays = ({
          ))}
       </>
    );
-   //    else {
-   //       return (
-   //          <>
-   //             <Typography variant='h3'>Morning</Typography>
-   //             <Typography variant='h3'>Afternoon</Typography>
-   //             <Typography variant='h3'>Evening</Typography>
-   //          </>
-   //       );
-
-   // };
 };
