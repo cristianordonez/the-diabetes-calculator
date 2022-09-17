@@ -1,5 +1,5 @@
+import { AlertColor, Typography } from '@mui/material';
 import React, { Dispatch, SetStateAction } from 'react';
-import { AlertColor, Typography, Stack } from '@mui/material';
 import { MealplanItemType } from '../../../../../../types/types';
 import { MealplanDay } from './mealplan-single-day/MealplanDay';
 interface Props {
@@ -34,9 +34,24 @@ export const MealplanDays = ({
             dinnerItems.push(item);
          }
       });
+
+      const mealTypes = ['Morning', 'Afternoon', 'Evening'];
+      const mealItems = [breakfastItems, lunchItems, dinnerItems];
+
       return (
          <>
-            <Stack direction='column' sx={{ height: '100%', width: '100%' }}>
+            {mealItems.map((meals, index) => (
+               <MealplanDay
+                  type={mealTypes[index]}
+                  meals={meals}
+                  setOpenAlert={setOpenAlert}
+                  setAlertSeverity={setAlertSeverity}
+                  setAlertMessage={setAlertMessage}
+                  setMealPlanItems={setMealPlanItems}
+                  currentDay={currentDay}
+               />
+            ))}
+            {/* <Stack direction='column' sx={{ height: '100%', width: '100%' }}>
                <Typography variant='h3' align='center'>
                   Morning
                </Typography>
@@ -74,7 +89,7 @@ export const MealplanDays = ({
                   setMealPlanItems={setMealPlanItems}
                   currentDay={currentDay}
                />
-            </Stack>
+            </Stack> */}
          </>
       );
    } else {
