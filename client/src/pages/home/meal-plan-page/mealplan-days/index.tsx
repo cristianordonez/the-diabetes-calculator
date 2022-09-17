@@ -1,4 +1,4 @@
-import { AlertColor, Typography } from '@mui/material';
+import { AlertColor } from '@mui/material';
 import React, { Dispatch, SetStateAction } from 'react';
 import { MealplanItemType } from '../../../../../../types/types';
 import { MealplanDay } from './mealplan-single-day/MealplanDay';
@@ -20,11 +20,10 @@ export const MealplanDays = ({
    setAlertMessage,
    currentDay,
 }: Props) => {
+   let breakfastItems: MealplanItemType[] = [];
+   let lunchItems: MealplanItemType[] = [];
+   let dinnerItems: MealplanItemType[] = [];
    if (mealplanItems.length) {
-      let breakfastItems: MealplanItemType[] = [];
-      let lunchItems: MealplanItemType[] = [];
-      let dinnerItems: MealplanItemType[] = [];
-
       mealplanItems.forEach((item) => {
          if (item.slot === 1) {
             breakfastItems.push(item);
@@ -34,71 +33,33 @@ export const MealplanDays = ({
             dinnerItems.push(item);
          }
       });
-
-      const mealTypes = ['Morning', 'Afternoon', 'Evening'];
-      const mealItems = [breakfastItems, lunchItems, dinnerItems];
-
-      return (
-         <>
-            {mealItems.map((meals, index) => (
-               <MealplanDay
-                  type={mealTypes[index]}
-                  meals={meals}
-                  setOpenAlert={setOpenAlert}
-                  setAlertSeverity={setAlertSeverity}
-                  setAlertMessage={setAlertMessage}
-                  setMealPlanItems={setMealPlanItems}
-                  currentDay={currentDay}
-               />
-            ))}
-            {/* <Stack direction='column' sx={{ height: '100%', width: '100%' }}>
-               <Typography variant='h3' align='center'>
-                  Morning
-               </Typography>
-               <MealplanDay
-                  meals={breakfastItems}
-                  setOpenAlert={setOpenAlert}
-                  setAlertSeverity={setAlertSeverity}
-                  setAlertMessage={setAlertMessage}
-                  setMealPlanItems={setMealPlanItems}
-                  currentDay={currentDay}
-               />
-            </Stack>
-            <Stack direction='column' sx={{ height: '100%', width: '100%' }}>
-               <Typography variant='h3' align='center'>
-                  Afternoon
-               </Typography>
-               <MealplanDay
-                  meals={lunchItems}
-                  setOpenAlert={setOpenAlert}
-                  setAlertSeverity={setAlertSeverity}
-                  setAlertMessage={setAlertMessage}
-                  setMealPlanItems={setMealPlanItems}
-                  currentDay={currentDay}
-               />
-            </Stack>
-            <Stack direction='column' sx={{ height: '100%', width: '100%' }}>
-               <Typography variant='h3' align='center'>
-                  Evening
-               </Typography>
-               <MealplanDay
-                  meals={dinnerItems}
-                  setOpenAlert={setOpenAlert}
-                  setAlertSeverity={setAlertSeverity}
-                  setAlertMessage={setAlertMessage}
-                  setMealPlanItems={setMealPlanItems}
-                  currentDay={currentDay}
-               />
-            </Stack> */}
-         </>
-      );
-   } else {
-      return (
-         <>
-            <Typography variant='h3'>Morning</Typography>
-            <Typography variant='h3'>Afternoon</Typography>
-            <Typography variant='h3'>Evening</Typography>
-         </>
-      );
    }
+   const mealTypes = ['Morning', 'Afternoon', 'Evening'];
+   const mealItems = [breakfastItems, lunchItems, dinnerItems];
+
+   return (
+      <>
+         {mealItems.map((meals, index) => (
+            <MealplanDay
+               type={mealTypes[index]}
+               meals={meals}
+               setOpenAlert={setOpenAlert}
+               setAlertSeverity={setAlertSeverity}
+               setAlertMessage={setAlertMessage}
+               setMealPlanItems={setMealPlanItems}
+               currentDay={currentDay}
+            />
+         ))}
+      </>
+   );
+   //    else {
+   //       return (
+   //          <>
+   //             <Typography variant='h3'>Morning</Typography>
+   //             <Typography variant='h3'>Afternoon</Typography>
+   //             <Typography variant='h3'>Evening</Typography>
+   //          </>
+   //       );
+
+   // };
 };
