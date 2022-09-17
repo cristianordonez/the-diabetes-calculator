@@ -10,8 +10,8 @@ interface Props {
    setOpenAlert: Dispatch<SetStateAction<boolean>>;
    setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
    setAlertMessage: Dispatch<SetStateAction<string>>;
-   setMealPlanItems: Dispatch<SetStateAction<MealplanItemType[] | []>>;
    currentDay: string;
+   setMealPlanItems: Dispatch<SetStateAction<MealplanItemType[] | []>>;
    type: string;
 }
 
