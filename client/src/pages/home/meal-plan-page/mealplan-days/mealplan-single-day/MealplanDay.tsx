@@ -13,6 +13,7 @@ interface Props {
    currentDay: string;
    setMealPlanItems: Dispatch<SetStateAction<MealplanItemType[] | []>>;
    type: string;
+   key: number;
 }
 
 export const MealplanDay = ({

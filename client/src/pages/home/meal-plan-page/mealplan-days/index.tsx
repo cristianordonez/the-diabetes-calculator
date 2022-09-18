@@ -42,6 +42,7 @@ export const MealplanDays = ({
       <>
          {mealItems.map((meals, index) => (
             <MealplanDay
+               key={index}
                type={mealTypes[index]}
                meals={meals}
                setOpenAlert={setOpenAlert}

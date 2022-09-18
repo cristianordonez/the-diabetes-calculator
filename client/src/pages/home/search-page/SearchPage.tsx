@@ -28,7 +28,7 @@ const SearchPage = () => {
                <Box className='search-page' sx={{ width: '100vw' }}>
                   {/* PROGRESS BAR */}
                   {loading ? <CircularProgress size={68} /> : null}
-                  <Toolbar
+                  {/* <Toolbar
                      sx={{ display: { sm: 'none' }, alignSelf: 'flex-start' }}
                   >
                      <IconButton
@@ -40,7 +40,7 @@ const SearchPage = () => {
                      >
                         <ArrowForwardIosIcon />
                      </IconButton>
-                  </Toolbar>
+                  </Toolbar> */}
                   {apiData.length ? (
                      <>
                         <FoodSearchList
