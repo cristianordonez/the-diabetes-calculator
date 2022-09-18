@@ -33,17 +33,6 @@ const MacroCalculatorPage = () => {
    };
    return isLoading ? null : (
       <>
-         {/* <Toolbar sx={{ display: { sm: 'none' }, alignSelf: 'flex-start' }}>
-            <IconButton
-               color='inherit'
-               aria-label='open drawer'
-               edge='start'
-               onClick={handleDrawerToggle}
-               sx={{ mr: 2, display: { sm: 'none' } }}
-            >
-               <ArrowForwardIosIcon />
-            </IconButton>
-         </Toolbar> */}
          <div className='macro-calc-page'>
             <MacroCalculatorForm
                setOpenErrorAlert={setOpenAlert}
