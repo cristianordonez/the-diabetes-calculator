@@ -23,50 +23,42 @@ import { AddToMealPlanType } from '../../../../../../types/types';
 import { DatePickerTextField } from './DatePickerTextField';
 import { DialogSelectServings } from './DialogSelectServings';
 import { DialogSelectSlot } from './DialogSelectSlot';
+
 interface Props {
    openDialog: boolean;
+   possibleUnits: string[];
    handleOpeningDialog: MouseEventHandler<HTMLButtonElement>;
-   route: string;
-   imageType: string;
    title: string;
    id: number;
+   image: string;
    setOpenDialog: Dispatch<SetStateAction<boolean>>;
    setAlertMessage: Dispatch<SetStateAction<string>>;
    setOpenSnackbar: Dispatch<SetStateAction<boolean>>;
    setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
 }
 
-export const AddToCartModal = ({
+export const AddIngredientToCartModal = ({
    openDialog,
    handleOpeningDialog,
-   route,
-   imageType,
+   possibleUnits,
    title,
    id,
+   image,
    setOpenDialog,
    setAlertMessage,
    setOpenSnackbar,
    setAlertSeverity,
 }: Props) => {
-   let currentType;
-   if (route === 'recipes') {
-      currentType = 'RECIPE';
-   } else if (route === 'groceryProducts') {
-      currentType = 'PRODUCT';
-   } else {
-      currentType = 'MENU_ITEM';
-   }
-
    const [data, setData] = useState<AddToMealPlanType | any>({
       date: getUnixTime(startOfToday()),
       slot: 1,
       position: 0, // the order in the slot
-      type: currentType,
+      type: 'INGREDIENTS',
       value: {
-         id: id,
-         servings: 1,
-         title: title, //comes from props
-         imageType: imageType,
+         name: title, //prop comes in as title, but ingredients expect key called name
+         unit: possibleUnits[0],
+         amount: '1',
+         image: image,
       },
    });
 
@@ -104,18 +96,21 @@ export const AddToCartModal = ({
 
    //listens to id so that it can update the data object when item is clicked
    useEffect(() => {
+      console.log('title:', title);
+      console.log('possibleUnits:', possibleUnits);
       setData((data: AddToMealPlanType) => {
          return {
             ...data,
             value: {
                ...data.value,
-               id,
-               title,
-               imageType,
+               name: title,
+               unit: possibleUnits[0],
+               amount: '1',
+               image,
             },
          };
       });
-   }, [id]);
+   }, [title]);
 
    return (
       <Dialog open={openDialog}>

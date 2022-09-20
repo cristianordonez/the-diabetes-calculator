@@ -92,6 +92,8 @@ interface IngredientType {
    name: string;
    nutrition: IngredientNutrition;
    possibleUnits: string[];
+   amount: number;
+   unit: string;
 }
 
 type IngredientNutrition = {
@@ -201,6 +203,7 @@ type Ingredient = {
    name: string;
    unit: string;
    amount: string;
+   image: string;
 };
 
 type AddIngredientsToMealPlan = {
