@@ -43,11 +43,13 @@ export const FoodSearchList = ({
    const handleOpeningAddIngredientModal = (
       img: string,
       title: string,
-      units: string[]
+      units: string[],
+      id: number
    ) => {
       setCurrentImage(img);
       setCurrentTitle(title);
       setUnits(units);
+      setCurrentId(id);
       setOpenDialog(!openDialog);
    };
 
@@ -67,7 +69,6 @@ export const FoodSearchList = ({
    };
 
    //todo make a new add to cart modal for the ingredients (include a section to put in the amount and the serving type)
-   console.log('apiData:', apiData);
    return (
       <>
          <div className='food-search-list'>

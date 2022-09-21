@@ -44,7 +44,8 @@ interface Props {
    handleOpeningAddIngredientModal?: (
       img: string,
       title: string,
-      popularUnits: string[]
+      popularUnits: string[],
+      id: number
    ) => void;
    amount?: number | undefined;
    unit?: string | undefined;
@@ -232,7 +233,8 @@ export const FoodItemContents = ({
                         handleOpeningAddIngredientModal(
                            image,
                            title,
-                           possibleUnits
+                           possibleUnits,
+                           id
                         )
                      }
                      variant='outlined'

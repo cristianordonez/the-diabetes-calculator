@@ -19,10 +19,15 @@ import React, {
    useEffect,
    useState,
 } from 'react';
-import { AddToMealPlanType } from '../../../../../../types/types';
+import {
+   AddIngredientsToMealPlan,
+   AddToMealPlanType,
+} from '../../../../../../types/types';
 import { DatePickerTextField } from './DatePickerTextField';
 import { DialogSelectServings } from './DialogSelectServings';
+import { DialogSelectAmount } from './DialogSelectAmount';
 import { DialogSelectSlot } from './DialogSelectSlot';
+import { DialogSelectUnit } from './DialogSelectUnit';
 
 interface Props {
    openDialog: boolean;
@@ -59,6 +64,7 @@ export const AddIngredientToCartModal = ({
          unit: possibleUnits[0],
          amount: '1',
          image: image,
+         id: id,
       },
    });
 
@@ -68,13 +74,25 @@ export const AddIngredientToCartModal = ({
    };
 
    //#handles updating state when changing the servings select field
-   const handleSelectServings = (event: SelectChangeEvent) => {
-      setData((data: AddToMealPlanType) => {
+   const handleSelectAmount = (event: SelectChangeEvent) => {
+      setData((data: AddIngredientsToMealPlan) => {
          return {
             ...data,
             value: {
                ...data.value,
-               servings: parseInt(event.target.value),
+               amount: parseInt(event.target.value),
+            },
+         };
+      });
+   };
+
+   const handleSelectUnit = (event: SelectChangeEvent) => {
+      setData((data: AddIngredientsToMealPlan) => {
+         return {
+            ...data,
+            value: {
+               ...data.value,
+               unit: event.target.value,
             },
          };
       });
@@ -84,7 +102,7 @@ export const AddIngredientToCartModal = ({
    const handleSubmit = async (event: SyntheticEvent) => {
       event.preventDefault();
       try {
-         let response = await axios.post('/api/mealplan', data);
+         await axios.post('/api/mealplan', data);
          setAlertSeverity('success');
          setAlertMessage('Item has been added to your mealplan!');
          setOpenSnackbar(true);
@@ -107,6 +125,7 @@ export const AddIngredientToCartModal = ({
                unit: possibleUnits[0],
                amount: '1',
                image,
+               id,
             },
          };
       });
@@ -130,9 +149,15 @@ export const AddIngredientToCartModal = ({
                      handleSelectSlot={handleSelectSlot}
                      slot={data.slot}
                   />
-                  <DialogSelectServings
-                     handleSelectServings={handleSelectServings}
-                     servings={data.value.servings}
+
+                  <DialogSelectAmount
+                     amount={data.value.amount}
+                     handleSelectAmount={handleSelectAmount}
+                  />
+                  <DialogSelectUnit
+                     unit={data.value.unit}
+                     handleSelectUnit={handleSelectUnit}
+                     possibleUnits={possibleUnits}
                   />
                </Box>
             </DialogContent>

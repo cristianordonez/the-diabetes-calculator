@@ -170,6 +170,10 @@ type MealplanItemType = {
       imageType: string;
       servings: number;
       title: string;
+      amount: number | undefined;
+      image: string | undefined;
+      name: string;
+      unit: string | undefined;
    };
 };
 
