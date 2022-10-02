@@ -70,7 +70,7 @@ export const FoodSearchList = ({
                   item
                </Typography>
             </Stack>
-
+            <Typography variant='h6'>Search Results</Typography>
             <div className='food-search-main-container'>
                <TableContainer component={Paper}>
                   <Table stickyHeader={true} aria-label='collapsible table'>

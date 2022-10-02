@@ -7,12 +7,40 @@ import {
    Table,
    TableBody,
    TableCell,
+   tableCellClasses,
    TableHead,
    TableRow,
    Typography,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { FoodSearchResult } from '../../../../types/types';
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+   '&:nth-of-type(4n)': {
+      // backgroundColor: 'black',
+      backgroundColor: theme.palette.action.hover,
+   },
+   // hide last border
+   '&:nth-of-type(4n-1)': {
+      // backgroundColor: 'black',
+      backgroundColor: theme.palette.action.hover,
+   },
+   // hide last border
+   '&:last-child td, &:last-child th': {
+      border: 0,
+   },
+}));
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+   [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+   },
+   [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+   },
+}));
 
 export const FoodListRow = ({
    brand_name,
@@ -67,8 +95,8 @@ export const FoodListRow = ({
 
    return (
       <>
-         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-            <TableCell>
+         <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+            <StyledTableCell>
                <IconButton
                   aria-label='expand row'
                   size='small'
@@ -76,16 +104,18 @@ export const FoodListRow = ({
                >
                   {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                </IconButton>
-            </TableCell>
+            </StyledTableCell>
             <TableCell component='th' scope='row'>
                {description_updated}
             </TableCell>
-            <TableCell align='right'>{calories}</TableCell>
-            <TableCell align='right'>{total_fat}</TableCell>
-            <TableCell align='right'>{total_carbohydrates}</TableCell>
-            <TableCell align='right'>{protein}</TableCell>
-         </TableRow>
-         <TableRow>
+            <StyledTableCell align='right'>{calories}</StyledTableCell>
+            <StyledTableCell align='right'>{total_fat}</StyledTableCell>
+            <StyledTableCell align='right'>
+               {total_carbohydrates}
+            </StyledTableCell>
+            <StyledTableCell align='right'>{protein}</StyledTableCell>
+         </StyledTableRow>
+         <StyledTableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                <Collapse in={open} timeout='auto' unmountOnExit>
                   <Box sx={{ margin: 1 }}>
@@ -96,7 +126,7 @@ export const FoodListRow = ({
                               gutterBottom
                               component='div'
                            >
-                              Product Information
+                              Additional Product Data
                            </Typography>
                            <Table size='small' aria-label='purchases'>
                               <TableHead>
@@ -179,7 +209,7 @@ export const FoodListRow = ({
                   </Box>
                </Collapse>
             </TableCell>
-         </TableRow>
+         </StyledTableRow>
       </>
    );
 };
