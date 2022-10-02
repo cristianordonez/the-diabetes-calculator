@@ -13,10 +13,6 @@ type Session = {
    username: string;
 };
 
-type SearchResults = {
-   test: any;
-};
-
 type Query = {
    query: string;
    category: string;
@@ -47,10 +43,10 @@ type PassportGoogleUser = {
 
 type AddToMealPlanType = {
    date: number;
-   slot: number;
+   slot: 1 | 2 | 3 | 4;
    position: number;
    category: string;
-   id: number;
+   fdc_id: number;
    servings: number;
    title: string;
 };
@@ -77,6 +73,35 @@ type MetricsType = {
    activityLevel: number;
 };
 
+type FoodSearchResult = {
+   brand_name: string | null;
+   brand_owner: string | null;
+   branded_food_category: string | null;
+   description: string;
+   fdc_id: string;
+   serving_size: number;
+   serving_size_unit: string;
+   data_type: string;
+   calories: number;
+   calcium: number;
+   cholesterol: number;
+   dietary_fiber: number;
+   iron: number;
+   potassium: number;
+   protein: number;
+   saturated_fat: number;
+   monounsaturated_fat: number;
+   polyunsaturated_fat: number;
+   sodium: number;
+   sugar: number;
+   total_carbohydrates: number;
+   total_fat: number;
+   trans_fat: number;
+   vitamin_a: number;
+   vitamin_c: number;
+   vitamin_d: number;
+};
+
 export {
    CurrentGoals,
    Session,
@@ -87,6 +112,6 @@ export {
    SelectedDate,
    RequestParams,
    PassportGoogleUser,
-   SearchResults,
+   FoodSearchResult,
    MetricsType,
 };

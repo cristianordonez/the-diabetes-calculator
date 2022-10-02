@@ -2,7 +2,7 @@
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Drawer, IconButton, Stack, Toolbar } from '@mui/material';
 import React, { ReactNode } from 'react';
-import { CurrentGoals, SearchResults } from '../../../../types/types';
+import { CurrentGoals, FoodSearchResult } from '../../../../types/types';
 import { DailyGoals } from '../daily-goals';
 import { MainTitleLogo } from '../main-title-logo/index';
 
@@ -10,7 +10,7 @@ interface Props {
    mobileOpen: boolean | undefined;
    handleDrawerToggle: any;
    SearchFormComponent?: ReactNode;
-   searchResults?: SearchResults[];
+   searchResults?: FoodSearchResult[];
    goals?: CurrentGoals | any;
    page: string;
    nutritionSummary?: any;

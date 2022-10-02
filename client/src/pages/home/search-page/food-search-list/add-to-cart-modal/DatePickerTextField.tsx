@@ -8,8 +8,8 @@ import getUnixTime from 'date-fns/getUnixTime';
 import startOfDay from 'date-fns/startOfDay';
 import startOfToday from 'date-fns/startOfToday';
 import React, { Dispatch, SetStateAction } from 'react';
-import { AddToMealPlanType } from '../../../../../../types/types';
-import { getFormattedDate } from '../../../../utils/getFormattedDateFunc';
+import { AddToMealPlanType } from '../../../../../../../types/types';
+import { getFormattedDate } from '../../../../../utils/getFormattedDateFunc';
 
 interface Props {
    setData: Dispatch<SetStateAction<AddToMealPlanType>>;

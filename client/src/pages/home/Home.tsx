@@ -4,7 +4,7 @@ import axios from 'axios';
 import format from 'date-fns/format';
 import React, { useEffect, useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
-import { CurrentGoals, Query, SearchResults } from '../../../../types/types';
+import { CurrentGoals, FoodSearchResult, Query } from '../../../../types/types';
 import { CustomAlert } from '../../components/custom-alert/CustomAlert';
 import { SideBar } from '../../components/sidebar/SideBar';
 import MealPlanPage from './meal-plan-page/MealPlanPage';
@@ -15,7 +15,7 @@ const Home = () => {
    const [goals, setGoals] = useState({} as CurrentGoals);
    const [mealplanItemsFound, setMealplanItemsFound] = useState<boolean>(true); //use this to display different page if no items are found
    const [mobileOpen, setMobileOpen] = useState(false);
-   const [searchResults, setSearchResults] = useState<SearchResults[]>([]);
+   const [searchResults, setSearchResults] = useState<FoodSearchResult[]>([]);
    const [currentTab, setCurrentTab] = useState<string>('advanced-search');
    const [openAlert, setOpenAlert] = useState<boolean>(false);
    const [loading, setLoading] = useState<boolean>(false);
@@ -23,6 +23,7 @@ const Home = () => {
    // const [mealplanItems, setMealplanItems] = useState<[]>([]);
    const [showLoadMoreBtn, setShowLoadMoreBtn] = useState<boolean>(false);
    const [nutritionSummary, setNutritionSummary] = useState<any[]>([]);
+   const [sendAdvancedRequest, setSendAdvancedRequest] = useState(false);
    const [currentDay, setCurrentDay] = useState(
       format(new Date(Date.now()), 'yyyy-MM-dd')
    ); //database stores date in format 'YYYY-MM-DD'
@@ -48,9 +49,15 @@ const Home = () => {
          setLoading(true);
          let newValues = { ...values, offset: values.offset + 10 }; //update new offset so that we only receive the correct items from API
          setValues(newValues);
-         let searchResultItems: any = await axios.get(`/api/food`, {
-            params: newValues,
-         });
+         const searchResultItems = sendAdvancedRequest
+            ? await axios.get(`/api/food`, {
+                 params: newValues,
+                 withCredentials: true,
+              })
+            : await axios.get('/api/food/all', {
+                 params: newValues,
+                 withCredentials: true,
+              });
          console.log('searchResultItems:', searchResultItems);
          if (searchResultItems.data.length < 10) {
             setShowLoadMoreBtn(false);
@@ -78,15 +85,17 @@ const Home = () => {
    };
 
    const handleSubmit = async (event: React.SyntheticEvent) => {
-      event.preventDefault();
-      let newValues = { ...values, offset: 0 }; //declare new values so that there are no async bugs, and reset offset to 0 in case user changed it
-      setValues(newValues);
       try {
+         event.preventDefault();
+         setSendAdvancedRequest(true);
+         const newValues = { ...values, offset: 0 }; //declare new values so that there are no async bugs, and reset offset to 0 in case user changed it
+         setValues(newValues);
          setLoading(true);
-         let searchResultItems = await axios.get(`/api/food`, {
+         const searchResultItems = await axios.get(`/api/food`, {
             params: newValues,
             withCredentials: true,
          });
+
          console.log('searchResultItems:', searchResultItems);
          if (searchResultItems.data.length === 0) {
             setAlertMessage(
@@ -134,6 +143,7 @@ const Home = () => {
          setOpenAlert={setOpenAlert}
          setShowLoadMoreBtn={setShowLoadMoreBtn}
          setSearchResults={setSearchResults}
+         setSendAdvancedRequest={setSendAdvancedRequest}
       />
    );
 

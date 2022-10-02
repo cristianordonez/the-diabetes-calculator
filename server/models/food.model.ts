@@ -91,11 +91,11 @@ const allergyMap = {
 };
 
 //# created view called food_nutrition_info which gets all essential data
-
+// TODO find a way to avoid getting results with 0 calories without slowing down queries
 const get = (query: Query) => {
    const selectQuery = `SELECT * FROM food_nutrition_info
       WHERE (description ILIKE '%${query.query}%' 
-      OR brand_name ILIKE '%${query.query}%')
+      OR brand_name ILIKE '%${query.query}%') AND calories IS NOT null
       LIMIT ${query.number} OFFSET ${query.offset}
       `;
    const matchingItems = db.query(selectQuery);
@@ -113,7 +113,7 @@ const getAdvanced = (query: Query) => {
    `;
    const allergyQuery =
       query.allergy === '' ? '' : allergyMap[query.allergy as keyof AllergyMap];
-   const limitQuery = ` LIMIT ${query.number} OFFSET ${query.offset}`;
+   const limitQuery = `LIMIT ${query.number} OFFSET ${query.offset}`;
    const currentQuery = selectContentsQuery + allergyQuery + limitQuery;
    const matchingItems = db.query(
       selectContentsQuery + allergyQuery + limitQuery

@@ -19,15 +19,13 @@ import React, {
    useEffect,
    useState,
 } from 'react';
-import { AddToMealPlanType } from '../../../../../../types/types';
+import { AddToMealPlanType } from '../../../../../../../types/types';
 import { DatePickerTextField } from './DatePickerTextField';
 import { DialogSelectServings } from './DialogSelectServings';
 import { DialogSelectSlot } from './DialogSelectSlot';
 interface Props {
    openDialog: boolean;
    handleOpeningDialog: MouseEventHandler<HTMLButtonElement>;
-   route: string;
-   imageType: string;
    title: string;
    id: number;
    setOpenDialog: Dispatch<SetStateAction<boolean>>;
@@ -39,8 +37,6 @@ interface Props {
 export const AddToCartModal = ({
    openDialog,
    handleOpeningDialog,
-   route,
-   imageType,
    title,
    id,
    setOpenDialog,
@@ -48,34 +44,20 @@ export const AddToCartModal = ({
    setOpenSnackbar,
    setAlertSeverity,
 }: Props) => {
-   let currentType;
-   if (route === 'recipes') {
-      currentType = 'RECIPE';
-   } else if (route === 'groceryProducts') {
-      currentType = 'PRODUCT';
-   } else {
-      currentType = 'MENU_ITEM';
-   }
-
-   const [data, setData] = useState<AddToMealPlanType | any>({
+   const [data, setData] = useState<AddToMealPlanType>({
       date: getUnixTime(startOfToday()),
       slot: 1,
       position: 0, // the order in the slot
-      type: currentType,
-      value: {
-         id: id,
-         servings: 1,
-         title: title, //comes from props
-         imageType: imageType,
-      },
+      category: '',
+      fdc_id: id,
+      servings: 1,
+      title: title, //comes from props
    });
 
-   //# handles updating state when changing the slot select field
    const handleSelectSlot = (event: SelectChangeEvent) => {
-      setData({ ...data, slot: parseInt(event.target.value) });
+      setData({ ...data, slot: parseInt(event.target.value) as 1 | 2 | 3 | 4 });
    };
 
-   //#handles updating state when changing the servings select field
    const handleSelectServings = (event: SelectChangeEvent) => {
       setData((data: AddToMealPlanType) => {
          return {
@@ -85,11 +67,10 @@ export const AddToCartModal = ({
       });
    };
 
-   //# handles adding the item to the mealplan
    const handleSubmit = async (event: SyntheticEvent) => {
       event.preventDefault();
       try {
-         let response = await axios.post('/api/mealplan', data);
+         await axios.post('/api/mealplan', data);
          setAlertSeverity('success');
          setAlertMessage('Item has been added to your mealplan!');
          setOpenSnackbar(true);
@@ -106,7 +87,6 @@ export const AddToCartModal = ({
             ...data,
             id,
             title,
-            imageType,
          };
       });
    }, [id]);
@@ -131,7 +111,7 @@ export const AddToCartModal = ({
                   />
                   <DialogSelectServings
                      handleSelectServings={handleSelectServings}
-                     servings={data.value.servings}
+                     servings={data.servings}
                   />
                </Box>
             </DialogContent>
