@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
+import { AddToMealPlanType, PassportGoogleUser } from '../../types/types';
 
 const addMealPlanItem = async function (req: Request, res: Response) {
-   // const user = req.user as User;
+   const body = req.body as AddToMealPlanType;
+   const user = req.user as PassportGoogleUser;
+   console.log('user:', user);
+   console.log('body:', body);
    // let hash = await getHash(user.spoonacular_username);
    // try {
    //    const response = await addToSpoonacularMealplan(
@@ -73,20 +77,4 @@ const deleteMealPlanItem = async function (req: Request, res: Response) {
    // }
 };
 
-const getRandomMealplanDay = async function (req: Request, res: Response) {
-   // try {
-   //    let mealplanItems = await generateMealplanDay();
-   //    res.status(200).send(mealplanItems);
-   // } catch (err) {
-   //    res.status(400).send('Unable to delete item.');
-   //    console.log(err);
-   // }
-};
-
-export {
-   addMealPlanItem,
-   getMealPlanDay,
-   getMealPlanWeek,
-   deleteMealPlanItem,
-   getRandomMealplanDay,
-};
+export { addMealPlanItem, getMealPlanDay, getMealPlanWeek, deleteMealPlanItem };

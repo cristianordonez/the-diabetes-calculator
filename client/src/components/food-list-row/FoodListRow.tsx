@@ -17,13 +17,7 @@ import React, { useState } from 'react';
 import { FoodSearchResult } from '../../../../types/types';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-   '&:nth-of-type(4n)': {
-      // backgroundColor: 'black',
-      backgroundColor: theme.palette.action.hover,
-   },
-   // hide last border
-   '&:nth-of-type(4n-1)': {
-      // backgroundColor: 'black',
+   '&:nth-of-type(even)': {
       backgroundColor: theme.palette.action.hover,
    },
    // hide last border
@@ -41,6 +35,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
       fontSize: 14,
    },
 }));
+
+interface Props extends FoodSearchResult {
+   handleOpeningAddToMealplanDialog: (
+      id: number,
+      dataType: string,
+      servingSizes: number[],
+      servingSizeUnit: string
+   ) => void;
+}
 
 export const FoodListRow = ({
    brand_name,
@@ -69,7 +72,8 @@ export const FoodListRow = ({
    vitamin_a,
    vitamin_c,
    vitamin_d,
-}: FoodSearchResult) => {
+   handleOpeningAddToMealplanDialog,
+}: Props) => {
    const [open, setOpen] = useState<boolean>(false);
 
    let brand_name_updated = '';
@@ -93,14 +97,35 @@ export const FoodListRow = ({
       description_updated = descriptionArr.join(' ');
    }
 
+   const handleOpeningRow = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setOpen(!open);
+   };
+
+   const handleOpeningModal = (e: React.MouseEvent) => {
+      let servingSizesArr = [100];
+      if (serving_size !== 100) {
+         servingSizesArr.push(serving_size);
+      }
+      handleOpeningAddToMealplanDialog(
+         parseInt(fdc_id),
+         data_type,
+         servingSizesArr,
+         serving_size_unit
+      );
+   };
    return (
       <>
-         <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+         <StyledTableRow
+            hover={true}
+            onClick={handleOpeningModal}
+            sx={{ '& > *': { borderBottom: 'unset' }, cursor: 'pointer' }}
+         >
             <StyledTableCell>
                <IconButton
                   aria-label='expand row'
                   size='small'
-                  onClick={() => setOpen(!open)}
+                  onClick={handleOpeningRow}
                >
                   {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                </IconButton>
@@ -128,7 +153,11 @@ export const FoodListRow = ({
                            >
                               Additional Product Data
                            </Typography>
-                           <Table size='small' aria-label='purchases'>
+                           <Table
+                              size='small'
+                              aria-label='data for food product'
+                              stickyHeader={true}
+                           >
                               <TableHead>
                                  <TableRow>
                                     <TableCell>Food Category</TableCell>
@@ -166,7 +195,11 @@ export const FoodListRow = ({
                            >
                               Additional Nutrition Data
                            </Typography>
-                           <Table size='small' aria-label='purchases'>
+                           <Table
+                              size='small'
+                              aria-label='additional nutrition data'
+                              stickyHeader={true}
+                           >
                               <TableHead>
                                  <TableRow>
                                     <TableCell>Fiber&nbsp;(g)</TableCell>

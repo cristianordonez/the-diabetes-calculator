@@ -42,11 +42,25 @@ export const FoodSearchList = ({
 }: Props) => {
    const [openDialog, setOpenDialog] = useState<boolean>(false);
    const [currentId, setCurrentId] = useState<number>(0);
-   const [currentTitle, setCurrentTitle] = useState('');
+   const [currentTitle, setCurrentTitle] = useState<string>('');
+   const [currentDataType, setCurrentDataType] = useState<string>('');
+   const [currentServingSizeUnit, setCurrentServingSizeUnit] =
+      useState<string>('');
+   const [currentServingSizes, setCurrentServingSizes] = useState<number[]>([
+      100,
+   ]);
 
-   const handleOpeningAddToMealplanDialog = (title: string, id: number) => {
-      setCurrentTitle(title);
+   const handleOpeningAddToMealplanDialog = (
+      id: number,
+      dataType: string,
+      servingSizes: number[],
+      servingSizeUnit: string
+   ) => {
       setCurrentId(id);
+      console.log('dataType: ', dataType);
+      setCurrentDataType(dataType);
+      setCurrentServingSizes(servingSizes);
+      setCurrentServingSizeUnit(servingSizeUnit);
       setOpenDialog(!openDialog);
    };
 
@@ -54,7 +68,6 @@ export const FoodSearchList = ({
       setOpenDialog(!openDialog);
    };
 
-   console.log('searchResults:', searchResults);
    return (
       <>
          <div className='food-search-list'>
@@ -65,15 +78,13 @@ export const FoodSearchList = ({
             >
                <MenuBookIcon />
                <Typography variant='body1'>
-                  Click on the Add to Mealplan button then choose intended date
-                  and slot (morning, afternoon, evening, or snack) to save any
-                  item
+                  Click on any item to add it to your mealplan
                </Typography>
             </Stack>
             <Typography variant='h6'>Search Results</Typography>
             <div className='food-search-main-container'>
                <TableContainer component={Paper}>
-                  <Table stickyHeader={true} aria-label='collapsible table'>
+                  <Table stickyHeader={true} aria-label='search results'>
                      <TableHead>
                         <TableRow>
                            <TableCell variant='head' />
@@ -88,6 +99,9 @@ export const FoodSearchList = ({
                         {searchResults.map((searchResult) => (
                            <FoodListRow
                               key={searchResult.fdc_id}
+                              handleOpeningAddToMealplanDialog={
+                                 handleOpeningAddToMealplanDialog
+                              }
                               brand_name={searchResult.brand_name}
                               brand_owner={searchResult.brand_owner}
                               branded_food_category={
@@ -127,49 +141,6 @@ export const FoodSearchList = ({
                      </TableBody>
                   </Table>
                </TableContainer>
-               {/* TODO fix this part with own component */}
-               {/* {route === 'ingredients'
-                  ? searchResults.map((item: IngredientType, index: number) => (
-                       <React.Fragment key={index}>
-                          <div data-testid='food-search-item'>
-                             <FoodItemContents
-                                route={route}
-                                image={item.image}
-                                id={item.id}
-                                title={item.name}
-                                nutrition={item.nutrition}
-                                imageType={'jpg'}
-                                handleOpeningAddIngredientModal={
-                                   handleOpeningAddIngredientModal
-                                }
-                                amount={item.amount}
-                                possibleUnits={item.possibleUnits}
-                                unit={item.unit}
-                                isMealPlanItem={false} //used to add a X icon to delete mealplans
-                             />
-                          </div>
-                       </React.Fragment>
-                    ))
-                  : searchResults.map((item: FoodItemType, index: number) => (
-                       <React.Fragment key={index}>
-                          <div data-testid='food-search-item'>
-                             <FoodItemContents
-                                route={route}
-                                image={item.image}
-                                id={item.id}
-                                title={item.title}
-                                restaurantChain={item.restaurantChain}
-                                nutrition={item.nutrition}
-                                url={item.sourceUrl}
-                                imageType={item.imageType}
-                                handleOpeningAddToMealplanDialog={
-                                   handleOpeningAddToMealplanDialog
-                                }
-                                isMealPlanItem={false} //used to add a X icon to delete mealplans
-                             />
-                          </div>
-                       </React.Fragment>
-                    ))} */}
             </div>
             {showLoadMoreBtn ? (
                <Button fullWidth onClick={handleLoadMore} variant='contained'>
@@ -181,8 +152,10 @@ export const FoodSearchList = ({
          <AddToCartModal
             openDialog={openDialog}
             handleOpeningDialog={handleOpeningDialog}
-            title={currentTitle}
             id={currentId}
+            currentDataType={currentDataType}
+            currentServingSizes={currentServingSizes}
+            currentServingSizeUnit={currentServingSizeUnit}
             setOpenDialog={setOpenDialog}
             setAlertMessage={setAlertMessage}
             setOpenSnackbar={setOpenSnackbar}

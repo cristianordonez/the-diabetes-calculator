@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import axios from 'axios';
-import getUnixTime from 'date-fns/getUnixTime';
 import startOfToday from 'date-fns/startOfToday';
 import React, {
    Dispatch,
@@ -21,13 +20,17 @@ import React, {
 } from 'react';
 import { AddToMealPlanType } from '../../../../../../../types/types';
 import { DatePickerTextField } from './DatePickerTextField';
-import { DialogSelectServings } from './DialogSelectServings';
+import { DialogSelectServingSize } from './DialogSelectServingSize';
 import { DialogSelectSlot } from './DialogSelectSlot';
+import { DialogServingsInput } from './DialogServingsInput';
+
 interface Props {
    openDialog: boolean;
    handleOpeningDialog: MouseEventHandler<HTMLButtonElement>;
-   title: string;
    id: number;
+   currentDataType: string;
+   currentServingSizes: number[];
+   currentServingSizeUnit: string;
    setOpenDialog: Dispatch<SetStateAction<boolean>>;
    setAlertMessage: Dispatch<SetStateAction<string>>;
    setOpenSnackbar: Dispatch<SetStateAction<boolean>>;
@@ -37,39 +40,50 @@ interface Props {
 export const AddToCartModal = ({
    openDialog,
    handleOpeningDialog,
-   title,
    id,
+   currentDataType,
+   currentServingSizes,
+   currentServingSizeUnit,
    setOpenDialog,
    setAlertMessage,
    setOpenSnackbar,
    setAlertSeverity,
 }: Props) => {
    const [data, setData] = useState<AddToMealPlanType>({
-      date: getUnixTime(startOfToday()),
+      date: startOfToday(),
       slot: 1,
       position: 0, // the order in the slot
-      category: '',
       fdc_id: id,
-      servings: 1,
-      title: title, //comes from props
+      servings: 1.0,
+      data_type: currentDataType,
+      serving_size: currentServingSizes[0],
+      serving_size_unit: currentServingSizeUnit,
    });
 
+   console.log('dataType in add cart modal:', currentDataType);
    const handleSelectSlot = (event: SelectChangeEvent) => {
       setData({ ...data, slot: parseInt(event.target.value) as 1 | 2 | 3 | 4 });
    };
 
-   const handleSelectServings = (event: SelectChangeEvent) => {
+   const handleSelectServingSize = (event: SelectChangeEvent) => {
+      setData({ ...data, serving_size: parseInt(event.target.value) });
+      console.log('data after selectinfg serving size:', data);
+   };
+
+   const handleSelectServings = (
+      event: React.ChangeEvent<HTMLInputElement>
+   ) => {
       setData((data: AddToMealPlanType) => {
          return {
             ...data,
-            servings: parseInt(event.target.value),
+            servings: parseFloat(event.target.value),
          };
       });
    };
 
    const handleSubmit = async (event: SyntheticEvent) => {
-      event.preventDefault();
       try {
+         event.preventDefault();
          await axios.post('/api/mealplan', data);
          setAlertSeverity('success');
          setAlertMessage('Item has been added to your mealplan!');
@@ -82,34 +96,48 @@ export const AddToCartModal = ({
 
    //listens to id so that it can update the data object when item is clicked
    useEffect(() => {
-      setData((data: AddToMealPlanType) => {
-         return {
-            ...data,
-            id,
-            title,
-         };
+      setData({
+         ...data,
+         fdc_id: id,
+         servings: 1.0,
+         data_type: currentDataType,
+         serving_size: currentServingSizes[0],
+         serving_size_unit: currentServingSizeUnit,
+         slot: 1,
+         date: startOfToday(),
+         position: 0,
       });
    }, [id]);
 
+   const handleClose = (value: string) => {
+      setOpenDialog(false);
+   };
+
    return (
-      <Dialog open={openDialog}>
+      <Dialog
+         open={openDialog}
+         onClose={() => {
+            handleClose('backdropClick');
+         }}
+      >
          <DialogTitle align='left'>
             Select preferred day, slot and number of servings
          </DialogTitle>
          <form onSubmit={handleSubmit}>
             <DialogContent>
-               <Box
-                  display='flex'
-                  flexDirection='column'
-                  gap='1rem'
-                  // alignItems='flex-start'
-               >
+               <Box display='flex' flexDirection='column' gap='1rem'>
                   <DatePickerTextField setData={setData} data={data} />
                   <DialogSelectSlot
                      handleSelectSlot={handleSelectSlot}
                      slot={data.slot}
                   />
-                  <DialogSelectServings
+                  <DialogSelectServingSize
+                     servingSize={data.serving_size}
+                     handleSelectServingSize={handleSelectServingSize}
+                     currentServingSizes={currentServingSizes}
+                     currentServingSizeUnit={currentServingSizeUnit}
+                  />
+                  <DialogServingsInput
                      handleSelectServings={handleSelectServings}
                      servings={data.servings}
                   />
