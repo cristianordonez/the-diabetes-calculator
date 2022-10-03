@@ -8,25 +8,25 @@ import { CurrentGoals, FoodSearchResult, Query } from '../../../../types/types';
 import { CustomAlert } from '../../components/custom-alert/CustomAlert';
 import { SideBar } from '../../components/sidebar/SideBar';
 import MealPlanPage from './meal-plan-page/MealPlanPage';
-import { SidebarMealplan } from './meal-plan-page/sidebar-mealplan/SideBarMealPlan';
 import { SearchForm } from './search-page/search-form';
 
 const Home = () => {
    const [goals, setGoals] = useState({} as CurrentGoals);
-   const [mealplanItemsFound, setMealplanItemsFound] = useState<boolean>(true); //use this to display different page if no items are found
+   const [mealplanItemsFound, setMealplanItemsFound] = useState<boolean>(false); //use this to display different page if no items are found
    const [mobileOpen, setMobileOpen] = useState(false);
    const [searchResults, setSearchResults] = useState<FoodSearchResult[]>([]);
    const [currentTab, setCurrentTab] = useState<string>('advanced-search');
    const [openAlert, setOpenAlert] = useState<boolean>(false);
    const [loading, setLoading] = useState<boolean>(false);
    const [alertMessage, setAlertMessage] = useState<string>('');
-   // const [mealplanItems, setMealplanItems] = useState<[]>([]);
+   //TODO add type for mealplan items
+   const [mealplanItems, setMealplanItems] = useState<any>([]);
    const [showLoadMoreBtn, setShowLoadMoreBtn] = useState<boolean>(false);
    const [nutritionSummary, setNutritionSummary] = useState<any[]>([]);
    const [sendAdvancedRequest, setSendAdvancedRequest] = useState(false);
    const [currentDay, setCurrentDay] = useState(
       format(new Date(Date.now()), 'yyyy-MM-dd')
-   ); //database stores date in format 'YYYY-MM-DD'
+   );
    const [alertSeverity, setAlertSeverity] = useState<AlertColor>('error');
    const [values, setValues] = useState<Query>({
       query: '',
@@ -58,7 +58,6 @@ const Home = () => {
                  params: newValues,
                  withCredentials: true,
               });
-         console.log('searchResultItems:', searchResultItems);
          if (searchResultItems.data.length < 10) {
             setShowLoadMoreBtn(false);
          } else {
@@ -115,9 +114,9 @@ const Home = () => {
             }
          }
          setSearchResults(searchResultItems.data);
-         setLoading(false); //used to trigger the loading circle
+         setLoading(false);
       } catch (err) {
-         setLoading(false); //used to trigger the loading circle
+         setLoading(false);
          setAlertSeverity('error');
          setAlertMessage(
             'Unable to get search results. Please try again later.'
@@ -147,7 +146,6 @@ const Home = () => {
       />
    );
 
-   //# at first render grabs the users metrics from db, no need to send userId as
    useEffect(() => {
       let promise = axios.get('/api/goals', { withCredentials: true });
       promise.then((results) => {
@@ -178,12 +176,13 @@ const Home = () => {
                path=''
                element={
                   <>
-                     <SidebarMealplan
+                     <SideBar
                         mobileOpen={mobileOpen}
                         handleDrawerToggle={handleDrawerToggle}
+                        page='mealplan'
                         nutritionSummary={nutritionSummary}
-                        mealplanItemsFound={mealplanItemsFound}
                         goals={goals}
+                        mealplanItemsFound={mealplanItemsFound}
                      />
                      <MealPlanPage
                         handleDrawerToggle={handleDrawerToggle}
@@ -192,10 +191,10 @@ const Home = () => {
                         setAlertSeverity={setAlertSeverity}
                         setNutritionSummary={setNutritionSummary}
                         setMealplanItemsFound={setMealplanItemsFound}
-                        // setMealplanItems={setMealplanItems}
+                        setMealplanItems={setMealplanItems}
                         currentDay={currentDay}
                         setCurrentDay={setCurrentDay}
-                        // mealplanItems={mealplanItems}
+                        mealplanItems={mealplanItems}
                         SearchFormComponent={SearchFormComponent}
                      />
                   </>

@@ -36,10 +36,10 @@ interface Props {
    SearchFormComponent: ReactNode;
    setNutritionSummary: Dispatch<SetStateAction<any[]>>;
    setMealplanItemsFound: Dispatch<SetStateAction<boolean>>;
-   // setMealplanItems: Dispatch<SetStateAction<MealplanItemType[] | []>>;
+   setMealplanItems: Dispatch<SetStateAction<any>>; //TODO add mealplan type
+   mealplanItems: any; //TODO add mealplan type
    currentDay: string;
    setCurrentDay: Dispatch<SetStateAction<string>>;
-   // mealplanItems: MealplanItemType[];
 }
 
 const MealPlanPage = ({
@@ -49,13 +49,13 @@ const MealPlanPage = ({
    setAlertSeverity,
    setNutritionSummary,
    setMealplanItemsFound,
-   // setMealplanItems,
+   setMealplanItems,
    currentDay,
    setCurrentDay,
-}: // mealplanItems,
-Props) => {
+   mealplanItems,
+}: Props) => {
    const { isLoading, isLoggedin } = useAuth();
-   const [dayIndex, setDayIndex] = useState<number>(getDay(Date.now())); //used for tab highlighting
+   const [dayIndex, setDayIndex] = useState<number>(getDay(Date.now()));
    const [value, setValue] = React.useState<any>(new Date(Date.now()));
 
    //#check for active mealplan items only when navigating to the mealplan page
@@ -63,16 +63,17 @@ Props) => {
       handleDateChange();
    }, [currentDay]);
 
-   //TODO fix this function
    const handleDateChange = async () => {
-      // setMealplanItems([]); //when tab changes, reset the nutrition summary and the mealplan items
+      setMealplanItems([]); //when tab changes, reset the nutrition summary and the mealplan items
       setNutritionSummary([]);
       try {
-         let response = await axios.get('/api/mealplan/day', {
+         //TODO make routes to get mealplan items, and also return the nutrition summary for the entire day
+         const userMealplanItems = await axios.get('/api/mealplan/day', {
             params: { date: currentDay },
             withCredentials: true,
          });
-         setNutritionSummary(response.data.nutritionSummary.nutrients);
+         console.log('userMealplanItems: ', userMealplanItems);
+         // setNutritionSummary(response.data.nutritionSummary.nutrients);
          //   setMealplanItems(response.data.items);
          //TODO fix this part, make sure to not create additional state for breakfast, lunch, dinner arrays
          // response.data.items.forEach((item: MealplanItemType) => {

@@ -7,34 +7,14 @@ import {
    Table,
    TableBody,
    TableCell,
-   tableCellClasses,
    TableHead,
-   TableRow,
    Typography,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { FoodSearchResult } from '../../../../types/types';
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-   '&:nth-of-type(even)': {
-      backgroundColor: theme.palette.action.hover,
-   },
-   // hide last border
-   '&:last-child td, &:last-child th': {
-      border: 0,
-   },
-}));
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-   [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-   },
-   [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-   },
-}));
+import { StyledTableCell } from '../styled-table-components/StyledTableCell';
+import { StyledTableRow } from '../styled-table-components/StyledTableRow';
+import './FoodListRow.scss';
 
 interface Props extends FoodSearchResult {
    handleOpeningAddToMealplanDialog: (
@@ -114,6 +94,8 @@ export const FoodListRow = ({
          serving_size_unit
       );
    };
+
+   //todo display brand name with description
    return (
       <>
          <StyledTableRow
@@ -121,7 +103,7 @@ export const FoodListRow = ({
             onClick={handleOpeningModal}
             sx={{ '& > *': { borderBottom: 'unset' }, cursor: 'pointer' }}
          >
-            <StyledTableCell>
+            <TableCell>
                <IconButton
                   aria-label='expand row'
                   size='small'
@@ -129,116 +111,230 @@ export const FoodListRow = ({
                >
                   {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                </IconButton>
-            </StyledTableCell>
+            </TableCell>
             <TableCell component='th' scope='row'>
                {description_updated}
             </TableCell>
-            <StyledTableCell align='right'>{calories}</StyledTableCell>
-            <StyledTableCell align='right'>{total_fat}</StyledTableCell>
-            <StyledTableCell align='right'>
-               {total_carbohydrates}
-            </StyledTableCell>
-            <StyledTableCell align='right'>{protein}</StyledTableCell>
+            <TableCell align='right'>{calories}</TableCell>
+            <TableCell align='right'>{total_fat}</TableCell>
+            <TableCell align='right'>{total_carbohydrates}</TableCell>
+            <TableCell align='right'>{protein}</TableCell>
          </StyledTableRow>
          <StyledTableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                <Collapse in={open} timeout='auto' unmountOnExit>
                   <Box sx={{ margin: 1 }}>
-                     {data_type === 'branded_food' ? (
-                        <>
-                           <Typography
-                              variant='h6'
-                              gutterBottom
-                              component='div'
-                           >
-                              Additional Product Data
-                           </Typography>
-                           <Table
-                              size='small'
-                              aria-label='data for food product'
-                              stickyHeader={true}
-                           >
-                              <TableHead>
-                                 <TableRow>
-                                    <TableCell>Food Category</TableCell>
-                                    <TableCell>Brand</TableCell>
-                                    <TableCell align='right'>
-                                       Brand owner
-                                    </TableCell>
-                                    <TableCell align='right'>
-                                       Total Fiber&nbsp;(g)
-                                    </TableCell>
-                                 </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                 <TableRow>
-                                    <TableCell component='th' scope='row'>
-                                       {branded_food_category}
-                                    </TableCell>
-                                    <TableCell>{brand_name_updated}</TableCell>
-                                    <TableCell align='right'>
-                                       {brand_owner}
-                                    </TableCell>
-                                    <TableCell align='right'>
-                                       {dietary_fiber}
-                                    </TableCell>
-                                 </TableRow>
-                              </TableBody>
-                           </Table>
-                        </>
-                     ) : (
-                        <>
-                           <Typography
-                              variant='h6'
-                              gutterBottom
-                              component='div'
-                           >
-                              Additional Nutrition Data
-                           </Typography>
-                           <Table
-                              size='small'
-                              aria-label='additional nutrition data'
-                              stickyHeader={true}
-                           >
-                              <TableHead>
-                                 <TableRow>
-                                    <TableCell>Fiber&nbsp;(g)</TableCell>
-                                    <TableCell>Sugar&nbsp;(g)</TableCell>
-                                    <TableCell>
-                                       Saturated Fat&nbsp;(g)
-                                    </TableCell>
-                                    <TableCell align='right'>
-                                       Trans Fat&nbsp;(g)
-                                    </TableCell>
-                                    <TableCell align='right'>
-                                       Sodium&nbsp;(mg)
-                                    </TableCell>
-                                    <TableCell align='right'>
-                                       Potassium&nbsp;(mg)
-                                    </TableCell>
-                                 </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                 <TableRow>
-                                    <TableCell component='th' scope='row'>
-                                       {dietary_fiber}
-                                    </TableCell>
-                                    <TableCell>{sugar}</TableCell>
-                                    <TableCell>{saturated_fat}</TableCell>
-                                    <TableCell align='right'>
-                                       {trans_fat}
-                                    </TableCell>
-                                    <TableCell align='right'>
-                                       {sodium}
-                                    </TableCell>
-                                    <TableCell align='right'>
-                                       {potassium}
-                                    </TableCell>
-                                 </TableRow>
-                              </TableBody>
-                           </Table>
-                        </>
-                     )}
+                     <>
+                        <Typography variant='h6' gutterBottom component='div'>
+                           Nutrition Facts
+                        </Typography>
+                        <Table
+                           size='small'
+                           aria-label='additional nutrition data'
+                           stickyHeader={true}
+                        >
+                           <TableHead>
+                              <StyledTableRow>
+                                 <StyledTableCell>Nutrient</StyledTableCell>
+                                 <StyledTableCell>Amount</StyledTableCell>
+                              </StyledTableRow>
+                           </TableHead>
+                           <TableBody>
+                              <StyledTableRow>
+                                 <StyledTableCell
+                                    sx={{ fontWeight: 'bold' }}
+                                    component='th'
+                                    scope='row'
+                                 >
+                                    Calories
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${calories}` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell
+                                    sx={{ fontWeight: 'bold' }}
+                                    component='th'
+                                    scope='row'
+                                 >
+                                    Total Fat
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${total_fat} g` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell component='th' scope='row'>
+                                    Saturated
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${saturated_fat} g` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell component='th' scope='row'>
+                                    Trans
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${trans_fat} g` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell component='th' scope='row'>
+                                    Polyunsaturated
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${polyunsaturated_fat} g` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell component='th' scope='row'>
+                                    Monounsaturated
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${monounsaturated_fat} g` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell
+                                    sx={{ fontWeight: 'bold' }}
+                                    component='th'
+                                    scope='row'
+                                 >
+                                    Cholesterol
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${cholesterol} mg` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell
+                                    sx={{ fontWeight: 'bold' }}
+                                    component='th'
+                                    scope='row'
+                                 >
+                                    Sodium
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${sodium} mg` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell
+                                    sx={{ fontWeight: 'bold' }}
+                                    component='th'
+                                    scope='row'
+                                 >
+                                    Total Carbohydrates
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${total_carbohydrates} g` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell component='th' scope='row'>
+                                    Dietary Fiber
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${dietary_fiber} g` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell component='th' scope='row'>
+                                    Sugar
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${sugar} g` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell
+                                    sx={{ fontWeight: 'bold' }}
+                                    component='th'
+                                    scope='row'
+                                 >
+                                    Protein
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${protein} g` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell
+                                    sx={{ fontWeight: 'bold' }}
+                                    component='th'
+                                    scope='row'
+                                 >
+                                    Vitamin D
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${vitamin_d} %` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell
+                                    sx={{ fontWeight: 'bold' }}
+                                    component='th'
+                                    scope='row'
+                                 >
+                                    Calcium
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${calcium} %` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell
+                                    sx={{ fontWeight: 'bold' }}
+                                    component='th'
+                                    scope='row'
+                                 >
+                                    Iron
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${iron} %` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell
+                                    sx={{ fontWeight: 'bold' }}
+                                    component='th'
+                                    scope='row'
+                                 >
+                                    Potassium
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${potassium} mg` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell
+                                    sx={{ fontWeight: 'bold' }}
+                                    component='th'
+                                    scope='row'
+                                 >
+                                    Vitamin A
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${vitamin_a} %` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                              <StyledTableRow>
+                                 <StyledTableCell
+                                    sx={{ fontWeight: 'bold' }}
+                                    component='th'
+                                    scope='row'
+                                 >
+                                    Vitamin C
+                                 </StyledTableCell>
+                                 <StyledTableCell>
+                                    {`${vitamin_c} %` || '-'}
+                                 </StyledTableCell>
+                              </StyledTableRow>
+                           </TableBody>
+                        </Table>
+                     </>
                   </Box>
                </Collapse>
             </TableCell>

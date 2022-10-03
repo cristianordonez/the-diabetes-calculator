@@ -4,7 +4,7 @@ import React, { ChangeEventHandler } from 'react';
 import { FormControl, FormHelperText, TextField } from '@mui/material';
 
 interface Props {
-   servings?: number | undefined;
+   servings?: number | string;
    handleSelectServings: ChangeEventHandler<HTMLInputElement>;
 }
 

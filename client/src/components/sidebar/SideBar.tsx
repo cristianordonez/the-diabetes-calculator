@@ -1,17 +1,17 @@
 //shared sidebar
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Drawer, IconButton, Stack, Toolbar } from '@mui/material';
-import React, { ReactNode } from 'react';
+import React, { MouseEventHandler, ReactNode } from 'react';
 import { CurrentGoals, FoodSearchResult } from '../../../../types/types';
 import { DailyGoals } from '../daily-goals';
 import { MainTitleLogo } from '../main-title-logo/index';
 
 interface Props {
    mobileOpen: boolean | undefined;
-   handleDrawerToggle: any;
+   handleDrawerToggle: MouseEventHandler;
    SearchFormComponent?: ReactNode;
    searchResults?: FoodSearchResult[];
-   goals?: CurrentGoals | any;
+   goals: CurrentGoals;
    page: string;
    nutritionSummary?: any;
    mealplanItemsFound?: boolean;
@@ -29,6 +29,10 @@ export const SideBar = ({
    nutritionSummary,
    mealplanItemsFound,
 }: Props) => {
+   console.log('nutritionSummary: ', nutritionSummary);
+   console.log('mealplanItemsFound:', mealplanItemsFound);
+   console.log('goals: ', goals);
+   console.log('page: ', page);
    return (
       <>
          {/* MOBILE */}
@@ -71,17 +75,34 @@ export const SideBar = ({
                   <MainTitleLogo />
                </Stack>
                {/* TODO fix this search form component */}
-               {/* {page === 'search' && searchResults !== undefined && searchResults.length
+               {page === 'search' &&
+               searchResults !== undefined &&
+               searchResults.length
                   ? SearchFormComponent
-                  : null} */}
-               {/* {page === 'search' && searchResults === undefined}{' '}
-               {<DailyGoals goals={goals} page={'search'} />} */}
-               {page === 'mealplan' && nutritionSummary === true ? (
+                  : null}{' '}
+               {page === 'search' &&
+               searchResults !== undefined &&
+               searchResults.length === 0 ? (
+                  <DailyGoals goals={goals} page={'search'} />
+               ) : null}
+               {page === 'mealplan' &&
+               nutritionSummary !== undefined &&
+               nutritionSummary.length > 0 ? (
                   <DailyGoals
                      goals={goals}
                      nutritionSummary={nutritionSummary}
                      page={'mealplan'}
                   />
+               ) : null}
+               {page === 'mealplan' &&
+               nutritionSummary !== undefined &&
+               !nutritionSummary.length &&
+               !mealplanItemsFound ? (
+                  <DailyGoals goals={goals} page={'search'} />
+               ) : null}
+               {page === 'macrocalculator' ||
+               (page === 'user-profile' && !nutritionSummary) ? (
+                  <DailyGoals goals={goals} page={'search'} />
                ) : null}
             </Drawer>
 
@@ -108,7 +129,6 @@ export const SideBar = ({
                >
                   <MainTitleLogo />
                </Stack>
-               {/* TODO fix this search form component */}
                {page === 'search' &&
                searchResults !== undefined &&
                searchResults.length
@@ -130,7 +150,7 @@ export const SideBar = ({
                ) : null}
                {page === 'mealplan' &&
                nutritionSummary !== undefined &&
-               !nutritionSummary.length &&
+               nutritionSummary.length === 0 &&
                !mealplanItemsFound ? (
                   <DailyGoals goals={goals} page={'search'} />
                ) : null}

@@ -6,10 +6,8 @@ import {
    Stack,
    Table,
    TableBody,
-   TableCell,
    TableContainer,
    TableHead,
-   TableRow,
    Typography,
 } from '@mui/material';
 import React, {
@@ -20,6 +18,8 @@ import React, {
 } from 'react';
 import { FoodSearchResult } from '../../../../../../types/types';
 import { FoodListRow } from '../../../../components/food-list-row/FoodListRow';
+import { StyledTableCell } from '../../../../components/styled-table-components/StyledTableCell';
+import { StyledTableRow } from '../../../../components/styled-table-components/StyledTableRow';
 import { AddToCartModal } from './add-to-cart-modal';
 
 import './index.scss';
@@ -81,19 +81,31 @@ export const FoodSearchList = ({
                   Click on any item to add it to your mealplan
                </Typography>
             </Stack>
-            <Typography variant='h6'>Search Results</Typography>
+            <Typography variant='h6' align='left'>
+               Search Results
+            </Typography>
             <div className='food-search-main-container'>
                <TableContainer component={Paper}>
                   <Table stickyHeader={true} aria-label='search results'>
                      <TableHead>
-                        <TableRow>
-                           <TableCell variant='head' />
-                           <TableCell>Food&nbsp;(100g serving)</TableCell>
-                           <TableCell align='right'>Calories</TableCell>
-                           <TableCell align='right'>Fat&nbsp;(g)</TableCell>
-                           <TableCell align='right'>Carbs&nbsp;(g)</TableCell>
-                           <TableCell align='right'>Protein&nbsp;(g)</TableCell>
-                        </TableRow>
+                        <StyledTableRow>
+                           <StyledTableCell variant='head' />
+                           <StyledTableCell>
+                              Food&nbsp;(100g serving)
+                           </StyledTableCell>
+                           <StyledTableCell align='right'>
+                              Calories
+                           </StyledTableCell>
+                           <StyledTableCell align='right'>
+                              Fat&nbsp;(g)
+                           </StyledTableCell>
+                           <StyledTableCell align='right'>
+                              Carbs&nbsp;(g)
+                           </StyledTableCell>
+                           <StyledTableCell align='right'>
+                              Protein&nbsp;(g)
+                           </StyledTableCell>
+                        </StyledTableRow>
                      </TableHead>
                      <TableBody>
                         {searchResults.map((searchResult) => (
@@ -143,7 +155,7 @@ export const FoodSearchList = ({
                </TableContainer>
             </div>
             {showLoadMoreBtn ? (
-               <Button fullWidth onClick={handleLoadMore} variant='contained'>
+               <Button fullWidth onClick={handleLoadMore} variant='text'>
                   Load More
                </Button>
             ) : null}

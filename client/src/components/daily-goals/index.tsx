@@ -1,11 +1,11 @@
+import { Button, Typography } from '@mui/material';
 import React, { Dispatch, SetStateAction } from 'react';
-import './index.scss';
+import { CurrentGoals } from '../../../../types/types';
 import { CaloriesCircularProgress } from '../calories-circular-progress/CaloriesCircularProgress';
 import { CaloriesCircularProgressWithoutGoals } from '../calories-circular-progress/CaloriesCircularProgressWithoutGoals';
-import { GoalCardItemList } from '../goal-card-item-list/GoalCardItemList';
-import { Typography, Button } from '@mui/material';
 import { GoalCardItemLinearProgress } from '../goal-card-item-linear-progress/GoalCardItemLinearProgress';
-import { CurrentGoals } from '../../../../types/types';
+import { GoalCardItemList } from '../goal-card-item-list/GoalCardItemList';
+import './index.scss';
 
 type nutrientType = {
    name: string;
@@ -31,8 +31,6 @@ export const DailyGoals = ({
 }: Props) => {
    let nutrients = ['Carbohydrates', 'Protein', 'Fat'];
 
-   //! conditional renders return a '0' on page when falsy, need to declare null to be rendered
-
    const getNutrientPercentage = (
       nutrientEaten: number,
       nutrientGoal: number
@@ -40,8 +38,6 @@ export const DailyGoals = ({
       return Math.floor((nutrientEaten / nutrientGoal) * 100);
    };
 
-   //IF DATA IS DERIVED FROM PROPS, DECLARE LOCALLY BECAUSE OTHERWISE IT WOULD RENDER TWICE,
-   //ONCE ON PROP CHANGE AND THEN ON STATE CHANGE
    let calories;
    if (nutritionSummary !== undefined && nutritionSummary.length) {
       calories = getNutrientPercentage(

@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import axios from 'axios';
+import { format } from 'date-fns';
 import startOfToday from 'date-fns/startOfToday';
 import React, {
    Dispatch,
@@ -50,11 +51,10 @@ export const AddToCartModal = ({
    setAlertSeverity,
 }: Props) => {
    const [data, setData] = useState<AddToMealPlanType>({
-      date: startOfToday(),
+      date: format(startOfToday(), 'yyyy-MM-dd'),
       slot: 1,
-      position: 0, // the order in the slot
       fdc_id: id,
-      servings: 1.0,
+      servings: '',
       data_type: currentDataType,
       serving_size: currentServingSizes[0],
       serving_size_unit: currentServingSizeUnit,
@@ -76,7 +76,7 @@ export const AddToCartModal = ({
       setData((data: AddToMealPlanType) => {
          return {
             ...data,
-            servings: parseFloat(event.target.value),
+            servings: event.target.value,
          };
       });
    };
@@ -104,8 +104,7 @@ export const AddToCartModal = ({
          serving_size: currentServingSizes[0],
          serving_size_unit: currentServingSizeUnit,
          slot: 1,
-         date: startOfToday(),
-         position: 0,
+         date: format(startOfToday(), 'yyyy-MM-dd'),
       });
    }, [id]);
 

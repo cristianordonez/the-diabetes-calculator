@@ -42,12 +42,11 @@ type PassportGoogleUser = {
 };
 
 type AddToMealPlanType = {
-   date: Date;
+   date: Date | string;
    slot: 1 | 2 | 3 | 4;
-   position: number;
    data_type: string;
    fdc_id: number;
-   servings: number;
+   servings: number | string;
    serving_size: number;
    serving_size_unit: string;
 };
