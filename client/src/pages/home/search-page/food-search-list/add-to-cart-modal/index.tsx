@@ -32,6 +32,8 @@ interface Props {
    currentDataType: string;
    currentServingSizes: number[];
    currentServingSizeUnit: string;
+   currentTitle: string;
+   currentIngredients: string;
    setOpenDialog: Dispatch<SetStateAction<boolean>>;
    setAlertMessage: Dispatch<SetStateAction<string>>;
    setOpenSnackbar: Dispatch<SetStateAction<boolean>>;
@@ -45,6 +47,8 @@ export const AddToCartModal = ({
    currentDataType,
    currentServingSizes,
    currentServingSizeUnit,
+   currentTitle,
+   currentIngredients,
    setOpenDialog,
    setAlertMessage,
    setOpenSnackbar,
@@ -58,16 +62,16 @@ export const AddToCartModal = ({
       data_type: currentDataType,
       serving_size: currentServingSizes[0],
       serving_size_unit: currentServingSizeUnit,
+      title: currentTitle,
+      ingredients: currentIngredients,
    });
 
-   console.log('dataType in add cart modal:', currentDataType);
    const handleSelectSlot = (event: SelectChangeEvent) => {
       setData({ ...data, slot: parseInt(event.target.value) as 1 | 2 | 3 | 4 });
    };
 
    const handleSelectServingSize = (event: SelectChangeEvent) => {
       setData({ ...data, serving_size: parseInt(event.target.value) });
-      console.log('data after selectinfg serving size:', data);
    };
 
    const handleSelectServings = (
@@ -105,6 +109,8 @@ export const AddToCartModal = ({
          serving_size_unit: currentServingSizeUnit,
          slot: 1,
          date: format(startOfToday(), 'yyyy-MM-dd'),
+         title: currentTitle,
+         ingredients: currentIngredients,
       });
    }, [id]);
 
@@ -119,9 +125,7 @@ export const AddToCartModal = ({
             handleClose('backdropClick');
          }}
       >
-         <DialogTitle align='left'>
-            Select preferred day, slot and number of servings
-         </DialogTitle>
+         <DialogTitle align='left'>Add item to mealplan</DialogTitle>
          <form onSubmit={handleSubmit}>
             <DialogContent>
                <Box display='flex' flexDirection='column' gap='1rem'>

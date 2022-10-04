@@ -43,6 +43,7 @@ export const FoodSearchList = ({
    const [openDialog, setOpenDialog] = useState<boolean>(false);
    const [currentId, setCurrentId] = useState<number>(0);
    const [currentTitle, setCurrentTitle] = useState<string>('');
+   const [currentIngredients, setCurrentIngredients] = useState<string>('');
    const [currentDataType, setCurrentDataType] = useState<string>('');
    const [currentServingSizeUnit, setCurrentServingSizeUnit] =
       useState<string>('');
@@ -54,13 +55,16 @@ export const FoodSearchList = ({
       id: number,
       dataType: string,
       servingSizes: number[],
-      servingSizeUnit: string
+      servingSizeUnit: string,
+      title: string,
+      ingredients: string
    ) => {
       setCurrentId(id);
-      console.log('dataType: ', dataType);
       setCurrentDataType(dataType);
       setCurrentServingSizes(servingSizes);
       setCurrentServingSizeUnit(servingSizeUnit);
+      setCurrentTitle(title);
+      setCurrentIngredients(ingredients);
       setOpenDialog(!openDialog);
    };
 
@@ -111,6 +115,7 @@ export const FoodSearchList = ({
                         {searchResults.map((searchResult) => (
                            <FoodListRow
                               key={searchResult.fdc_id}
+                              ingredients={searchResult.ingredients}
                               handleOpeningAddToMealplanDialog={
                                  handleOpeningAddToMealplanDialog
                               }
@@ -124,30 +129,7 @@ export const FoodSearchList = ({
                               serving_size={searchResult.serving_size}
                               serving_size_unit={searchResult.serving_size_unit}
                               data_type={searchResult.data_type}
-                              calories={searchResult.calories}
-                              calcium={searchResult.calcium}
-                              cholesterol={searchResult.cholesterol}
-                              dietary_fiber={searchResult.dietary_fiber}
-                              iron={searchResult.iron}
-                              potassium={searchResult.potassium}
-                              protein={searchResult.protein}
-                              saturated_fat={searchResult.saturated_fat}
-                              monounsaturated_fat={
-                                 searchResult.monounsaturated_fat
-                              }
-                              polyunsaturated_fat={
-                                 searchResult.polyunsaturated_fat
-                              }
-                              sodium={searchResult.sodium}
-                              sugar={searchResult.sugar}
-                              total_carbohydrates={
-                                 searchResult.total_carbohydrates
-                              }
-                              total_fat={searchResult.total_fat}
-                              trans_fat={searchResult.trans_fat}
-                              vitamin_a={searchResult.vitamin_a}
-                              vitamin_c={searchResult.vitamin_c}
-                              vitamin_d={searchResult.vitamin_d}
+                              nutrition={searchResult.nutrition}
                            />
                         ))}
                      </TableBody>
@@ -169,6 +151,8 @@ export const FoodSearchList = ({
             currentServingSizes={currentServingSizes}
             currentServingSizeUnit={currentServingSizeUnit}
             setOpenDialog={setOpenDialog}
+            currentTitle={currentTitle}
+            currentIngredients={currentIngredients}
             setAlertMessage={setAlertMessage}
             setOpenSnackbar={setOpenSnackbar}
             setAlertSeverity={setAlertSeverity}

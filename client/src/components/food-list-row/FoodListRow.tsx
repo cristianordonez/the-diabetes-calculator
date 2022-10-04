@@ -21,7 +21,9 @@ interface Props extends FoodSearchResult {
       id: number,
       dataType: string,
       servingSizes: number[],
-      servingSizeUnit: string
+      servingSizeUnit: string,
+      title: string,
+      ingredients: string
    ) => void;
 }
 
@@ -30,35 +32,20 @@ export const FoodListRow = ({
    brand_owner,
    branded_food_category,
    description,
+   ingredients,
    fdc_id,
    serving_size,
    serving_size_unit,
    data_type,
-   calories,
-   calcium,
-   cholesterol,
-   dietary_fiber,
-   iron,
-   potassium,
-   protein,
-   saturated_fat,
-   monounsaturated_fat,
-   polyunsaturated_fat,
-   sodium,
-   sugar,
-   total_carbohydrates,
-   total_fat,
-   trans_fat,
-   vitamin_a,
-   vitamin_c,
-   vitamin_d,
+   nutrition,
+
    handleOpeningAddToMealplanDialog,
 }: Props) => {
    const [open, setOpen] = useState<boolean>(false);
 
    let brand_name_updated = '';
    let description_updated = '';
-
+   let title = '';
    if (brand_name !== null) {
       const brandNameArr = brand_name.split(' ');
       for (let i = 0; i < brandNameArr.length; i++) {
@@ -77,6 +64,12 @@ export const FoodListRow = ({
       description_updated = descriptionArr.join(' ');
    }
 
+   if (brand_name_updated !== '') {
+      title = `${description_updated} (${brand_name_updated})`;
+   } else {
+      title = description_updated;
+   }
+
    const handleOpeningRow = (e: React.MouseEvent) => {
       e.stopPropagation();
       setOpen(!open);
@@ -91,11 +84,12 @@ export const FoodListRow = ({
          parseInt(fdc_id),
          data_type,
          servingSizesArr,
-         serving_size_unit
+         serving_size_unit,
+         title,
+         ingredients
       );
    };
 
-   //todo display brand name with description
    return (
       <>
          <StyledTableRow
@@ -113,12 +107,12 @@ export const FoodListRow = ({
                </IconButton>
             </TableCell>
             <TableCell component='th' scope='row'>
-               {description_updated}
+               {title}
             </TableCell>
-            <TableCell align='right'>{calories}</TableCell>
-            <TableCell align='right'>{total_fat}</TableCell>
-            <TableCell align='right'>{total_carbohydrates}</TableCell>
-            <TableCell align='right'>{protein}</TableCell>
+            <TableCell align='right'>{nutrition.calories}</TableCell>
+            <TableCell align='right'>{nutrition.total_fat}</TableCell>
+            <TableCell align='right'>{nutrition.total_carbohydrates}</TableCell>
+            <TableCell align='right'>{nutrition.protein}</TableCell>
          </StyledTableRow>
          <StyledTableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -148,9 +142,13 @@ export const FoodListRow = ({
                                  >
                                     Calories
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${calories}` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.calories !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.calories}
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell
@@ -160,41 +158,61 @@ export const FoodListRow = ({
                                  >
                                     Total Fat
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${total_fat} g` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.total_fat !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.total_fat} g
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell component='th' scope='row'>
                                     Saturated
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${saturated_fat} g` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.saturated_fat !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.saturated_fat} g
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell component='th' scope='row'>
                                     Trans
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${trans_fat} g` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.trans_fat !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.trans_fat} g
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell component='th' scope='row'>
                                     Polyunsaturated
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${polyunsaturated_fat} g` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.polyunsaturated_fat !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.polyunsaturated_fat} g
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell component='th' scope='row'>
                                     Monounsaturated
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${monounsaturated_fat} g` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.monounsaturated_fat !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.monounsaturated_fat} g
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell
@@ -204,9 +222,13 @@ export const FoodListRow = ({
                                  >
                                     Cholesterol
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${cholesterol} mg` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.cholesterol !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.cholesterol} mg
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell
@@ -216,9 +238,13 @@ export const FoodListRow = ({
                                  >
                                     Sodium
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${sodium} mg` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.sodium !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.sodium} mg
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell
@@ -228,25 +254,37 @@ export const FoodListRow = ({
                                  >
                                     Total Carbohydrates
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${total_carbohydrates} g` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.total_carbohydrates !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.total_carbohydrates} g
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell component='th' scope='row'>
                                     Dietary Fiber
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${dietary_fiber} g` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.dietary_fiber !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.dietary_fiber} g
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell component='th' scope='row'>
                                     Sugar
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${sugar} g` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.sugar !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.sugar} g
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell
@@ -256,9 +294,13 @@ export const FoodListRow = ({
                                  >
                                     Protein
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${protein} g` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.protein !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.protein} g
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell
@@ -268,9 +310,13 @@ export const FoodListRow = ({
                                  >
                                     Vitamin D
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${vitamin_d} %` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.vitamin_d !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.vitamin_d} %
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell
@@ -280,9 +326,13 @@ export const FoodListRow = ({
                                  >
                                     Calcium
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${calcium} %` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.calcium !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.calcium} %
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell
@@ -292,9 +342,13 @@ export const FoodListRow = ({
                                  >
                                     Iron
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${iron} %` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.iron !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.iron} %
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell
@@ -304,9 +358,13 @@ export const FoodListRow = ({
                                  >
                                     Potassium
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${potassium} mg` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.potassium !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.potassium} mg
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell
@@ -316,9 +374,13 @@ export const FoodListRow = ({
                                  >
                                     Vitamin A
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${vitamin_a} %` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.vitamin_a !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.vitamin_a} %
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                               <StyledTableRow>
                                  <StyledTableCell
@@ -328,9 +390,13 @@ export const FoodListRow = ({
                                  >
                                     Vitamin C
                                  </StyledTableCell>
-                                 <StyledTableCell>
-                                    {`${vitamin_c} %` || '-'}
-                                 </StyledTableCell>
+                                 {nutrition.vitamin_c !== null ? (
+                                    <StyledTableCell>
+                                       {nutrition.vitamin_c} %
+                                    </StyledTableCell>
+                                 ) : (
+                                    <StyledTableCell>-</StyledTableCell>
+                                 )}
                               </StyledTableRow>
                            </TableBody>
                         </Table>

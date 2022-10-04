@@ -12,6 +12,7 @@ import React, {
    useEffect,
    useState,
 } from 'react';
+import { NutritionSummaryMealplan } from '../../../../../types/types';
 import { MealPlanWeekText } from '../../../components/mealplan-week-text/MealPlanWeekText';
 import { useAuth } from '../../../context/authContext';
 import { DateSelectForm } from './date-select-form/DateSelectForm';
@@ -34,13 +35,19 @@ interface Props {
    setOpenAlert: Dispatch<SetStateAction<boolean>>;
    setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
    SearchFormComponent: ReactNode;
-   setNutritionSummary: Dispatch<SetStateAction<any[]>>;
-   setMealplanItemsFound: Dispatch<SetStateAction<boolean>>;
+   setNutritionSummary: Dispatch<SetStateAction<NutritionSummaryMealplan>>;
    setMealplanItems: Dispatch<SetStateAction<any>>; //TODO add mealplan type
    mealplanItems: any; //TODO add mealplan type
    currentDay: string;
    setCurrentDay: Dispatch<SetStateAction<string>>;
 }
+
+const initialNutritionSummary = {
+   total_calories: '0',
+   total_protein: '0',
+   total_fat: '0',
+   total_carbohydrates: '0',
+};
 
 const MealPlanPage = ({
    handleDrawerToggle,
@@ -48,7 +55,6 @@ const MealPlanPage = ({
    setOpenAlert,
    setAlertSeverity,
    setNutritionSummary,
-   setMealplanItemsFound,
    setMealplanItems,
    currentDay,
    setCurrentDay,
@@ -65,29 +71,22 @@ const MealPlanPage = ({
 
    const handleDateChange = async () => {
       setMealplanItems([]); //when tab changes, reset the nutrition summary and the mealplan items
-      setNutritionSummary([]);
+      // setNutritionSummary(initialNutritionSummary);
       try {
-         //TODO make routes to get mealplan items, and also return the nutrition summary for the entire day
          const userMealplanItems = await axios.get('/api/mealplan/day', {
             params: { date: currentDay },
             withCredentials: true,
          });
          console.log('userMealplanItems: ', userMealplanItems);
-         // setNutritionSummary(response.data.nutritionSummary.nutrients);
-         //   setMealplanItems(response.data.items);
-         //TODO fix this part, make sure to not create additional state for breakfast, lunch, dinner arrays
-         // response.data.items.forEach((item: MealplanItemType) => {
-         //    if (item.slot === 1) {
-         //       let currentBreakfastItems = [...breakfastItems, item];
-         //       setBreakfastItems(currentBreakfastItems);
-         //    } else if (item.slot === 2) {
-         //       let currentLunchItems = [...lunchItems, item];
-         //       setLunchItems(currentLunchItems);
-         //    } else {
-         //       let currentDinnerItems = [...dinnerItems, item];
-         //       setDinnerItems(currentDinnerItems);
-         //    }
-         // });
+         if (userMealplanItems.data.mealplanItems.length > 0) {
+            console.log(
+               'userMealplanItems.data in handledate change: ',
+               userMealplanItems.data
+            );
+            setNutritionSummary(userMealplanItems.data.nutritionSummary[0]);
+            setMealplanItems(userMealplanItems.data.mealplanItems);
+         } else {
+         }
       } catch (err) {
          console.log(err);
          setAlertSeverity('info');
@@ -95,14 +94,12 @@ const MealPlanPage = ({
             'You have no items saved on this day for your mealplan.'
          );
          setOpenAlert(true);
-         setMealplanItemsFound(false);
       }
    };
 
-   //TODO uncomment the set meal plan items line
    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-      // setMealplanItems([]); //when tab changes, reset the nutrition summary and the mealplan items
-      setNutritionSummary([]);
+      setMealplanItems([]); //when tab changes, reset the nutrition summary and the mealplan items
+      setNutritionSummary(initialNutritionSummary);
       const prevDate = currentDay; //create variable to store the previous date and previous tab index
       const prevDayIndex = dayIndex;
       let differenceInDays = newValue - dayIndex; //find out how many days before or after current date is new selected date by finding difference between previous tab and current tab

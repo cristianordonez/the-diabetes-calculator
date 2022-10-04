@@ -19,7 +19,6 @@ export const DatePickerTextField = ({ setData, data }: Props) => {
 
    const handleChange = (newValue: Date | null) => {
       let inputDate = newValue as string | number | Date;
-      console.log('inputDate:', inputDate);
       setValue(newValue);
 
       //TODO make sure correct date is being used
@@ -32,7 +31,6 @@ export const DatePickerTextField = ({ setData, data }: Props) => {
       //    new Date(year, month, day, hour, min, sec)
       // );
       // const result = getUnixTime(startOfCurrentDay);
-      console.log('result:', result);
       setData({ ...data, date: result });
    };
 

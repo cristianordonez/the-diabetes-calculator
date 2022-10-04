@@ -4,7 +4,12 @@ import axios from 'axios';
 import format from 'date-fns/format';
 import React, { useEffect, useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
-import { CurrentGoals, FoodSearchResult, Query } from '../../../../types/types';
+import {
+   CurrentGoals,
+   FoodSearchResult,
+   NutritionSummaryMealplan,
+   Query,
+} from '../../../../types/types';
 import { CustomAlert } from '../../components/custom-alert/CustomAlert';
 import { SideBar } from '../../components/sidebar/SideBar';
 import MealPlanPage from './meal-plan-page/MealPlanPage';
@@ -12,7 +17,6 @@ import { SearchForm } from './search-page/search-form';
 
 const Home = () => {
    const [goals, setGoals] = useState({} as CurrentGoals);
-   const [mealplanItemsFound, setMealplanItemsFound] = useState<boolean>(false); //use this to display different page if no items are found
    const [mobileOpen, setMobileOpen] = useState(false);
    const [searchResults, setSearchResults] = useState<FoodSearchResult[]>([]);
    const [currentTab, setCurrentTab] = useState<string>('advanced-search');
@@ -22,7 +26,13 @@ const Home = () => {
    //TODO add type for mealplan items
    const [mealplanItems, setMealplanItems] = useState<any>([]);
    const [showLoadMoreBtn, setShowLoadMoreBtn] = useState<boolean>(false);
-   const [nutritionSummary, setNutritionSummary] = useState<any[]>([]);
+   const [nutritionSummary, setNutritionSummary] =
+      useState<NutritionSummaryMealplan>({
+         total_calories: '0',
+         total_protein: '0',
+         total_fat: '0',
+         total_carbohydrates: '0',
+      });
    const [sendAdvancedRequest, setSendAdvancedRequest] = useState(false);
    const [currentDay, setCurrentDay] = useState(
       format(new Date(Date.now()), 'yyyy-MM-dd')
@@ -94,8 +104,6 @@ const Home = () => {
             params: newValues,
             withCredentials: true,
          });
-
-         console.log('searchResultItems:', searchResultItems);
          if (searchResultItems.data.length === 0) {
             setAlertMessage(
                'No options matched your search. Try again with a broader search'
@@ -158,6 +166,14 @@ const Home = () => {
 
    return (
       <>
+         <SideBar
+            mobileOpen={mobileOpen}
+            handleDrawerToggle={handleDrawerToggle}
+            SearchFormComponent={SearchFormComponent}
+            goals={goals}
+            searchResults={searchResults}
+            nutritionSummary={nutritionSummary}
+         />
          <Tooltip title='Open Sidebar'>
             <Toolbar sx={{ display: { sm: 'none' } }}>
                <IconButton
@@ -171,26 +187,18 @@ const Home = () => {
                </IconButton>
             </Toolbar>
          </Tooltip>
+
          <Routes>
             <Route
                path=''
                element={
                   <>
-                     <SideBar
-                        mobileOpen={mobileOpen}
-                        handleDrawerToggle={handleDrawerToggle}
-                        page='mealplan'
-                        nutritionSummary={nutritionSummary}
-                        goals={goals}
-                        mealplanItemsFound={mealplanItemsFound}
-                     />
                      <MealPlanPage
                         handleDrawerToggle={handleDrawerToggle}
                         setAlertMessage={setAlertMessage}
                         setOpenAlert={setOpenAlert}
                         setAlertSeverity={setAlertSeverity}
                         setNutritionSummary={setNutritionSummary}
-                        setMealplanItemsFound={setMealplanItemsFound}
                         setMealplanItems={setMealplanItems}
                         currentDay={currentDay}
                         setCurrentDay={setCurrentDay}
@@ -198,30 +206,6 @@ const Home = () => {
                         SearchFormComponent={SearchFormComponent}
                      />
                   </>
-               }
-            />
-            <Route
-               path='search'
-               element={
-                  <SideBar
-                     mobileOpen={mobileOpen}
-                     handleDrawerToggle={handleDrawerToggle}
-                     SearchFormComponent={SearchFormComponent}
-                     goals={goals}
-                     page={'search'}
-                     searchResults={searchResults}
-                  />
-               }
-            />
-            <Route
-               path='*'
-               element={
-                  <SideBar
-                     mobileOpen={mobileOpen}
-                     handleDrawerToggle={handleDrawerToggle}
-                     page='macrocalculator'
-                     goals={goals}
-                  />
                }
             />
          </Routes>
@@ -237,12 +221,11 @@ const Home = () => {
                showLoadMoreBtn,
                SearchFormComponent,
                setNutritionSummary,
-               setMealplanItemsFound,
-               // setMealplanItems,
+               setMealplanItems,
                currentDay,
                setCurrentDay,
                searchResults,
-               // mealplanItems,
+               mealplanItems,
                goals,
                mobileOpen,
             }}

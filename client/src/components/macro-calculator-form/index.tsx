@@ -82,7 +82,6 @@ export const MacroCalculatorForm = ({
          activityLevel,
          goal,
       });
-      console.log('metrics:', metrics);
       try {
          const response = await axios.post(`/api/goals`, metrics);
          if (page === 'macrocalculator' && setGoals !== undefined) {

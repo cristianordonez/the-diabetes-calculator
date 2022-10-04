@@ -49,6 +49,8 @@ type AddToMealPlanType = {
    servings: number | string;
    serving_size: number;
    serving_size_unit: string;
+   ingredients: string;
+   title: string;
 };
 
 type Intolerances = {
@@ -73,15 +75,7 @@ type MetricsType = {
    activityLevel: number;
 };
 
-type FoodSearchResult = {
-   brand_name: string | null;
-   brand_owner: string | null;
-   branded_food_category: string | null;
-   description: string;
-   fdc_id: string;
-   serving_size: number;
-   serving_size_unit: string;
-   data_type: string;
+type FoodSearchResultNutrition = {
    calories: number;
    calcium: number;
    cholesterol: number;
@@ -102,6 +96,26 @@ type FoodSearchResult = {
    vitamin_d: number;
 };
 
+type FoodSearchResult = {
+   brand_name: string | null;
+   brand_owner: string | null;
+   branded_food_category: string | null;
+   ingredients: string;
+   description: string;
+   fdc_id: string;
+   serving_size: number;
+   serving_size_unit: string;
+   data_type: string;
+   nutrition: FoodSearchResultNutrition;
+};
+
+type NutritionSummaryMealplan = {
+   total_calories: string;
+   total_carbohydrates: string;
+   total_fat: string;
+   total_protein: string;
+};
+
 export {
    CurrentGoals,
    Session,
@@ -113,5 +127,7 @@ export {
    RequestParams,
    PassportGoogleUser,
    FoodSearchResult,
+   FoodSearchResultNutrition,
+   NutritionSummaryMealplan,
    MetricsType,
 };

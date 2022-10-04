@@ -3,7 +3,6 @@ import {
    addMealPlanItem,
    deleteMealPlanItem,
    getMealPlanDay,
-   getMealPlanWeek,
 } from '../controllers/mealplan.controller';
 
 const router = Router();
@@ -14,10 +13,6 @@ router.post('/', (req: Request, res: Response) => {
 
 router.get('/day', (req: Request, res: Response) => {
    getMealPlanDay(req, res);
-});
-
-router.get('/week', (req: Request, res: Response) => {
-   getMealPlanWeek(req, res);
 });
 
 router.delete('/delete/:id', (req: Request, res: Response) => {
