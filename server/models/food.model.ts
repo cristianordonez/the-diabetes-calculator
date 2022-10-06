@@ -1,4 +1,4 @@
-import { Query } from '../../types/types';
+import { FoodNutrition, Query } from '../../types/types';
 import { db } from '../database/db';
 
 interface AllergyMap {
@@ -139,12 +139,47 @@ const createFood = (
    return serialIdFood;
 };
 
-const createFoodNutrition = () => {
-   const createFoodNutritionQuery = `INSERT INTO custom_food 
-   (brand_name, ingredients, serving_size, serving_size_unit, fdc_id, user_id) 
-   VALUES ('dennys', 'apples, oranges, spinach, nuts', 250, 'g', 2206045, 11)`;
+//all items in food_nutrition table are per 100 g, so use serving_size_conversion_factor to convert before inserting
+const createFoodNutrition = (
+   nutrition: FoodNutrition,
+   fdc_id: number,
+   serving_size_conversion_factor: number
+) => {
+   const createFoodNutritionQuery = `INSERT INTO food_nutrition 
+   (fdc_id, calories, total_fat, total_carbohydrates, protein, trans_fat,
+   polyunsaturated_fat, monounsaturated_fat, cholesterol, dietary_fiber,
+   sugar, vitamin_d, calcium, saturated_fat, sodium, iron, potassium, vitamin_a, vitamin_c)
+   VALUES (${fdc_id}, ${
+      Number(nutrition.calories) * serving_size_conversion_factor
+   }, 
+   ${Number(nutrition.total_fat) * serving_size_conversion_factor},
+   ${Number(nutrition.total_carbohydrates) * serving_size_conversion_factor},
+   ${Number(nutrition.protein) * serving_size_conversion_factor},
+   ${Number(nutrition.trans_fat) * serving_size_conversion_factor},
+   ${Number(nutrition.polyunsaturated_fat) * serving_size_conversion_factor},
+   ${Number(nutrition.monounsaturated_fat) * serving_size_conversion_factor},
+   ${Number(nutrition.cholesterol) * serving_size_conversion_factor},
+   ${Number(nutrition.dietary_fiber) * serving_size_conversion_factor},
+   ${Number(nutrition.sugar) * serving_size_conversion_factor},
+   ${Number(nutrition.vitamin_d) * serving_size_conversion_factor},
+   ${Number(nutrition.calcium) * serving_size_conversion_factor},
+   ${Number(nutrition.saturated_fat) * serving_size_conversion_factor},
+   ${Number(nutrition.sodium) * serving_size_conversion_factor},
+   ${Number(nutrition.iron) * serving_size_conversion_factor},
+   ${Number(nutrition.potassium) * serving_size_conversion_factor},
+   ${Number(nutrition.vitamin_a) * serving_size_conversion_factor},
+   ${Number(nutrition.vitamin_c) * serving_size_conversion_factor})`;
+
+   const dbResponse = db.query(createFoodNutritionQuery);
+   return dbResponse;
 };
 
 const updateNutritionCustomFoods = () => {};
 
-export { get, getAdvanced, createFood, updateNutritionCustomFoods };
+export {
+   get,
+   getAdvanced,
+   createFood,
+   createFoodNutrition,
+   updateNutritionCustomFoods,
+};

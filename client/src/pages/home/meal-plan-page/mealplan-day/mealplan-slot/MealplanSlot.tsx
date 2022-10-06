@@ -38,7 +38,7 @@ interface Props {
    key: number;
    setNutritionSummary: Dispatch<SetStateAction<NutritionSummaryMealplan>>;
    handleOpeningDialog: () => void;
-   slot: number;
+   slot: 1 | 2 | 3 | 4;
    setCreateFoodData: Dispatch<SetStateAction<CustomFoodInput>>;
    createFoodData: CustomFoodInput;
 }
@@ -89,7 +89,6 @@ export const MealplanSlot = ({
    //runs the handleopendialog function, but also updates the slot so dialog can receive it
    const handleDialogChild = (e: React.MouseEvent) => {
       setCreateFoodData({ ...createFoodData, slot: slot });
-      console.log('slot: ', slot);
       handleOpeningDialog();
    };
    return (
@@ -154,7 +153,7 @@ export const MealplanSlot = ({
                                     aria-label='expand row'
                                     size='small'
                                     onClick={() =>
-                                       handleDeleteRow(meal.id, currentDay)
+                                       handleDeleteRow(meal.meal_id, currentDay)
                                     }
                                  >
                                     <RemoveCircleIcon color='error' />

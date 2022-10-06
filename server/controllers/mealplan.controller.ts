@@ -5,9 +5,10 @@ import {
    PassportGoogleUser,
    SelectedDate,
 } from '../../types/types';
-import { createFood } from '../models/food.model';
+import { getFoodTitle } from '../../utils/getFoodTitle';
+import { createFood, createFoodNutrition } from '../models/food.model';
 import {
-   create,
+   createMeal,
    createMealNutrition,
    deleteFood,
    getByDay,
@@ -20,11 +21,12 @@ const addMealPlanItem = async function (req: Request, res: Response) {
    try {
       const body = req.body as AddToMealPlanType;
       const user = req.user as PassportGoogleUser;
-      const mealId = await create(body, user.user_id);
-      await createMealNutrition(mealId[0].id);
+      const mealId = await createMeal(body, user.user_id);
+      console.log('mealId: ', mealId);
+      await createMealNutrition(mealId[0].meal_id);
       res.status(201).send('Successfully posted mealplan item');
    } catch (err) {
-      console.log(err);
+      console.log('error adding mealplan item', err);
       res.status(400).send('Error adding item to mealplan');
    }
 };
@@ -53,6 +55,8 @@ const deleteMealPlanItem = async function (req: Request, res: Response) {
       const params = req.params as { id: string };
       const query = req.query as { currentDay: string };
       const user = req.user as PassportGoogleUser;
+      console.log('params: ', params);
+      console.log('query: ', query);
       await deleteFood(user.user_id, params.id);
       const updatedItems = await getByDay(query.currentDay, user.user_id);
       const updatedNutritionSummary = await getNutritionSummaryByDay(
@@ -61,13 +65,14 @@ const deleteMealPlanItem = async function (req: Request, res: Response) {
       );
       res.status(200).send({ updatedItems, updatedNutritionSummary });
    } catch (err) {
-      console.log(err);
+      console.log('error deleting mealplan item: ', err);
       res.status(400).send('Unable to delete item.');
    }
 };
 
 //# adds new food to database, then adds it to users meals,
 //# then returns the updated meal items for user
+//# if adding foods with unit size other than grams or mL, convert to grams first and then divide by 100 to get conversion factor
 const createCustomItem = async (req: Request, res: Response) => {
    try {
       const body = req.body as CustomFoodInput;
@@ -82,9 +87,33 @@ const createCustomItem = async (req: Request, res: Response) => {
          body.serving_size_unit,
          user.user_id
       );
+      console.log('fdc_id: ', fdc_id);
+      await createFoodNutrition(
+         body.nutrition,
+         fdc_id[0].fdc_id,
+         serving_size_conversion_factor
+      );
+
+      const title = getFoodTitle(body.brand_name, body.description);
+      console.log('title: ', title);
+      const mealItem = {
+         date: body.date,
+         slot: body.slot,
+         data_type: body.data_type,
+         fdc_id: fdc_id[0].fdc_id,
+         servings: body.servings,
+         serving_size: body.serving_size,
+         serving_size_unit: body.serving_size_unit,
+         title: title,
+      };
+
+      const mealId = await createMeal(mealItem, user.user_id);
+      await createMealNutrition(mealId[0].id);
+      // TODO send back updated list of items;
+      res.status(200).send('Success');
    } catch (err) {
       console.log('err: ', err);
-      res.status(400).send('Unable to create new food');
+      res.status(400).send('Unable to createMeal new food');
    }
 };
 

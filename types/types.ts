@@ -49,7 +49,6 @@ type AddToMealPlanType = {
    servings: number | string;
    serving_size: number;
    serving_size_unit: string;
-   ingredients: string;
    title: string;
 };
 
@@ -111,7 +110,7 @@ type FoodSearchResult = {
 
 type CustomFoodInput = {
    date: string;
-   slot: number;
+   slot: 1 | 2 | 3 | 4;
    data_type: string;
    servings: number;
    brand_name: string;
@@ -136,9 +135,9 @@ type MealplanItem = {
    nutrition: FoodNutrition;
    serving_size: number;
    serving_size_unit: string;
-   id: number;
+   meal_id: number;
    servings: number;
-   slot: number;
+   slot: 1 | 2 | 3 | 4;
    title: string;
 };
 

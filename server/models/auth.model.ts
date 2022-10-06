@@ -7,7 +7,7 @@ const createUser = (user: UserType) => {
       VALUES ('${user.username}', '${user.email}') 
       RETURNING user_id)
       INSERT INTO user_hash (user_id, hash)
-      VALUES ((SELECT user_id from getId), '${user.password}') RETURNING user_id`;
+      VALUES ((SELECT user_id FROM getId), '${user.password}') RETURNING user_id`;
    let dbResponse = db.query(createQuery);
    return dbResponse;
 };

@@ -63,7 +63,6 @@ export const AddToCartModal = ({
       serving_size: currentServingSizes[0],
       serving_size_unit: currentServingSizeUnit,
       title: currentTitle,
-      ingredients: currentIngredients,
    });
 
    const handleSelectSlot = (event: SelectChangeEvent) => {
@@ -110,7 +109,6 @@ export const AddToCartModal = ({
          slot: 1,
          date: format(startOfToday(), 'yyyy-MM-dd'),
          title: currentTitle,
-         ingredients: currentIngredients,
       });
    }, [id]);
 

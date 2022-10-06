@@ -34,7 +34,7 @@ export const MealplanDay = ({
    //showNutrientDataForm state was moved here because when canceling before submitting it was still showing second part of form
    const initialFoodData = {
       date: currentDay,
-      slot: 1,
+      slot: 1 as 1 | 2 | 3 | 4,
       data_type: 'custom',
       servings: 1,
       brand_name: '',
@@ -136,7 +136,7 @@ export const MealplanDay = ({
                   handleOpeningDialog={handleOpeningDialog}
                   setCreateFoodData={setCreateFoodData}
                   createFoodData={createFoodData}
-                  slot={slotNumbers[index]}
+                  slot={slotNumbers[index] as 1 | 2 | 3 | 4}
                />
             ))}
             <AddCustomFoodDialog

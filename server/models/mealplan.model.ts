@@ -1,25 +1,27 @@
 import { AddToMealPlanType } from '../../types/types';
 import { db } from '../database/db';
 
-const create = (mealplan: AddToMealPlanType, user_id: number) => {
+const createMeal = (mealplan: AddToMealPlanType, user_id: number) => {
+   console.log('mealplan: ', mealplan);
    const dbQuery = `INSERT INTO user_meal (user_id, fdc_id, slot, 
-    data_type, servings, serving_size, serving_size_unit, date,
-    ingredients, title)
+    data_type, servings, serving_size, serving_size_unit, date, title)
     VALUES (${user_id}, ${mealplan.fdc_id}, ${mealplan.slot}, '${mealplan.data_type}',
     ${mealplan.servings}, ${mealplan.serving_size}, '${mealplan.serving_size_unit}',
-     '${mealplan.date}', '${mealplan.ingredients}', '${mealplan.title}') 
-    RETURNING meal_id`;
+     '${mealplan.date}', '${mealplan.title}') 
+    RETURNING meal_id
+	`;
    const results = db.query(dbQuery);
    return results;
 };
 
 const createMealNutrition = (meal_id: number) => {
+   console.log('meal_id: ', meal_id);
    const userMealNutritionQuery = `INSERT INTO user_meal_nutrition (meal_id, total_carbohydrate, total_fat, protein, calories,
-     dietary_fiber, saturated_fat, trans_fat, sugar, polyunsaturated_fat, monounsaturated_fat, 
+     dietary_fiber, saturated_fat, trans_fat, sugar, polyunsaturated_fat, monounsaturated_fat,
      cholesterol, sodium, calcium, iron, potassium, vitamin_a, vitamin_c, vitamin_d)
-     select ${meal_id}, (CASE WHEN user_meal.serving_size = 100 THEN food_nutrition.total_carbohydrates * user_meal.servings 
-	ELSE food_nutrition.total_carbohydrates * food.serving_size_conversion_factor * user_meal.servings  
-	END) as total_carbohydrate, 
+     select ${meal_id}, (CASE WHEN user_meal.serving_size = 100 THEN food_nutrition.total_carbohydrates * user_meal.servings
+	ELSE food_nutrition.total_carbohydrates * food.serving_size_conversion_factor * user_meal.servings
+	END) as total_carbohydrate,
 	(CASE WHEN user_meal.serving_size = 100 THEN food_nutrition.total_fat * user_meal.servings
 	ELSE food_nutrition.total_fat * food.serving_size_conversion_factor * user_meal.servings
 	END) as total_fat,
@@ -71,9 +73,9 @@ const createMealNutrition = (meal_id: number) => {
 	  (CASE WHEN user_meal.serving_size = 100 THEN food_nutrition.vitamin_d * user_meal.servings
 	ELSE food_nutrition.vitamin_d * food.serving_size_conversion_factor * user_meal.servings
 	END) as vitamin_d
-    FROM user_meal 
-    INNER JOIN food ON user_meal.fdc_id = food.fdc_id 
-    INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id 
+    FROM user_meal
+    INNER JOIN food ON user_meal.fdc_id = food.fdc_id
+    INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
     WHERE user_meal.meal_id = ${meal_id}
         `;
    const result = db.query(userMealNutritionQuery);
@@ -111,7 +113,7 @@ const deleteFood = (user_id: number, mealId: string) => {
 };
 
 export {
-   create,
+   createMeal,
    createMealNutrition,
    getByDay,
    getNutritionSummaryByDay,
