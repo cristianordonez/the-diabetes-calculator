@@ -20,6 +20,7 @@ import axios from 'axios';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+   CustomFoodInput,
    MealplanItem,
    NutritionSummaryMealplan,
 } from '../../../../../../../types/types';
@@ -37,8 +38,9 @@ interface Props {
    key: number;
    setNutritionSummary: Dispatch<SetStateAction<NutritionSummaryMealplan>>;
    handleOpeningDialog: () => void;
-   setCurrentSlot: Dispatch<SetStateAction<number>>;
    slot: number;
+   setCreateFoodData: Dispatch<SetStateAction<CustomFoodInput>>;
+   createFoodData: CustomFoodInput;
 }
 
 export const MealplanSlot = ({
@@ -51,8 +53,9 @@ export const MealplanSlot = ({
    slotName,
    setNutritionSummary,
    handleOpeningDialog,
-   setCurrentSlot,
    slot,
+   setCreateFoodData,
+   createFoodData,
 }: Props) => {
    const navigate = useNavigate();
    const [open, setOpen] = useState<boolean>(false);
@@ -85,7 +88,8 @@ export const MealplanSlot = ({
 
    //runs the handleopendialog function, but also updates the slot so dialog can receive it
    const handleDialogChild = (e: React.MouseEvent) => {
-      setCurrentSlot(slot);
+      setCreateFoodData({ ...createFoodData, slot: slot });
+      console.log('slot: ', slot);
       handleOpeningDialog();
    };
    return (

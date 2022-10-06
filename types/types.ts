@@ -76,24 +76,24 @@ type MetricsType = {
 };
 
 type FoodNutrition = {
-   calories: number;
-   calcium: number;
-   cholesterol: number;
-   dietary_fiber: number;
-   iron: number;
-   potassium: number;
-   protein: number;
-   saturated_fat: number;
-   monounsaturated_fat: number;
-   polyunsaturated_fat: number;
-   sodium: number;
-   sugar: number;
-   total_carbohydrates: number;
-   total_fat: number;
-   trans_fat: number;
-   vitamin_a: number;
-   vitamin_c: number;
-   vitamin_d: number;
+   calories: number | string;
+   calcium: number | string;
+   cholesterol: number | string;
+   dietary_fiber: number | string;
+   iron: number | string;
+   potassium: number | string;
+   protein: number | string;
+   saturated_fat: number | string;
+   monounsaturated_fat: number | string;
+   polyunsaturated_fat: number | string;
+   sodium: number | string;
+   sugar: number | string;
+   total_carbohydrates: number | string;
+   total_fat: number | string;
+   trans_fat: number | string;
+   vitamin_a: number | string;
+   vitamin_c: number | string;
+   vitamin_d: number | string;
 };
 
 type FoodSearchResult = {
@@ -106,6 +106,18 @@ type FoodSearchResult = {
    serving_size: number;
    serving_size_unit: string;
    data_type: string;
+   nutrition: FoodNutrition;
+};
+
+type CustomFoodInput = {
+   date: string;
+   slot: number;
+   data_type: string;
+   servings: number;
+   brand_name: string;
+   description: string;
+   serving_size: number;
+   serving_size_unit: string;
    nutrition: FoodNutrition;
 };
 
@@ -145,4 +157,5 @@ export {
    NutritionSummaryMealplan,
    MetricsType,
    MealplanItem,
+   CustomFoodInput,
 };

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import {
    AddToMealPlanType,
+   CustomFoodInput,
    PassportGoogleUser,
    SelectedDate,
 } from '../../types/types';
@@ -69,37 +70,26 @@ const deleteMealPlanItem = async function (req: Request, res: Response) {
 //# then returns the updated meal items for user
 const createCustomItem = async (req: Request, res: Response) => {
    try {
-      const body = req.body;
+      const body = req.body as CustomFoodInput;
+      const user = req.user as PassportGoogleUser;
       console.log('body: ', body);
-      const response = await createFood();
+      const serving_size_conversion_factor = body.serving_size / 100;
+      const fdc_id = await createFood(
+         body.description,
+         serving_size_conversion_factor,
+         body.brand_name,
+         body.serving_size,
+         body.serving_size_unit,
+         user.user_id
+      );
    } catch (err) {
       console.log('err: ', err);
       res.status(400).send('Unable to create new food');
    }
 };
 
-//1 create new table with following properties
-// brand_name optional
-// ingredients string
-// serving size
-// serving size unit
-//fdc_id
-//user_id
-
-//TODO when asking for input from user to add custom item, ask for following items:
-// all items from new table above
-// description
-// calories
-// protein
-// fat
-// carbs
-// all other nutrients optional
-
 //TODO now add data to food table, then new table, and then food_nutrition table, then user meal, then user meal nutrition
-// when adding to food return fdc_id to use for other tables
 //when adding nutrients to food_nutrition table, make sure it is amount per 100 grams only
-// add description, data_type of 'custom' to food and serving_size_conversion_factor
-// to find serving_size_conversion factor convert to grams then divide serving_size by 100
 //when adding title to mealplan item, combine brand_name and description
 
 export {

@@ -1,6 +1,8 @@
 import { AlertColor, Stack } from '@mui/material';
+import axios from 'axios';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import {
+   CustomFoodInput,
    MealplanItem,
    NutritionSummaryMealplan,
 } from '../../../../../../types/types';
@@ -26,11 +28,43 @@ export const MealplanDay = ({
    currentDay,
    setNutritionSummary,
 }: Props) => {
-   const [openDialog, setOpenDialog] = useState(true); //TODO change to false
-   const [currentSlot, setCurrentSlot] = useState<number>(0);
+   const [openDialog, setOpenDialog] = useState(false);
    const [showNutrientDataForm, setShowNutrientDataForm] =
       useState<boolean>(false); //controls showing second part of create new food dialog
    //showNutrientDataForm state was moved here because when canceling before submitting it was still showing second part of form
+   const initialFoodData = {
+      date: currentDay,
+      slot: 1,
+      data_type: 'custom',
+      servings: 1,
+      brand_name: '',
+      description: '',
+      serving_size: 1,
+      serving_size_unit: '',
+      nutrition: {
+         calories: '',
+         total_fat: '',
+         saturated_fat: '',
+         polyunsaturated_fat: '',
+         monounsaturated_fat: '',
+         trans_fat: '',
+         cholesterol: '',
+         sodium: '',
+         potassium: '',
+         total_carbohydrates: '',
+         dietary_fiber: '',
+         sugar: '',
+         protein: '',
+         vitamin_a: '',
+         vitamin_c: '',
+         calcium: '',
+         iron: '',
+         vitamin_d: '',
+      },
+   };
+
+   const [createFoodData, setCreateFoodData] =
+      useState<CustomFoodInput>(initialFoodData);
 
    let breakfastItems: MealplanItem[] = [];
    let lunchItems: MealplanItem[] = [];
@@ -50,9 +84,29 @@ export const MealplanDay = ({
          }
       });
    }
-   const mealSlotTitles = ['Morning', 'Afternoon', 'Evening', 'Snack'];
-   const slotNumbers = [1, 2, 3, 4];
-   const mealItems = [breakfastItems, lunchItems, dinnerItems, snackItems];
+
+   const handleSubmit = async (event: React.FormEvent) => {
+      try {
+         event.preventDefault();
+         setAlertSeverity('success');
+         setAlertMessage('Custom food has been added to your mealplan');
+         setOpenAlert(true);
+         console.log('createFoodData: ', createFoodData);
+         const updatedItems = await axios.post(
+            '/api/mealplan/custom',
+            createFoodData
+         );
+         setMealPlanItems(updatedItems.data as unknown as MealplanItem[]);
+         setCreateFoodData(initialFoodData);
+         handleOpeningDialog();
+      } catch (err) {
+         setAlertSeverity('error');
+         setAlertMessage('Unable to add custom food to your mealplan');
+         setOpenAlert(true);
+         console.log(err);
+         handleOpeningDialog();
+      }
+   };
 
    const handleOpeningDialog = () => {
       setOpenDialog(!openDialog);
@@ -60,6 +114,11 @@ export const MealplanDay = ({
          setShowNutrientDataForm(false);
       }, 1000);
    };
+
+   const mealSlotTitles = ['Morning', 'Afternoon', 'Evening', 'Snack'];
+   const slotNumbers = [1, 2, 3, 4];
+   const mealItems = [breakfastItems, lunchItems, dinnerItems, snackItems];
+
    return (
       <>
          <Stack direction='column' spacing={4} sx={{ width: '100%' }}>
@@ -75,7 +134,8 @@ export const MealplanDay = ({
                   currentDay={currentDay}
                   setNutritionSummary={setNutritionSummary}
                   handleOpeningDialog={handleOpeningDialog}
-                  setCurrentSlot={setCurrentSlot}
+                  setCreateFoodData={setCreateFoodData}
+                  createFoodData={createFoodData}
                   slot={slotNumbers[index]}
                />
             ))}
@@ -84,12 +144,14 @@ export const MealplanDay = ({
                showNutrientDataForm={showNutrientDataForm}
                setShowNutrientDataForm={setShowNutrientDataForm}
                handleOpeningDialog={handleOpeningDialog}
-               currentSlot={currentSlot}
+               setCreateFoodData={setCreateFoodData}
+               createFoodData={createFoodData}
                currentDay={currentDay}
                setOpenAlert={setOpenAlert}
                setAlertSeverity={setAlertSeverity}
                setAlertMessage={setAlertMessage}
                setOpenDialog={setOpenDialog}
+               handleSubmit={handleSubmit}
                setMealPlanItems={setMealPlanItems}
             />
          </Stack>
