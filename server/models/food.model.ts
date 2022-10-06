@@ -126,15 +126,16 @@ const createFood = (
    serving_size_unit: string,
    user_id: number
 ) => {
-   const createFoodQuery = `With getFDCId AS 
+   const createFoodQuery = `With getId AS 
    (INSERT INTO food (data_type, description, serving_size_conversion_factor) 
    VALUES ('custom', '${description}', ${serving_size_conversion_factor}) 
    RETURNING fdc_id)
    INSERT INTO custom_food 
    (brand_name, serving_size, serving_size_unit, fdc_id, user_id) 
-   VALUES ('${brand_name}', ${serving_size}, '${serving_size_unit}', (SELECT fdc_id FROM getFDCId), ${user_id})
+   VALUES ('${brand_name}', ${serving_size}, '${serving_size_unit}', (SELECT fdc_id FROM getId), ${user_id})
    RETURNING fdc_id`;
 
+   console.log('createFoodQuery: ', createFoodQuery);
    const serialIdFood = db.query(createFoodQuery);
    return serialIdFood;
 };

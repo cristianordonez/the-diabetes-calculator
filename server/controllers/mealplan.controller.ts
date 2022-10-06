@@ -55,8 +55,6 @@ const deleteMealPlanItem = async function (req: Request, res: Response) {
       const params = req.params as { id: string };
       const query = req.query as { currentDay: string };
       const user = req.user as PassportGoogleUser;
-      console.log('params: ', params);
-      console.log('query: ', query);
       await deleteFood(user.user_id, params.id);
       const updatedItems = await getByDay(query.currentDay, user.user_id);
       const updatedNutritionSummary = await getNutritionSummaryByDay(
@@ -77,7 +75,6 @@ const createCustomItem = async (req: Request, res: Response) => {
    try {
       const body = req.body as CustomFoodInput;
       const user = req.user as PassportGoogleUser;
-      console.log('body: ', body);
       const serving_size_conversion_factor = body.serving_size / 100;
       const fdc_id = await createFood(
          body.description,
@@ -87,7 +84,6 @@ const createCustomItem = async (req: Request, res: Response) => {
          body.serving_size_unit,
          user.user_id
       );
-      console.log('fdc_id: ', fdc_id);
       await createFoodNutrition(
          body.nutrition,
          fdc_id[0].fdc_id,
@@ -95,7 +91,6 @@ const createCustomItem = async (req: Request, res: Response) => {
       );
 
       const title = getFoodTitle(body.brand_name, body.description);
-      console.log('title: ', title);
       const mealItem = {
          date: body.date,
          slot: body.slot,
@@ -106,11 +101,15 @@ const createCustomItem = async (req: Request, res: Response) => {
          serving_size_unit: body.serving_size_unit,
          title: title,
       };
-
       const mealId = await createMeal(mealItem, user.user_id);
-      await createMealNutrition(mealId[0].id);
-      // TODO send back updated list of items;
-      res.status(200).send('Success');
+      const dbResponse = await createMealNutrition(mealId[0].meal_id);
+      console.log('dbResponse: ', dbResponse);
+      const updatedMealItems = await getByDay(body.date, user.user_id);
+      const updatedNutritionSummary = await getNutritionSummaryByDay(
+         body.date,
+         user.user_id
+      );
+      res.status(200).send({ updatedMealItems, updatedNutritionSummary });
    } catch (err) {
       console.log('err: ', err);
       res.status(400).send('Unable to createMeal new food');

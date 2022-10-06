@@ -96,7 +96,11 @@ export const MealplanDay = ({
             '/api/mealplan/custom',
             createFoodData
          );
-         setMealPlanItems(updatedItems.data as unknown as MealplanItem[]);
+         setMealPlanItems(
+            updatedItems.data.updatedMealItems as unknown as MealplanItem[]
+         );
+         console.log('updatedItems: ', updatedItems);
+         setNutritionSummary(updatedItems.data.updatedNutritionSummary[0]);
          setCreateFoodData(initialFoodData);
          handleOpeningDialog();
       } catch (err) {
