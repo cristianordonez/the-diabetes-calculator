@@ -6,8 +6,10 @@ import {
    DialogActions,
    DialogContent,
    DialogTitle,
+   Divider,
    SelectChangeEvent,
    Stack,
+   Typography,
 } from '@mui/material';
 import React, {
    Dispatch,
@@ -88,19 +90,14 @@ export const AddCustomFoodDialog = ({
          <Dialog open={openDialog} fullWidth>
             <DialogTitle>Create Custom Food</DialogTitle>
             <form onSubmit={handleSubmit}>
-               <DialogContent sx={{ p: 0 }}>
+               <DialogContent sx={{ p: 0, width: '100%' }}>
                   {showNutrientDataForm ? (
                      <NutritionDataForm
                         handleNutritionInput={handleNutritionInput}
                         nutritionData={createFoodData.nutrition}
                      />
                   ) : (
-                     <Box
-                        display='flex'
-                        flexDirection='column'
-                        gap='10px'
-                        sx={{ p: '1rem' }}
-                     >
+                     <Box display='flex' flexDirection='column' gap='10px'>
                         <CreateFoodTextInput
                            inputValue={createFoodData.brand_name}
                            title='Brand name'
@@ -113,12 +110,25 @@ export const AddCustomFoodDialog = ({
                            id={'description'}
                            handleInputChange={handleInputChange}
                         />
-                        <Stack direction={'row'} spacing={1}>
+                        <Divider />
+                        <Stack
+                           spacing={2}
+                           direction={'row'}
+                           alignItems='center'
+                           justifyContent={'center'}
+                           sx={{ pl: '1rem', pr: '1rem' }}
+                        >
+                           <Typography
+                              sx={{ width: '35%' }}
+                              variant='body2'
+                              align='center'
+                           >
+                              Serving Size
+                           </Typography>
                            <FormNumberInput
                               inputValue={createFoodData.serving_size}
                               handleNumberChange={handleInputChange}
-                              helperText='Amount per serving'
-                              label={'Serving size'}
+                              label={'Amount per serving'}
                               id={'serving_size'}
                            />
                            <ServingSizeUnitInput

@@ -23,10 +23,10 @@ import {
    CustomFoodInput,
    MealplanItem,
    NutritionSummaryMealplan,
-} from '../../../../../../../types/types';
-import { NutritionTable } from '../../../../../components/nutrition-table/NutritionTable';
-import { StyledTableCell } from '../../../../../components/styled-table-components/StyledTableCell';
-import { StyledTableRow } from '../../../../../components/styled-table-components/StyledTableRow';
+} from '../../../../../../types/types';
+import { NutritionTable } from '../../../../components/nutrition-table/NutritionTable';
+import { StyledTableCell } from '../../../../components/styled-table-components/StyledTableCell';
+import { StyledTableRow } from '../../../../components/styled-table-components/StyledTableRow';
 interface Props {
    meals: MealplanItem[];
    setOpenAlert: Dispatch<SetStateAction<boolean>>;

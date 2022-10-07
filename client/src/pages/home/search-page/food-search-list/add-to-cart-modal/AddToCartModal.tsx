@@ -6,6 +6,9 @@ import {
    DialogActions,
    DialogContent,
    DialogTitle,
+   Divider,
+   Stack,
+   Typography,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import axios from 'axios';
@@ -125,9 +128,20 @@ export const AddToCartModal = ({
       >
          <DialogTitle align='left'>Add item to mealplan</DialogTitle>
          <form onSubmit={handleSubmit}>
-            <DialogContent>
-               <Box display='flex' flexDirection='column' gap='1rem'>
-                  <DatePickerTextField setData={setData} data={data} />
+            <DialogContent sx={{ p: 0, width: '100%' }}>
+               <Box display='flex' flexDirection='column' gap='10px'>
+                  <Divider />
+                  <Stack
+                     spacing={2}
+                     direction={'row'}
+                     alignItems='center'
+                     sx={{ pl: '1rem', pr: '1rem' }}
+                  >
+                     <Typography sx={{ minWidth: '25%' }} variant='body2'>
+                        Date{' '}
+                     </Typography>
+                     <DatePickerTextField setData={setData} data={data} />
+                  </Stack>
                   <DialogSelectSlot
                      handleSelectSlot={handleSelectSlot}
                      slot={data.slot}
@@ -138,15 +152,23 @@ export const AddToCartModal = ({
                      currentServingSizes={currentServingSizes}
                      currentServingSizeUnit={currentServingSizeUnit}
                   />
-                  <FormNumberInput
-                     inputValue={data.servings}
-                     handleNumberChange={handleSelectServings}
-                     helperText={
-                        'Enter number of inputValue (up to two decimal places)'
-                     }
-                     label='Servings'
-                     id={'servings'}
-                  />
+                  <Divider />
+                  <Stack
+                     spacing={2}
+                     direction={'row'}
+                     alignItems='center'
+                     sx={{ pl: '1rem', pr: '1rem' }}
+                  >
+                     <Typography sx={{ minWidth: '25%' }} variant='body2'>
+                        Number of servings
+                     </Typography>
+                     <FormNumberInput
+                        inputValue={data.servings}
+                        handleNumberChange={handleSelectServings}
+                        label='Enter Number of Servings'
+                        id={'servings'}
+                     />
+                  </Stack>
                </Box>
             </DialogContent>
             <DialogActions>

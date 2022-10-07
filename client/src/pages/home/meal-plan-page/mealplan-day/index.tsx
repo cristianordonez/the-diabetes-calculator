@@ -7,7 +7,7 @@ import {
    NutritionSummaryMealplan,
 } from '../../../../../../types/types';
 import { AddCustomFoodDialog } from './AddCustomFoodDialog';
-import { MealplanSlot } from './mealplan-slot/MealplanSlot';
+import { MealplanSlot } from './MealplanSlot';
 interface Props {
    mealplanItems: MealplanItem[];
    setOpenAlert: Dispatch<SetStateAction<boolean>>;
@@ -28,7 +28,7 @@ export const MealplanDay = ({
    currentDay,
    setNutritionSummary,
 }: Props) => {
-   const [openDialog, setOpenDialog] = useState(false);
+   const [openDialog, setOpenDialog] = useState(true);
    const [showNutrientDataForm, setShowNutrientDataForm] =
       useState<boolean>(false); //controls showing second part of create new food dialog
    //showNutrientDataForm state was moved here because when canceling before submitting it was still showing second part of form
@@ -91,7 +91,6 @@ export const MealplanDay = ({
          setAlertSeverity('success');
          setAlertMessage('Custom food has been added to your mealplan');
          setOpenAlert(true);
-         console.log('createFoodData: ', createFoodData);
          const updatedItems = await axios.post(
             '/api/mealplan/custom',
             createFoodData
@@ -99,7 +98,6 @@ export const MealplanDay = ({
          setMealPlanItems(
             updatedItems.data.updatedMealItems as unknown as MealplanItem[]
          );
-         console.log('updatedItems: ', updatedItems);
          setNutritionSummary(updatedItems.data.updatedNutritionSummary[0]);
          setCreateFoodData(initialFoodData);
          handleOpeningDialog();

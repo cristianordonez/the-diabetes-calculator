@@ -23,7 +23,7 @@ const SearchPage = () => {
    return (
       <>
          <>
-            <Box className='search-page' sx={{ width: '100vw' }}>
+            <Box className='search-page' sx={{ width: '100%' }}>
                {searchResults.length ? (
                   <>
                      <FoodSearchList

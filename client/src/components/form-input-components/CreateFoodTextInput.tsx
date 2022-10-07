@@ -1,7 +1,5 @@
-import SearchIcon from '@mui/icons-material/Search';
-import { InputAdornment, TextField } from '@mui/material';
+import { Divider, Stack, TextField, Typography } from '@mui/material';
 import React from 'react';
-
 interface Props {
    inputValue: string;
    handleInputChange: React.ChangeEventHandler;
@@ -16,20 +14,23 @@ export const CreateFoodTextInput = ({
    id,
 }: Props) => {
    return (
-      <TextField
-         required
-         id={id}
-         InputProps={{
-            startAdornment: (
-               <InputAdornment position='start'>
-                  <SearchIcon />
-               </InputAdornment>
-            ),
-         }}
-         label={title}
-         helperText={`Enter ${title}`}
-         value={inputValue}
-         onChange={handleInputChange}
-      />
+      <>
+         <Divider />
+         <Stack
+            alignItems='center'
+            direction={'row'}
+            spacing={2}
+            sx={{ pl: '1rem', pr: '1rem' }}
+         >
+            <Typography variant='body2'>{title}</Typography>
+            <TextField
+               sx={{ flexGrow: '1' }}
+               id={id}
+               label={title === 'Brand name' ? 'Optional' : 'Required'}
+               value={inputValue}
+               onChange={handleInputChange}
+            />
+         </Stack>
+      </>
    );
 };

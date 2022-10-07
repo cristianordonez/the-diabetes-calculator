@@ -17,11 +17,10 @@ import React, {
    useState,
 } from 'react';
 import { FoodSearchResult } from '../../../../../../types/types';
-import { FoodListRow } from '../../../../components/food-list-row/FoodListRow';
 import { StyledTableCell } from '../../../../components/styled-table-components/StyledTableCell';
 import { StyledTableRow } from '../../../../components/styled-table-components/StyledTableRow';
 import { AddToCartModal } from './add-to-cart-modal/AddToCartModal';
-
+import { FoodListRow } from './food-list-row/FoodListRow';
 import './index.scss';
 interface Props {
    searchResults: FoodSearchResult[];
@@ -100,13 +99,22 @@ export const FoodSearchList = ({
                            <StyledTableCell align='right'>
                               Calories
                            </StyledTableCell>
-                           <StyledTableCell align='right'>
+                           <StyledTableCell
+                              align='right'
+                              className='desktop-table-view'
+                           >
                               Fat&nbsp;(g)
                            </StyledTableCell>
-                           <StyledTableCell align='right'>
+                           <StyledTableCell
+                              align='right'
+                              className='desktop-table-view'
+                           >
                               Carbs&nbsp;(g)
                            </StyledTableCell>
-                           <StyledTableCell align='right'>
+                           <StyledTableCell
+                              align='right'
+                              className='desktop-table-view'
+                           >
                               Protein&nbsp;(g)
                            </StyledTableCell>
                         </StyledTableRow>

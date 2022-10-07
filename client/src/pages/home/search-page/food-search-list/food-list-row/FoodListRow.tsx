@@ -2,10 +2,10 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { IconButton, TableCell } from '@mui/material';
 import React, { useState } from 'react';
-import { FoodSearchResult } from '../../../../types/types';
-import { getFoodTitle } from '../../../../utils/getFoodTitle';
-import { NutritionTable } from '../nutrition-table/NutritionTable';
-import { StyledTableRow } from '../styled-table-components/StyledTableRow';
+import { FoodSearchResult } from '../../../../../../../types/types';
+import { getFoodTitle } from '../../../../../../../utils/getFoodTitle';
+import { NutritionTable } from '../../../../../components/nutrition-table/NutritionTable';
+import { StyledTableRow } from '../../../../../components/styled-table-components/StyledTableRow';
 import './FoodListRow.scss';
 
 interface Props extends FoodSearchResult {
@@ -76,9 +76,15 @@ export const FoodListRow = ({
                {title}
             </TableCell>
             <TableCell align='right'>{nutrition.calories}</TableCell>
-            <TableCell align='right'>{nutrition.total_fat}</TableCell>
-            <TableCell align='right'>{nutrition.total_carbohydrates}</TableCell>
-            <TableCell align='right'>{nutrition.protein}</TableCell>
+            <TableCell className='desktop-table-view' align='right'>
+               {nutrition.total_fat}
+            </TableCell>
+            <TableCell className='desktop-table-view' align='right'>
+               {nutrition.total_carbohydrates}
+            </TableCell>
+            <TableCell className='desktop-table-view' align='right'>
+               {nutrition.protein}
+            </TableCell>
          </StyledTableRow>
          <NutritionTable open={open} nutrition={nutrition} />
       </>
