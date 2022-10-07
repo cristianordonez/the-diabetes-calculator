@@ -28,7 +28,7 @@ export const MealplanDay = ({
    currentDay,
    setNutritionSummary,
 }: Props) => {
-   const [openDialog, setOpenDialog] = useState(true);
+   const [openDialog, setOpenDialog] = useState(false);
    const [showNutrientDataForm, setShowNutrientDataForm] =
       useState<boolean>(false); //controls showing second part of create new food dialog
    //showNutrientDataForm state was moved here because when canceling before submitting it was still showing second part of form

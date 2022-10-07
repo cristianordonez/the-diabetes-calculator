@@ -15,6 +15,7 @@ import React, {
    FormEventHandler,
    MouseEventHandler,
    SetStateAction,
+   useEffect,
    useState,
 } from 'react';
 import { CustomFoodInput } from '../../../../../../types/types';
@@ -68,7 +69,6 @@ export const AddCustomFoodDialog = ({
       }));
    };
 
-   //TODO make sure user cannot continue unless required fields on first part are filled out
    const handleShowingNutrientDataForm = (e: React.FormEvent) => {
       e.preventDefault();
       if (createFoodData.description === '') {
@@ -77,6 +77,10 @@ export const AddCustomFoodDialog = ({
          setShowNutrientDataForm(!showNutrientDataForm);
       }
    };
+
+   useEffect(() => {
+      setTextFieldError(false);
+   }, [openDialog]);
 
    return (
       <>
