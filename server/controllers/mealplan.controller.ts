@@ -75,7 +75,8 @@ const createCustomItem = async (req: Request, res: Response) => {
    try {
       const body = req.body as CustomFoodInput;
       const user = req.user as PassportGoogleUser;
-      const serving_size_conversion_factor = body.serving_size / 100;
+      const serving_size_conversion_factor = body.serving_size / 100; //used to convert to amount per serving size used from amount per 100 g
+      const standardized_conversion_factor = 100 / body.serving_size; //used to convert the input amount to amount per 100 g
       const fdc_id = await createFood(
          body.description,
          serving_size_conversion_factor,
@@ -87,9 +88,8 @@ const createCustomItem = async (req: Request, res: Response) => {
       await createFoodNutrition(
          body.nutrition,
          fdc_id[0].fdc_id,
-         serving_size_conversion_factor
+         standardized_conversion_factor
       );
-
       const title = getFoodTitle(body.brand_name, body.description);
       const mealItem = {
          date: body.date,
@@ -103,7 +103,6 @@ const createCustomItem = async (req: Request, res: Response) => {
       };
       const mealId = await createMeal(mealItem, user.user_id);
       const dbResponse = await createMealNutrition(mealId[0].meal_id);
-      console.log('dbResponse: ', dbResponse);
       const updatedMealItems = await getByDay(body.date, user.user_id);
       const updatedNutritionSummary = await getNutritionSummaryByDay(
          body.date,
@@ -115,10 +114,6 @@ const createCustomItem = async (req: Request, res: Response) => {
       res.status(400).send('Unable to createMeal new food');
    }
 };
-
-//TODO now add data to food table, then new table, and then food_nutrition table, then user meal, then user meal nutrition
-//when adding nutrients to food_nutrition table, make sure it is amount per 100 grams only
-//when adding title to mealplan item, combine brand_name and description
 
 export {
    addMealPlanItem,
