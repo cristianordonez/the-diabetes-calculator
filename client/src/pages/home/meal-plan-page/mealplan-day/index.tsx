@@ -39,8 +39,8 @@ export const MealplanDay = ({
       servings: 1,
       brand_name: '',
       description: '',
-      serving_size: 1,
-      serving_size_unit: '',
+      serving_size: 100,
+      serving_size_unit: 'g',
       nutrition: {
          calories: '',
          total_fat: '',
