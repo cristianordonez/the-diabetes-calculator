@@ -1,5 +1,4 @@
 import {
-   AlertColor,
    Box,
    Button,
    Dialog,
@@ -16,8 +15,9 @@ import React, {
    FormEventHandler,
    MouseEventHandler,
    SetStateAction,
+   useState,
 } from 'react';
-import { CustomFoodInput, MealplanItem } from '../../../../../../types/types';
+import { CustomFoodInput } from '../../../../../../types/types';
 import { CreateFoodTextInput } from '../../../../components/form-input-components/CreateFoodTextInput';
 import { FormNumberInput } from '../../../../components/form-input-components/FormNumberInput';
 import { NutritionDataForm } from '../../../../components/form-input-components/NutritionDataForm';
@@ -25,12 +25,6 @@ import { ServingSizeUnitInput } from '../../../../components/form-input-componen
 interface Props {
    openDialog: boolean;
    handleOpeningDialog: MouseEventHandler<HTMLButtonElement>;
-   setOpenAlert: Dispatch<SetStateAction<boolean>>;
-   setOpenDialog: Dispatch<SetStateAction<boolean>>;
-   setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
-   setAlertMessage: Dispatch<SetStateAction<string>>;
-   currentDay: string;
-   setMealPlanItems: Dispatch<SetStateAction<MealplanItem[]>>;
    showNutrientDataForm: boolean;
    setShowNutrientDataForm: Dispatch<SetStateAction<boolean>>;
    createFoodData: CustomFoodInput;
@@ -41,18 +35,13 @@ interface Props {
 export const AddCustomFoodDialog = ({
    openDialog,
    handleOpeningDialog,
-   currentDay,
-   setAlertSeverity,
-   setAlertMessage,
-   setOpenDialog,
-   setOpenAlert,
-   setMealPlanItems,
    showNutrientDataForm,
    createFoodData,
    setCreateFoodData,
    handleSubmit,
    setShowNutrientDataForm,
 }: Props) => {
+   const [textFieldError, setTextFieldError] = useState<boolean>(false);
    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setCreateFoodData({
          ...createFoodData,
@@ -82,7 +71,11 @@ export const AddCustomFoodDialog = ({
    //TODO make sure user cannot continue unless required fields on first part are filled out
    const handleShowingNutrientDataForm = (e: React.FormEvent) => {
       e.preventDefault();
-      setShowNutrientDataForm(!showNutrientDataForm);
+      if (createFoodData.description === '') {
+         setTextFieldError(true);
+      } else {
+         setShowNutrientDataForm(!showNutrientDataForm);
+      }
    };
 
    return (
@@ -102,11 +95,13 @@ export const AddCustomFoodDialog = ({
                            inputValue={createFoodData.brand_name}
                            title='Brand name'
                            id={'brand_name'}
+                           textFieldError={false}
                            handleInputChange={handleInputChange}
                         />
                         <CreateFoodTextInput
                            inputValue={createFoodData.description}
                            title='Description'
+                           textFieldError={textFieldError}
                            id={'description'}
                            handleInputChange={handleInputChange}
                         />
@@ -119,7 +114,7 @@ export const AddCustomFoodDialog = ({
                            sx={{ pl: '1rem', pr: '1rem' }}
                         >
                            <Typography
-                              sx={{ width: '35%' }}
+                              sx={{ minWidth: '25%' }}
                               variant='body2'
                               align='center'
                            >

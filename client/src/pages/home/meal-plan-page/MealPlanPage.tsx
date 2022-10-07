@@ -71,8 +71,6 @@ const MealPlanPage = ({
    }, [currentDay]);
 
    const handleDateChange = async () => {
-      // setMealplanItems([]); //when tab changes, reset the nutrition summary and the mealplan items
-      // setNutritionSummary(initialNutritionSummary);
       console.log('here in hande date change');
       try {
          const dbResponse = await axios.get('/api/mealplan/day', {
@@ -96,8 +94,6 @@ const MealPlanPage = ({
    };
 
    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-      // setMealplanItems([]); //when tab changes, reset the nutrition summary and the mealplan items
-      // setNutritionSummary(initialNutritionSummary);
       const prevDate = currentDay; //create variable to store the previous date and previous tab index
       const prevDayIndex = dayIndex;
       let differenceInDays = newValue - dayIndex; //find out how many days before or after current date is new selected date by finding difference between previous tab and current tab

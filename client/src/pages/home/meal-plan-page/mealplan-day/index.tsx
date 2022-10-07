@@ -148,13 +148,7 @@ export const MealplanDay = ({
                handleOpeningDialog={handleOpeningDialog}
                setCreateFoodData={setCreateFoodData}
                createFoodData={createFoodData}
-               currentDay={currentDay}
-               setOpenAlert={setOpenAlert}
-               setAlertSeverity={setAlertSeverity}
-               setAlertMessage={setAlertMessage}
-               setOpenDialog={setOpenDialog}
                handleSubmit={handleSubmit}
-               setMealPlanItems={setMealPlanItems}
             />
          </Stack>
       </>

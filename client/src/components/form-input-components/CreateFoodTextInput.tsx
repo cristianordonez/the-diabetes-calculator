@@ -5,6 +5,7 @@ interface Props {
    handleInputChange: React.ChangeEventHandler;
    title: 'Brand name' | 'Description';
    id: string;
+   textFieldError: boolean;
 }
 
 export const CreateFoodTextInput = ({
@@ -12,6 +13,7 @@ export const CreateFoodTextInput = ({
    handleInputChange,
    title,
    id,
+   textFieldError,
 }: Props) => {
    return (
       <>
@@ -22,12 +24,16 @@ export const CreateFoodTextInput = ({
             spacing={2}
             sx={{ pl: '1rem', pr: '1rem' }}
          >
-            <Typography variant='body2'>{title}</Typography>
+            <Typography sx={{ minWidth: '25%' }} variant='body2'>
+               {title}
+            </Typography>
             <TextField
                sx={{ flexGrow: '1' }}
                id={id}
+               error={textFieldError}
                label={title === 'Brand name' ? 'Optional' : 'Required'}
                value={inputValue}
+               required={title === 'Brand name' ? false : true}
                onChange={handleInputChange}
             />
          </Stack>
