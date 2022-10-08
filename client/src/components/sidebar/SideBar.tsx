@@ -1,6 +1,6 @@
 //shared sidebar
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { Drawer, IconButton, Stack, Toolbar } from '@mui/material';
+import { Drawer, IconButton, Stack, Toolbar, Typography } from '@mui/material';
 import React, {
    MouseEventHandler,
    ReactNode,
@@ -50,6 +50,7 @@ export const SideBar = ({
       }
    }, [location]);
 
+   console.log('loading: ', loading);
    return (
       <>
          {/* MOBILE */}
@@ -161,6 +162,9 @@ export const SideBar = ({
                      goals={goals}
                      nutritionSummary={nutritionSummary}
                   />
+               ) : null}
+               {loading ? (
+                  <Typography variant='h6'>Searching...</Typography>
                ) : null}
             </Drawer>
          </>

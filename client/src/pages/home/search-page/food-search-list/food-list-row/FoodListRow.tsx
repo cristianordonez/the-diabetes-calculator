@@ -14,17 +14,13 @@ interface Props extends FoodSearchResult {
       dataType: string,
       servingSizes: number[],
       servingSizeUnit: string,
-      title: string,
-      ingredients: string
+      title: string
    ) => void;
 }
 
 export const FoodListRow = ({
    brand_name,
-   brand_owner,
-   branded_food_category,
    description,
-   ingredients,
    fdc_id,
    serving_size,
    serving_size_unit,
@@ -51,8 +47,7 @@ export const FoodListRow = ({
          data_type,
          servingSizesArr,
          serving_size_unit,
-         title,
-         ingredients
+         title
       );
    };
 

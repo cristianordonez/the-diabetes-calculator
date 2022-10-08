@@ -55,15 +55,13 @@ export const FoodSearchList = ({
       dataType: string,
       servingSizes: number[],
       servingSizeUnit: string,
-      title: string,
-      ingredients: string
+      title: string
    ) => {
       setCurrentId(id);
       setCurrentDataType(dataType);
       setCurrentServingSizes(servingSizes);
       setCurrentServingSizeUnit(servingSizeUnit);
       setCurrentTitle(title);
-      setCurrentIngredients(ingredients);
       setOpenDialog(!openDialog);
    };
 
@@ -122,16 +120,11 @@ export const FoodSearchList = ({
                      <TableBody>
                         {searchResults.map((searchResult) => (
                            <FoodListRow
-                              key={searchResult.fdc_id}
-                              ingredients={searchResult.ingredients}
+                              key={searchResult.description}
                               handleOpeningAddToMealplanDialog={
                                  handleOpeningAddToMealplanDialog
                               }
                               brand_name={searchResult.brand_name}
-                              brand_owner={searchResult.brand_owner}
-                              branded_food_category={
-                                 searchResult.branded_food_category
-                              }
                               description={searchResult.description}
                               fdc_id={searchResult.fdc_id}
                               serving_size={searchResult.serving_size}

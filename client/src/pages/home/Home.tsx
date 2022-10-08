@@ -49,6 +49,7 @@ const Home = () => {
    const handleLoadMore = async (event: React.SyntheticEvent) => {
       try {
          setLoading(true);
+         console.log('loading: ', loading);
          let newValues = { ...values, offset: values.offset + 10 }; //update new offset so that we only receive the correct items from API
          setValues(newValues);
          const searchResultItems = sendAdvancedRequest

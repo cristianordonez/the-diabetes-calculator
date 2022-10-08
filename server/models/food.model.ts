@@ -91,20 +91,22 @@ const allergyMap = {
 };
 
 const get = (query: Query) => {
-   const selectQuery = `SELECT food.fdc_id, food.description, branded_food.brand_name, branded_food.brand_owner,
-    COALESCE(branded_food.serving_size, 100::double precision) AS serving_size,
-    COALESCE(branded_food.serving_size_unit, 'g'::character varying) AS serving_size_unit,
-    branded_food.ingredients,
-    food.data_type,
-    branded_food.branded_food_category,
-    row_to_json(food_nutrition.*) AS nutrition
-    FROM food
-    JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
-    LEFT JOIN branded_food ON food_nutrition.fdc_id = branded_food.fdc_id
-    WHERE description ~* '${query.query}' 
-    AND food_nutrition.calories IS NOT null
-    LIMIT ${query.number} OFFSET ${query.offset}
+   const selectQuery = `SELECT 
+ 	food.fdc_id, 
+ 	food.description, 
+ 	branded_food.brand_name,
+ 	COALESCE(branded_food.serving_size, 100::double precision) AS serving_size,
+   COALESCE(branded_food.serving_size_unit, 'g'::character varying) AS serving_size_unit,
+   food.data_type,
+   row_to_json(food_nutrition.*) AS nutrition
+   FROM food
+ 	INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
+   LEFT JOIN branded_food ON food.fdc_id = branded_food.fdc_id
+   WHERE (description ~* '${query.query}' or brand_name ~* '${query.query}')
+   AND calories IS NOT null
+ 	limit ${query.number} offset ${query.offset}
       `;
+
    const matchingItems = db.query(selectQuery);
    return matchingItems;
 };
@@ -117,9 +119,9 @@ const getAdvanced = (query: Query) => {
     branded_food.ingredients, food.data_type, branded_food.branded_food_category,
     row_to_json(food_nutrition.*) AS nutrition
     FROM food
-    JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
-    LEFT JOIN branded_food ON food_nutrition.fdc_id = branded_food.fdc_id
-    WHERE description ~* '${query.query}' 
+    INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
+    LEFT JOIN branded_food ON food.fdc_id = branded_food.fdc_id
+    WHERE (description ~* '${query.query}' OR brand_name ~* '${query.query}') 
     AND calories BETWEEN ${Number(query.minCalories)} AND ${Number(
       query.maxCalories
    )}
@@ -173,6 +175,11 @@ const createFoodNutrition = (
    fdc_id: number,
    standardized_conversion_factor: number
 ) => {
+   console.log('nutrition.calories: ', nutrition.calories);
+   console.log(
+      'nutrition.calories * standardized_conversion_factor: ',
+      Number(nutrition.calories) * standardized_conversion_factor
+   );
    const createFoodNutritionQuery = `INSERT INTO food_nutrition 
    (fdc_id, calories, total_fat, total_carbohydrates, protein, trans_fat,
    polyunsaturated_fat, monounsaturated_fat, cholesterol, dietary_fiber,

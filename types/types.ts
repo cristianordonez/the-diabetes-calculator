@@ -97,9 +97,6 @@ type FoodNutrition = {
 
 type FoodSearchResult = {
    brand_name: string | null;
-   brand_owner: string | null;
-   branded_food_category: string | null;
-   ingredients: string;
    description: string;
    fdc_id: string;
    serving_size: number;
