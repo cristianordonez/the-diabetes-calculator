@@ -50,7 +50,6 @@ export const SideBar = ({
       }
    }, [location]);
 
-   console.log('loading: ', loading);
    return (
       <>
          {/* MOBILE */}
@@ -141,30 +140,28 @@ export const SideBar = ({
                   <MainTitleLogo />
                </Stack>
                {/* RENDER SEARCH FORM WHEN THERE ARE FOOD ITEMS IN STATE */}
-               {!loading &&
-               page === 'search' &&
+               {page === 'search' &&
                searchResults !== undefined &&
                searchResults.length > 0
                   ? SearchFormComponent
                   : null}{' '}
                {/* RENDER GOALS WHEN THERE ARE NO SEARCH RESULTS, AND PAGE IS NOT MEALPLAN */}
-               {!loading &&
-               page !== 'mealplan' &&
+               {page !== 'mealplan' &&
                searchResults != undefined &&
                searchResults.length === 0 ? (
                   <DailyGoals goals={goals} />
                ) : null}
                {/* RENDER GOALSMEALPLAN WHEN PAGE IS MEALPLAN AND THERE IS NUTRITION SUMMARY */}
-               {!loading &&
-               page === 'mealplan' &&
-               nutritionSummary !== undefined ? (
+               {page === 'mealplan' && nutritionSummary !== undefined ? (
                   <DailyGoalsMealplan
                      goals={goals}
                      nutritionSummary={nutritionSummary}
                   />
                ) : null}
                {loading ? (
-                  <Typography variant='h6'>Searching...</Typography>
+                  <Typography align='center' variant='h6'>
+                     Searching...
+                  </Typography>
                ) : null}
             </Drawer>
          </>

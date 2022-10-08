@@ -42,7 +42,7 @@ export const FoodSearchList = ({
    const [openDialog, setOpenDialog] = useState<boolean>(false);
    const [currentId, setCurrentId] = useState<number>(0);
    const [currentTitle, setCurrentTitle] = useState<string>('');
-   const [currentIngredients, setCurrentIngredients] = useState<string>('');
+   const [currentModifier, setCurrentModifier] = useState<string | null>();
    const [currentDataType, setCurrentDataType] = useState<string>('');
    const [currentServingSizeUnit, setCurrentServingSizeUnit] =
       useState<string>('');
@@ -55,13 +55,15 @@ export const FoodSearchList = ({
       dataType: string,
       servingSizes: number[],
       servingSizeUnit: string,
-      title: string
+      title: string,
+      modifier: string | null
    ) => {
       setCurrentId(id);
       setCurrentDataType(dataType);
       setCurrentServingSizes(servingSizes);
       setCurrentServingSizeUnit(servingSizeUnit);
       setCurrentTitle(title);
+      setCurrentModifier(modifier);
       setOpenDialog(!openDialog);
    };
 
@@ -69,6 +71,7 @@ export const FoodSearchList = ({
       setOpenDialog(!openDialog);
    };
 
+   console.log('searchResults: ', searchResults);
    return (
       <>
          <div className='food-search-list'>
@@ -118,19 +121,30 @@ export const FoodSearchList = ({
                         </StyledTableRow>
                      </TableHead>
                      <TableBody>
-                        {searchResults.map((searchResult) => (
+                        {searchResults.map((searchResult, index) => (
                            <FoodListRow
-                              key={searchResult.description}
+                              key={index}
                               handleOpeningAddToMealplanDialog={
                                  handleOpeningAddToMealplanDialog
                               }
                               brand_name={searchResult.brand_name}
+                              custom_food_brand_name={
+                                 searchResult.custom_food_brand_name
+                              }
                               description={searchResult.description}
                               fdc_id={searchResult.fdc_id}
                               serving_size={searchResult.serving_size}
+                              custom_food_serving_size={
+                                 searchResult.custom_food_serving_size
+                              }
                               serving_size_unit={searchResult.serving_size_unit}
+                              custom_food_serving_size_unit={
+                                 searchResult.custom_food_serving_size_unit
+                              }
                               data_type={searchResult.data_type}
                               nutrition={searchResult.nutrition}
+                              gram_weight={searchResult.gram_weight}
+                              modifier={searchResult.modifier}
                            />
                         ))}
                      </TableBody>
@@ -153,10 +167,10 @@ export const FoodSearchList = ({
             currentServingSizeUnit={currentServingSizeUnit}
             setOpenDialog={setOpenDialog}
             currentTitle={currentTitle}
-            currentIngredients={currentIngredients}
             setAlertMessage={setAlertMessage}
             setOpenSnackbar={setOpenSnackbar}
             setAlertSeverity={setAlertSeverity}
+            currentModifier={currentModifier}
          />
       </>
    );

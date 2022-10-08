@@ -16,6 +16,7 @@ interface Props {
    servingSize: number;
    currentServingSizes: number[];
    currentServingSizeUnit: string;
+   currentModifier: string | null | undefined;
 }
 
 export const DialogSelectServingSize = ({
@@ -23,6 +24,7 @@ export const DialogSelectServingSize = ({
    currentServingSizes: currentServingSizes,
    servingSize,
    currentServingSizeUnit,
+   currentModifier,
 }: Props) => {
    return (
       <>
@@ -56,8 +58,8 @@ export const DialogSelectServingSize = ({
                         </MenuItem>
                      ) : (
                         <MenuItem key={size} value={size}>
-                           {size} {currentServingSizeUnit} (serving size as seen
-                           on nutrition label)
+                           {size} {currentServingSizeUnit} ( 1 {currentModifier}
+                           )
                         </MenuItem>
                      )
                   )}

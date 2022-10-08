@@ -129,7 +129,6 @@ passport.use(
 
 //determines which data of user object should be stored in session to be accessed below in the deserializeUser function
 passport.serializeUser((user: any, done) => {
-   console.log('user: ', user);
    done(null, user.user_id);
 });
 

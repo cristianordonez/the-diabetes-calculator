@@ -33,10 +33,10 @@ interface Props {
    handleOpeningDialog: MouseEventHandler<HTMLButtonElement>;
    id: number;
    currentDataType: string;
+   currentModifier: string | null | undefined;
    currentServingSizes: number[];
    currentServingSizeUnit: string;
    currentTitle: string;
-   currentIngredients: string;
    setOpenDialog: Dispatch<SetStateAction<boolean>>;
    setAlertMessage: Dispatch<SetStateAction<string>>;
    setOpenSnackbar: Dispatch<SetStateAction<boolean>>;
@@ -49,9 +49,9 @@ export const AddToCartModal = ({
    id,
    currentDataType,
    currentServingSizes,
+   currentModifier,
    currentServingSizeUnit,
    currentTitle,
-   currentIngredients,
    setOpenDialog,
    setAlertMessage,
    setOpenSnackbar,
@@ -151,6 +151,7 @@ export const AddToCartModal = ({
                      handleSelectServingSize={handleSelectServingSize}
                      currentServingSizes={currentServingSizes}
                      currentServingSizeUnit={currentServingSizeUnit}
+                     currentModifier={currentModifier}
                   />
                   <Divider />
                   <Stack

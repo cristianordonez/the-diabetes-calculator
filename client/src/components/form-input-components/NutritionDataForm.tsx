@@ -19,8 +19,6 @@ export const NutritionDataForm = ({
    nutritionData,
    handleNutritionInput,
 }: Props) => {
-   console.log('nutritionData: ', nutritionData);
-
    const formatString = (string: string) => {
       let updatedString = string.replace('_', ' ');
       let words = updatedString.split(' ');
@@ -36,7 +34,6 @@ export const NutritionDataForm = ({
    };
 
    let currentLabel;
-   console.log('nutritionData[]: ', nutritionData['calories']);
 
    return (
       <>

@@ -3,19 +3,22 @@ import { db } from '../database/db';
 
 const createMeal = (mealplan: AddToMealPlanType, user_id: number) => {
    console.log('mealplan: ', mealplan);
+
+   let title = mealplan.title.replace(`'`, '');
+   //TODO remove title
    const dbQuery = `INSERT INTO user_meal (user_id, fdc_id, slot, 
     data_type, servings, serving_size, serving_size_unit, date, title)
     VALUES (${user_id}, ${mealplan.fdc_id}, ${mealplan.slot}, '${mealplan.data_type}',
     ${mealplan.servings}, ${mealplan.serving_size}, '${mealplan.serving_size_unit}',
-     '${mealplan.date}', '${mealplan.title}') 
+     '${mealplan.date}', '${title}') 
     RETURNING meal_id
 	`;
+   console.log('dbQuery: ', dbQuery);
    const results = db.query(dbQuery);
    return results;
 };
 
 const createMealNutrition = (meal_id: number) => {
-   console.log('meal_id: ', meal_id);
    const userMealNutritionQuery = `INSERT INTO user_meal_nutrition (meal_id, total_carbohydrate, total_fat, protein, calories,
      dietary_fiber, saturated_fat, trans_fat, sugar, polyunsaturated_fat, monounsaturated_fat,
      cholesterol, sodium, calcium, iron, potassium, vitamin_a, vitamin_c, vitamin_d)
@@ -83,7 +86,6 @@ const createMealNutrition = (meal_id: number) => {
 };
 
 const getByDay = (date: Date | string, user_id: number) => {
-   console.log('user_id: ', user_id);
    const getMealsAndNutritionQuery = `SELECT user_meal.meal_id, slot, data_type, servings, serving_size, serving_size_unit, date, fdc_id,  
 	ingredients, title, row_to_json(user_meal_nutrition) 
 	AS nutrition FROM user_meal INNER JOIN user_meal_nutrition ON user_meal.meal_id = user_meal_nutrition.meal_id 

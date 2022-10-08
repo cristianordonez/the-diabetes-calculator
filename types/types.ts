@@ -15,6 +15,7 @@ type Session = {
 
 type Query = {
    query: string;
+   brand_name: string;
    category: string;
    allergy: string;
    minCalories: number | string;
@@ -76,33 +77,38 @@ type MetricsType = {
 
 type FoodNutrition = {
    calories: number | string;
-   calcium: number | string;
-   cholesterol: number | string;
-   dietary_fiber: number | string;
-   iron: number | string;
-   potassium: number | string;
+   calcium: number | string | null;
+   cholesterol: number | string | null;
+   dietary_fiber: number | string | null;
+   iron: number | string | null;
+   potassium: number | string | null;
    protein: number | string;
-   saturated_fat: number | string;
-   monounsaturated_fat: number | string;
-   polyunsaturated_fat: number | string;
-   sodium: number | string;
-   sugar: number | string;
+   saturated_fat: number | string | null;
+   monounsaturated_fat: number | string | null;
+   polyunsaturated_fat: number | string | null;
+   sodium: number | string | null;
+   sugar: number | string | null;
    total_carbohydrates: number | string;
    total_fat: number | string;
-   trans_fat: number | string;
-   vitamin_a: number | string;
-   vitamin_c: number | string;
-   vitamin_d: number | string;
+   trans_fat: number | string | null;
+   vitamin_a: number | string | null;
+   vitamin_c: number | string | null;
+   vitamin_d: number | string | null;
 };
 
 type FoodSearchResult = {
    brand_name: string | null;
+   custom_food_brand_name: string | null;
    description: string;
    fdc_id: string;
-   serving_size: number;
-   serving_size_unit: string;
+   serving_size: number | null;
+   custom_food_serving_size: number | null;
+   serving_size_unit: string | null;
+   custom_food_serving_size_unit: string | null;
    data_type: string;
    nutrition: FoodNutrition;
+   gram_weight: number | null;
+   modifier: string | null;
 };
 
 type CustomFoodInput = {

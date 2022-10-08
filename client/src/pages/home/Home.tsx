@@ -32,6 +32,7 @@ const Home = () => {
    const [alertSeverity, setAlertSeverity] = useState<AlertColor>('error');
    const [values, setValues] = useState<Query>({
       query: '',
+      brand_name: '',
       category: '',
       allergy: '',
       minCalories: '',
@@ -113,8 +114,8 @@ const Home = () => {
             } else {
                setShowLoadMoreBtn(true);
             }
+            setSearchResults(searchResultItems.data);
          }
-         setSearchResults(searchResultItems.data);
          setLoading(false);
       } catch (err) {
          setLoading(false);
@@ -133,7 +134,6 @@ const Home = () => {
          handleSubmit={handleSubmit}
          handleChange={handleChange}
          currentTab={currentTab}
-         setCurrentTab={setCurrentTab}
          values={values}
          setValues={setValues}
          goals={goals}
@@ -156,8 +156,6 @@ const Home = () => {
          console.log(err);
       });
    }, []);
-
-   console.log('nutritionSummary: ', nutritionSummary);
 
    return (
       <>

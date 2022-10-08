@@ -8,7 +8,6 @@ interface Props {
 }
 
 export const CaloriesCircularProgress = ({ calories, goalCalories }: Props) => {
-   console.log('calories: ', calories);
    return (
       <>
          <div className='daily-goals-kcal'>

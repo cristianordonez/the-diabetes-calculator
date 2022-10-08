@@ -22,7 +22,6 @@ const addMealPlanItem = async function (req: Request, res: Response) {
       const body = req.body as AddToMealPlanType;
       const user = req.user as PassportGoogleUser;
       const mealId = await createMeal(body, user.user_id);
-      console.log('mealId: ', mealId);
       await createMealNutrition(mealId[0].meal_id);
       res.status(201).send('Successfully posted mealplan item');
    } catch (err) {

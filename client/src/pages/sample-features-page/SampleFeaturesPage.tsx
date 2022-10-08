@@ -17,6 +17,7 @@ import './SampleFeaturesPage.scss';
 
 const initialState = {
    query: '',
+   brand_name: '',
    category: 'All',
    allergy: '',
    minCalories: '',

@@ -95,33 +95,68 @@ const get = (query: Query) => {
  	food.fdc_id, 
  	food.description, 
  	branded_food.brand_name,
- 	COALESCE(branded_food.serving_size, 100::double precision) AS serving_size,
-   COALESCE(branded_food.serving_size_unit, 'g'::character varying) AS serving_size_unit,
+   modifier,
+   gram_weight,
+	custom_food.brand_name as custom_food_brand_name,
+   custom_food.serving_size AS custom_food_serving_size,
+   custom_food.serving_size_unit AS custom_food_serving_size_unit,
+ 	branded_food.serving_size,
+   branded_food.serving_size_unit,
    food.data_type,
    row_to_json(food_nutrition.*) AS nutrition
    FROM food
  	INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
    LEFT JOIN branded_food ON food.fdc_id = branded_food.fdc_id
-   WHERE (description ~* '${query.query}' or brand_name ~* '${query.query}')
+   LEFT JOIN custom_food on custom_food.fdc_id = food.fdc_id
+   LEFT JOIN food_portion on food.fdc_id = food_portion.fdc_id
+   WHERE description ~* '${query.query}'
    AND calories IS NOT null
- 	limit ${query.number} offset ${query.offset}
+ 	LIMIT ${query.number} OFFSET ${query.offset}
       `;
+   const matchingItems = db.query(selectQuery);
+   return matchingItems;
+};
 
+const getByBrand = (query: Query) => {
+   const selectQuery = `SELECT 
+ 	food.fdc_id, 
+ 	food.description, 
+ 	branded_food.brand_name,
+	custom_food.brand_name as custom_food_brand_name,
+   custom_food.serving_size AS custom_food_serving_size,
+   custom_food.serving_size_unit AS custom_food_serving_size_unit,
+ 	branded_food.serving_size,
+   branded_food.serving_size_unit,
+   food.data_type,
+   row_to_json(food_nutrition.*) AS nutrition
+   FROM food
+ 	INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
+   LEFT JOIN branded_food ON food.fdc_id = branded_food.fdc_id
+   LEFT JOIN custom_food on custom_food.fdc_id = food.fdc_id
+   WHERE (branded_food.brand_name ~* '${query.brand_name}' OR custom_food.brand_name ~* '${query.brand_name}')
+ 	LIMIT ${query.number} OFFSET ${query.offset}
+      `;
    const matchingItems = db.query(selectQuery);
    return matchingItems;
 };
 
 const getAdvanced = (query: Query) => {
-   console.log('query: ', query);
-   const selectContentsQuery = `SELECT food.fdc_id, food.description, branded_food.brand_name, branded_food.brand_owner,
-    COALESCE(branded_food.serving_size, 100::double precision) AS serving_size,
-    COALESCE(branded_food.serving_size_unit, 'g'::character varying) AS serving_size_unit,
-    branded_food.ingredients, food.data_type, branded_food.branded_food_category,
+   const selectContentsQuery = `SELECT 
+    food.fdc_id,
+    food.description,
+    branded_food.brand_name,
+    custom_food.brand_name as custom_food_brand_name,
+    custom_food.serving_size AS custom_food_serving_size,
+    custom_food.serving_size_unit AS custom_food_serving_size_unit,
+    branded_food.serving_size,
+    branded_food.serving_size_unit,
+    food.data_type,
     row_to_json(food_nutrition.*) AS nutrition
     FROM food
-    INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
+	 INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
     LEFT JOIN branded_food ON food.fdc_id = branded_food.fdc_id
-    WHERE (description ~* '${query.query}' OR brand_name ~* '${query.query}') 
+    LEFT JOIN custom_food on custom_food.fdc_id = food.fdc_id
+    WHERE description ~* '${query.query}' 
     AND calories BETWEEN ${Number(query.minCalories)} AND ${Number(
       query.maxCalories
    )}
@@ -137,10 +172,46 @@ const getAdvanced = (query: Query) => {
       query.allergy === '' ? '' : allergyMap[query.allergy as keyof AllergyMap];
    const limitQuery = `LIMIT ${query.number} OFFSET ${query.offset}`;
    const currentQuery = selectContentsQuery + allergyQuery + limitQuery;
+   const matchingItems = db.query(
+      selectContentsQuery + allergyQuery + limitQuery
+   );
+   return matchingItems;
+};
 
-   console.log('selectContentsQuery:', selectContentsQuery);
-   console.log('allergyQuery:', allergyQuery);
-
+const getAdvancedByBrand = (query: Query) => {
+   const selectContentsQuery = `SELECT 
+    food.fdc_id,
+    food.description,
+    branded_food.brand_name,
+    custom_food.brand_name as custom_food_brand_name,
+    custom_food.serving_size AS custom_food_serving_size,
+    custom_food.serving_size_unit AS custom_food_serving_size_unit,
+    branded_food.serving_size,
+    branded_food.serving_size_unit,
+    food.data_type,
+    row_to_json(food_nutrition.*) AS nutrition
+    FROM food
+	 INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
+    LEFT JOIN branded_food ON food.fdc_id = branded_food.fdc_id
+    LEFT JOIN custom_food on custom_food.fdc_id = food.fdc_id
+    WHERE (branded_food.brand_name ~* '${
+       query.brand_name
+    }' OR custom_food.brand_name ~* '${query.brand_name}') 
+    AND calories BETWEEN ${Number(query.minCalories)} AND ${Number(
+      query.maxCalories
+   )}
+   AND total_fat BETWEEN ${Number(query.minFat)} AND ${Number(query.maxFat)}
+   AND protein BETWEEN ${Number(query.minProtein)} AND ${Number(
+      query.maxProtein
+   )} 
+   AND total_carbohydrates BETWEEN ${Number(query.minCarbs)} AND ${Number(
+      query.maxCarbs
+   )}
+   `;
+   const allergyQuery =
+      query.allergy === '' ? '' : allergyMap[query.allergy as keyof AllergyMap];
+   const limitQuery = `LIMIT ${query.number} OFFSET ${query.offset}`;
+   const currentQuery = selectContentsQuery + allergyQuery + limitQuery;
    const matchingItems = db.query(
       selectContentsQuery + allergyQuery + limitQuery
    );
@@ -175,11 +246,6 @@ const createFoodNutrition = (
    fdc_id: number,
    standardized_conversion_factor: number
 ) => {
-   console.log('nutrition.calories: ', nutrition.calories);
-   console.log(
-      'nutrition.calories * standardized_conversion_factor: ',
-      Number(nutrition.calories) * standardized_conversion_factor
-   );
    const createFoodNutritionQuery = `INSERT INTO food_nutrition 
    (fdc_id, calories, total_fat, total_carbohydrates, protein, trans_fat,
    polyunsaturated_fat, monounsaturated_fat, cholesterol, dietary_fiber,
@@ -214,7 +280,9 @@ const updateNutritionCustomFoods = () => {};
 
 export {
    get,
+   getByBrand,
    getAdvanced,
+   getAdvancedByBrand,
    createFood,
    createFoodNutrition,
    updateNutritionCustomFoods,

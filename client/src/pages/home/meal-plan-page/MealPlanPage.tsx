@@ -71,7 +71,6 @@ const MealPlanPage = ({
    }, [currentDay]);
 
    const handleDateChange = async () => {
-      console.log('here in hande date change');
       try {
          const dbResponse = await axios.get('/api/mealplan/day', {
             params: { date: currentDay },
@@ -84,7 +83,6 @@ const MealPlanPage = ({
             );
             setOpenAlert(true);
          }
-         console.log('dbResponse: ', dbResponse);
          setMealplanItems(dbResponse.data.mealplanItems);
          setNutritionSummary(dbResponse.data.nutritionSummary[0]);
          setLoading(false);

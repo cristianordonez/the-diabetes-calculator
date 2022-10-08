@@ -13,7 +13,6 @@ import './index.scss';
 
 interface Props {
    handleSubmit: (event: React.SyntheticEvent) => Promise<void>;
-   setCurrentTab: Dispatch<SetStateAction<string>>;
    currentTab: string;
    handleChange: (event: React.SyntheticEvent, currentValue: string) => void;
    values: Query;
@@ -30,7 +29,6 @@ interface Props {
 
 export const SearchForm = ({
    handleSubmit,
-   setCurrentTab,
    currentTab,
    handleChange,
    values,
@@ -100,7 +98,6 @@ export const SearchForm = ({
             <SimpleSearchForm
                values={values}
                handleInputChange={handleInputChange}
-               handleTypeSelect={handleTypeSelect}
                setValues={setValues}
                setAlertMessage={setAlertMessage}
                setAlertSeverity={setAlertSeverity}
