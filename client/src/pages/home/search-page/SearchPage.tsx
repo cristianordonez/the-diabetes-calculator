@@ -6,7 +6,7 @@ import './SearchPage.scss';
 
 const SearchPage = () => {
    const {
-      loading,
+      isSearching,
       handleLoadMore,
       setAlertMessage,
       setOpenAlert,
@@ -14,11 +14,11 @@ const SearchPage = () => {
       showLoadMoreBtn,
       SearchFormComponent,
       searchResults,
-      setLoading,
+      setIsSearching,
    } = useHomeOutlet();
 
    useEffect(() => {
-      setLoading(false);
+      setIsSearching(false);
    }, []);
    return (
       <>
@@ -38,7 +38,7 @@ const SearchPage = () => {
                ) : (
                   <>{SearchFormComponent}</>
                )}
-               {loading ? <CircularProgress size={68} /> : null}
+               {isSearching ? <CircularProgress size={68} /> : null}
             </Box>
          </>
       </>

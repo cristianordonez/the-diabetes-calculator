@@ -217,8 +217,6 @@ const Home = () => {
                SearchFormComponent,
                setNutritionSummary,
                setMealplanItems,
-               // currentDay,
-               // setCurrentDay,
                searchResults,
                mealplanItems,
                goals,
