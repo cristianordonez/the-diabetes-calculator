@@ -23,7 +23,7 @@ interface Props {
    searchResults?: FoodSearchResult[];
    goals: CurrentGoals;
    nutritionSummary: NutritionSummaryMealplan;
-   loading: boolean;
+   isSearching: boolean;
 }
 
 const drawerWidth = 350;
@@ -34,7 +34,7 @@ export const SideBar = ({
    SearchFormComponent,
    searchResults,
    goals,
-   loading,
+   isSearching,
    nutritionSummary,
 }: Props) => {
    const location = useLocation();
@@ -92,27 +92,28 @@ export const SideBar = ({
                   <MainTitleLogo />
                </Stack>
                {/* RENDER SEARCH FORM WHEN THERE ARE FOOD ITEMS IN STATE */}
-               {!loading &&
-               page === 'search' &&
+               {page === 'search' &&
                searchResults !== undefined &&
                searchResults.length > 0
                   ? SearchFormComponent
                   : null}{' '}
                {/* RENDER GOALS WHEN THERE ARE NO SEARCH RESULTS, AND PAGE IS NOT MEALPLAN */}
-               {!loading &&
-               page !== 'mealplan' &&
+               {page !== 'mealplan' &&
                searchResults != undefined &&
                searchResults.length === 0 ? (
                   <DailyGoals goals={goals} />
                ) : null}
                {/* RENDER GOALSMEALPLAN WHEN PAGE IS MEALPLAN AND THERE IS NUTRITION SUMMARY */}
-               {!loading &&
-               page === 'mealplan' &&
-               nutritionSummary !== undefined ? (
+               {page === 'mealplan' && nutritionSummary !== undefined ? (
                   <DailyGoalsMealplan
                      goals={goals}
                      nutritionSummary={nutritionSummary}
                   />
+               ) : null}
+               {isSearching ? (
+                  <Typography align='center' variant='h6' sx={{ pt: '1rem' }}>
+                     Searching...
+                  </Typography>
                ) : null}
             </Drawer>
 
@@ -158,8 +159,8 @@ export const SideBar = ({
                      nutritionSummary={nutritionSummary}
                   />
                ) : null}
-               {loading ? (
-                  <Typography align='center' variant='h6'>
+               {isSearching ? (
+                  <Typography align='center' variant='h6' sx={{ pt: '1rem' }}>
                      Searching...
                   </Typography>
                ) : null}

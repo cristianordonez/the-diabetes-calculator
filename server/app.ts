@@ -74,7 +74,7 @@ passport.use(
                bcrypt.compare(password, first.hash, function (err, res) {
                   if (res) {
                      cb(null, {
-                        id: first.id,
+                        user_id: first.user_id,
                         username: first.username,
                      });
                   } else {

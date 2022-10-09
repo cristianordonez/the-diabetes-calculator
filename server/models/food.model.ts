@@ -271,7 +271,6 @@ const createFoodNutrition = (
    ${Number(nutrition.vitamin_a) * standardized_conversion_factor},
    ${Number(nutrition.vitamin_c) * standardized_conversion_factor})`;
 
-   console.log('createFoodNutritionQuery: ', createFoodNutritionQuery);
    const dbResponse = db.query(createFoodNutritionQuery);
    return dbResponse;
 };

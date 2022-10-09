@@ -10,7 +10,7 @@ interface Props {
    setValues: Dispatch<SetStateAction<any>>;
    setAlertMessage: Dispatch<SetStateAction<string>>;
    setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
-   setLoading: Dispatch<SetStateAction<boolean>>;
+   setIsSearching: Dispatch<SetStateAction<boolean>>;
    setOpenAlert: Dispatch<SetStateAction<boolean>>;
    setShowLoadMoreBtn: Dispatch<SetStateAction<boolean>>;
    setSearchResults: Dispatch<SetStateAction<FoodSearchResult[]>>;
@@ -23,7 +23,7 @@ export const SimpleSearchForm = ({
    setValues,
    setAlertMessage,
    setAlertSeverity,
-   setLoading,
+   setIsSearching,
    setOpenAlert,
    setShowLoadMoreBtn,
    setSearchResults,
@@ -33,7 +33,7 @@ export const SimpleSearchForm = ({
       try {
          event.preventDefault();
          let url = '/api/food/all';
-         setLoading(true);
+         setIsSearching(true);
          setSendAdvancedRequest(false);
          let newValues = { ...values, offset: 0 }; //declare new values so that there are no async bugs, and reset offset to 0 in case user changed it
          setValues(newValues);
@@ -58,9 +58,9 @@ export const SimpleSearchForm = ({
             }
             setSearchResults(foodItems.data);
          }
-         setLoading(false);
+         setIsSearching(false);
       } catch (err) {
-         setLoading(false); //used to trigger the loading circle
+         setIsSearching(false); //used to trigger the loading circle
          setAlertSeverity('error');
          setAlertMessage(
             'Unable to get search results. Please try again later.'

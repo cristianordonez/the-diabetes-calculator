@@ -7,7 +7,6 @@ import { getFoodTitle } from '../../../../../../../utils/getFoodTitle';
 import { NutritionTable } from '../../../../../components/nutrition-table/NutritionTable';
 import { StyledTableRow } from '../../../../../components/styled-table-components/StyledTableRow';
 import './FoodListRow.scss';
-
 interface Props extends FoodSearchResult {
    handleOpeningAddToMealplanDialog: (
       id: number,
@@ -18,7 +17,6 @@ interface Props extends FoodSearchResult {
       modifier: string | null
    ) => void;
 }
-
 export const FoodListRow = ({
    brand_name,
    description,
@@ -42,23 +40,17 @@ export const FoodListRow = ({
    let finalModifier: string | null = '';
    if (data_type === 'custom') {
       title = getFoodTitle(custom_food_brand_name, description);
-      //or should be custom_serving_size_unit from custom_foods
       current_serving_size_unit = custom_food_serving_size_unit;
-      // if custom should be custom_serving_size
       current_serving_size = custom_food_serving_size;
       finalModifier = 'Custom input';
    } else if (data_type === 'branded_food') {
       title = getFoodTitle(brand_name, description);
-      //should be serving_size_unit from branded_food
       current_serving_size_unit = serving_size_unit;
-      // if branded_food should be serving_size
       current_serving_size = serving_size;
       finalModifier = '1 serving as per nutrition label';
    } else {
       title = getFoodTitle(brand_name, description);
-      //or should be modifier from food_portion for foods that are not branded or custom
       current_serving_size_unit = 'g';
-      // if other should be gram weight
       current_serving_size = gram_weight;
       finalModifier = modifier;
    }

@@ -40,7 +40,7 @@ interface Props {
    setNutritionSummary: Dispatch<SetStateAction<NutritionSummaryMealplan>>;
    setMealplanItems: Dispatch<SetStateAction<MealplanItem[]>>;
    mealplanItems: MealplanItem[];
-   setLoading: Dispatch<SetStateAction<boolean>>;
+   setIsSearching: Dispatch<SetStateAction<boolean>>;
 }
 
 const initialNutritionSummary = {
@@ -57,7 +57,7 @@ const MealPlanPage = ({
    setAlertSeverity,
    setNutritionSummary,
    setMealplanItems,
-   setLoading,
+   setIsSearching,
    mealplanItems,
 }: Props) => {
    const [dayIndex, setDayIndex] = useState<number>(getDay(Date.now()));
@@ -85,7 +85,7 @@ const MealPlanPage = ({
          }
          setMealplanItems(dbResponse.data.mealplanItems);
          setNutritionSummary(dbResponse.data.nutritionSummary[0]);
-         setLoading(false);
+         setIsSearching(false);
       } catch (err) {
          console.log(err);
       }

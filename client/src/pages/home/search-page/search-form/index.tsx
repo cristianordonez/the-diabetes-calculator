@@ -19,7 +19,7 @@ interface Props {
    setValues: Dispatch<SetStateAction<Query>>;
    goals: CurrentGoals;
    setAlertMessage: Dispatch<SetStateAction<string>>;
-   setLoading: Dispatch<SetStateAction<boolean>>;
+   setIsSearching: Dispatch<SetStateAction<boolean>>;
    setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
    setOpenAlert: Dispatch<SetStateAction<boolean>>;
    setShowLoadMoreBtn: Dispatch<SetStateAction<boolean>>;
@@ -36,7 +36,7 @@ export const SearchForm = ({
    goals,
    setAlertMessage,
    setAlertSeverity,
-   setLoading,
+   setIsSearching,
    setOpenAlert,
    setShowLoadMoreBtn,
    setSearchResults,
@@ -101,7 +101,7 @@ export const SearchForm = ({
                setValues={setValues}
                setAlertMessage={setAlertMessage}
                setAlertSeverity={setAlertSeverity}
-               setLoading={setLoading}
+               setIsSearching={setIsSearching}
                setOpenAlert={setOpenAlert}
                setShowLoadMoreBtn={setShowLoadMoreBtn}
                setSearchResults={setSearchResults}
