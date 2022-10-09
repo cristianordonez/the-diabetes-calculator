@@ -115,9 +115,6 @@ const NavBar = () => {
                      <IconButton
                         size='large'
                         color='inherit'
-                        // sx={{
-                        //    paddingLeft: { xs: 0, sm: '350px' },
-                        // }}
                         aria-label='navigation'
                         aria-controls='menu-appbar'
                         aria-haspopup='true'
@@ -142,10 +139,6 @@ const NavBar = () => {
                         sx={{
                            display: { xs: 'block', md: 'none' },
                         }}
-                        // sx={{
-                        //    display: 'block',
-                        //    paddingLeft: { xs: 0, sm: '350px' },
-                        // }}
                      >
                         <Stack direction='column' sx={{ padding: '0.5rem' }}>
                            <Link

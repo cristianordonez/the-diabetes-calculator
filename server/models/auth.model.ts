@@ -49,7 +49,7 @@ const getHash = (usernameOrEmail: string) => {
                          INNER JOIN users 
                          ON user_hash.user_id = users.user_id
                          WHERE username = '${usernameOrEmail}' 
-                         OR email = '${usernameOrEmail}' `;
+                         OR email = '${usernameOrEmail}' RETURNING user_id`;
    const hash = db.query(getHashQuery);
    return hash;
 };

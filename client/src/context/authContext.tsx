@@ -32,7 +32,6 @@ const AuthContext = createContext<any>({
 
 //# sends request to server to see if user is still logged in or not, redirects if they are not
 const AuthProvider = ({ children }: Props) => {
-   const location = useLocation();
    const navigate = useNavigate();
    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
    const [isLoading, setIsLoading] = useState<Context | boolean>(true);
@@ -73,6 +72,7 @@ const AuthProvider = ({ children }: Props) => {
                   });
             } else {
                setIsLoggedIn(false);
+               navigate(-1);
             }
             setIsLoading(false);
          })
