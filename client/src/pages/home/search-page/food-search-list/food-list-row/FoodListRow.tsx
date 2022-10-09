@@ -85,15 +85,6 @@ export const FoodListRow = ({
       );
    };
 
-   console.log('serving_size: ', serving_size);
-   console.log('data_type: ', data_type);
-   console.log('custom_food_brand_name: ', custom_food_brand_name);
-   console.log('custom_food_serving_size: ', custom_food_serving_size);
-   console.log('gram_weight: ', gram_weight);
-   console.log('modifier: ', modifier);
-   console.log('serving_size_unit: ', serving_size_unit);
-   console.log('custom_food_serving_unit: ', custom_food_serving_size_unit);
-
    return (
       <>
          <StyledTableRow

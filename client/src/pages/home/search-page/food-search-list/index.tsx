@@ -71,7 +71,6 @@ export const FoodSearchList = ({
       setOpenDialog(!openDialog);
    };
 
-   console.log('searchResults: ', searchResults);
    return (
       <>
          <div className='food-search-list'>
@@ -95,7 +94,7 @@ export const FoodSearchList = ({
                         <StyledTableRow>
                            <StyledTableCell variant='head' />
                            <StyledTableCell>
-                              Food&nbsp;(100g serving)
+                              Food&nbsp;(100g per serving)
                            </StyledTableCell>
                            <StyledTableCell align='right'>
                               Calories
