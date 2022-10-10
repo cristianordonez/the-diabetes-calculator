@@ -1,13 +1,13 @@
 import React from 'react';
-import { RandomMealplanItem } from '../../../../../../types/types';
+import { MealplanItem } from '../../../../../../types/types';
 import { SampleMealplanSlot } from './sample-mealplan-slot/SampleMealplanSlot';
 import './SampleMealplanDay.scss';
 
 interface Props {
-   randomMealplanItems: RandomMealplanItem[];
+   randomMealplanItems: MealplanItem[];
 }
 export const SampleMealPlanDay = ({ randomMealplanItems }: Props) => {
-   const slotNames = ['Breakfast', 'Lunch', 'Dinner'];
+   const slotNames = ['Morning', 'Afternoon', 'Evening', 'Snack'];
    return (
       <>
          <div className='meal-plan-slots-container'>

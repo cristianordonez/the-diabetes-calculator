@@ -41,7 +41,8 @@ export const FoodSearchList = ({
 }: Props) => {
    const [openDialog, setOpenDialog] = useState<boolean>(false);
    const [currentId, setCurrentId] = useState<number>(0);
-   const [currentTitle, setCurrentTitle] = useState<string>('');
+   const [currentDescription, setCurrentDescription] = useState<string>('');
+   const [currentBrand, setCurrentBrand] = useState<string>('');
    const [currentModifier, setCurrentModifier] = useState<string | null>();
    const [currentDataType, setCurrentDataType] = useState<string>('');
    const [currentServingSizeUnit, setCurrentServingSizeUnit] =
@@ -55,14 +56,16 @@ export const FoodSearchList = ({
       dataType: string,
       servingSizes: number[],
       servingSizeUnit: string,
-      title: string,
+      description: string,
+      brand: string,
       modifier: string | null
    ) => {
       setCurrentId(id);
       setCurrentDataType(dataType);
       setCurrentServingSizes(servingSizes);
       setCurrentServingSizeUnit(servingSizeUnit);
-      setCurrentTitle(title);
+      setCurrentDescription(description);
+      setCurrentBrand(brand);
       setCurrentModifier(modifier);
       setOpenDialog(!openDialog);
    };
@@ -126,9 +129,9 @@ export const FoodSearchList = ({
                               handleOpeningAddToMealplanDialog={
                                  handleOpeningAddToMealplanDialog
                               }
-                              brand_name={searchResult.brand_name}
-                              custom_food_brand_name={
-                                 searchResult.custom_food_brand_name
+                              brand_owner={searchResult.brand_owner}
+                              custom_food_brand_owner={
+                                 searchResult.custom_food_brand_owner
                               }
                               description={searchResult.description}
                               fdc_id={searchResult.fdc_id}
@@ -165,11 +168,12 @@ export const FoodSearchList = ({
             currentServingSizes={currentServingSizes}
             currentServingSizeUnit={currentServingSizeUnit}
             setOpenDialog={setOpenDialog}
-            currentTitle={currentTitle}
+            currentDescription={currentDescription}
             setAlertMessage={setAlertMessage}
             setOpenSnackbar={setOpenSnackbar}
             setAlertSeverity={setAlertSeverity}
             currentModifier={currentModifier}
+            currentBrand={currentBrand}
          />
       </>
    );

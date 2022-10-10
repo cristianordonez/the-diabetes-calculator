@@ -10,9 +10,9 @@ import React, { useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import {
    CurrentGoals,
+   MealplanItem,
    NutritionSummaryMealplan,
    Query,
-   RandomMealplanItem,
 } from '../../../../types/types';
 import { CustomAlert } from '../../components/custom-alert/CustomAlert';
 import { getMetrics } from '../../utils/get-metrics/getMetrics';
@@ -38,6 +38,14 @@ const initialState = {
 };
 
 const initialGoals = {
+   total_carbohydrates: 0,
+   total_protein: 0,
+   total_fat: 0,
+   total_calories: 0,
+   goal: 'weight_loss' as 'weight_loss' | 'maintain' | 'gain_muscle',
+};
+
+const initialMealplanGoals = {
    total_carbohydrates: 250,
    total_protein: 100,
    total_fat: 75,
@@ -56,12 +64,14 @@ const SampleFeaturesPage = () => {
    const [mobileOpen, setMobileOpen] = React.useState(false);
    const [isLoading, setIsLoading] = useState<boolean>(false);
    const [goals, setGoals] = useState<CurrentGoals>(initialGoals);
+   const [mealPlanGoals, setMealplanGoals] =
+      useState<CurrentGoals>(initialMealplanGoals);
    const [alertSeverity, setAlertSeverity] = useState<AlertColor>('error');
    const [alertMessage, setAlertMessage] = useState<string>('');
    const [values, setValues] = useState<Query>(initialState);
    const [openAlert, setOpenAlert] = useState<boolean>(false);
    const [randomMealplanItems, setRandomMealplanItems] = useState<
-      RandomMealplanItem[] | []
+      MealplanItem[] | []
    >([]);
    const [age, setAge] = useState<number>(18);
    const [height, setHeight] = useState<number>(60);
@@ -139,7 +149,6 @@ const SampleFeaturesPage = () => {
       setValues({ ...values, [event.target.id]: event.target.value });
    };
    const handleRadioClick = (event: React.MouseEvent<HTMLInputElement>) => {
-      //  setValue((event.target as HTMLInputElement).value);
       if ((event.target as HTMLInputElement).value === values.allergy) {
          setValues({
             ...values,
@@ -181,7 +190,7 @@ const SampleFeaturesPage = () => {
                            handleSearch={handleSearch}
                            handleInputChange={handleInputChange}
                            handleTypeSelect={handleTypeSelect}
-                           goals={goals}
+                           goals={initialMealplanGoals}
                            nutritionSummary={nutritionSummary}
                            view={'mealplan'}
                            handleRadioClick={handleRadioClick}

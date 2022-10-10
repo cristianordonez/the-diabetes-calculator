@@ -13,7 +13,7 @@ import {
 
 interface Props {
    handleSelectServingSize?: (event: SelectChangeEvent) => void;
-   servingSize: number;
+   servingSize: number | string;
    currentServingSizes: number[];
    currentServingSizeUnit: string;
    currentModifier: string | null | undefined;

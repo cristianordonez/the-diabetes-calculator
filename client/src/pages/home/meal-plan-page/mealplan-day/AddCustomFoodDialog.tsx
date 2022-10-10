@@ -96,7 +96,7 @@ export const AddCustomFoodDialog = ({
                   ) : (
                      <Box display='flex' flexDirection='column' gap='10px'>
                         <CreateFoodTextInput
-                           inputValue={createFoodData.brand_name}
+                           inputValue={createFoodData.brand_owner}
                            title='Brand name'
                            id={'brand_name'}
                            textFieldError={false}

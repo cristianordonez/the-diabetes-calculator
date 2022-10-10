@@ -221,8 +221,8 @@ const getAdvancedByBrand = (query: Query) => {
 const createFood = (
    description: string,
    serving_size_conversion_factor: number,
-   brand_name: string,
-   serving_size: number,
+   brand_owner: string,
+   serving_size: number | string,
    serving_size_unit: string,
    user_id: number
 ) => {
@@ -231,8 +231,8 @@ const createFood = (
    VALUES ('custom', '${description}', ${serving_size_conversion_factor}) 
    RETURNING fdc_id)
    INSERT INTO custom_food 
-   (brand_name, serving_size, serving_size_unit, fdc_id, user_id) 
-   VALUES ('${brand_name}', ${serving_size}, '${serving_size_unit}', (SELECT fdc_id FROM getId), ${user_id})
+   (brand_owner, serving_size, serving_size_unit, fdc_id, user_id) 
+   VALUES ('${brand_owner}', ${serving_size}, '${serving_size_unit}', (SELECT fdc_id FROM getId), ${user_id})
    RETURNING fdc_id`;
 
    console.log('createFoodQuery: ', createFoodQuery);

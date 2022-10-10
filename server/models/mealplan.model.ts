@@ -2,15 +2,13 @@ import { AddToMealPlanType, MealplanItem } from '../../types/types';
 import { db } from '../database/db';
 
 const createMeal = (mealplan: AddToMealPlanType, user_id: number) => {
-   console.log('mealplan: ', mealplan);
-
-   let title = mealplan.title.replace(`'`, '');
-   //TODO remove title
+   let description = mealplan.description.replace(`'`, '');
+   //TODO remove title after using parameterized queries
    const dbQuery = `INSERT INTO user_meal (user_id, fdc_id, slot, 
-    data_type, servings, serving_size, serving_size_unit, date, title)
+    data_type, servings, serving_size, serving_size_unit, date, description, brand_owner)
     VALUES (${user_id}, ${mealplan.fdc_id}, ${mealplan.slot}, '${mealplan.data_type}',
     ${mealplan.servings}, ${mealplan.serving_size}, '${mealplan.serving_size_unit}',
-     '${mealplan.date}', '${title}') 
+     '${mealplan.date}', '${description}', '${mealplan.brand_owner}') 
     RETURNING meal_id
 	`;
    const results = db.query(dbQuery);
@@ -85,8 +83,9 @@ const createMealNutrition = (meal_id: number) => {
 };
 
 const getByDay = (date: Date | string, user_id: number) => {
-   const getMealsAndNutritionQuery = `SELECT user_meal.meal_id, slot, data_type, servings, serving_size, serving_size_unit, date, fdc_id,  
-	ingredients, title, row_to_json(user_meal_nutrition) 
+   const getMealsAndNutritionQuery = `SELECT
+	user_meal.meal_id, slot, data_type, servings, serving_size, serving_size_unit, date, fdc_id, 
+   	description, brand_owner, row_to_json(user_meal_nutrition) 
 	AS nutrition FROM user_meal INNER JOIN user_meal_nutrition ON user_meal.meal_id = user_meal_nutrition.meal_id 
 	WHERE user_id = ${user_id} AND date = '${date}'
 	ORDER BY created_at ASC `;
@@ -118,14 +117,14 @@ const getRandomDay = () => {
    const getRandomDayQuery = `
 		SELECT data_type,
 		description,
-		brand_name
+		brand_owner
 		serving_size, 
 		serving_size_unit, 
 		food.fdc_id,  
 		row_to_json(food_nutrition) AS nutrition 
 		FROM food INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
 		INNER JOIN branded_food ON branded_food.fdc_id = food.fdc_id
-		WHERE calories is NOT null and brand_name is not null
+		WHERE calories is NOT null and brand_owner is not null
 		OFFSET ${randomInt} LIMIT 3`;
    return db.query(getRandomDayQuery);
 };

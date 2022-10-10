@@ -137,9 +137,10 @@ export const MealplanSlot = ({
                                  </IconButton>
                               </Tooltip>
                            </TableCell>
-                           <TableCell>{meal.title}</TableCell>
+                           <TableCell>{meal.description}</TableCell>
                            <TableCell>
-                              {meal.serving_size * meal.servings}{' '}
+                              {Number(meal.serving_size) *
+                                 Number(meal.servings)}{' '}
                               {meal.serving_size_unit}
                            </TableCell>
                            <TableCell>{meal.nutrition.calories} kcal</TableCell>

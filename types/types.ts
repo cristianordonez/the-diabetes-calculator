@@ -1,52 +1,41 @@
 type Food = {
    data_type: string;
-   serving_size: number;
+   serving_size: number | string;
    serving_size_unit: string;
 };
 
-interface AddToMealPlanType extends Food {
-   date: Date | string;
-   slot: 1 | 2 | 3 | 4;
-   fdc_id: number;
-   servings: number | string;
-   title: string;
-}
-
 interface FoodItem extends Food {
-   date: string;
+   date: string | Date;
    slot: 1 | 2 | 3 | 4;
-   servings: number;
-   nutrition: FoodNutrition;
+   servings: number | string;
+   brand_owner: string;
+   description: string;
 }
 
-interface MealplanItem extends FoodItem {
+type FdcId = {
+   fdc_id: number;
+};
+type MealId = {
    meal_id: number;
-   title: string;
-   fdc_id: string;
-}
+};
 
-interface CustomFoodInput extends FoodItem {
-   brand_name: string;
-   description: string;
-}
-
-interface RandomMealplanItem {
-   brand_name: string;
-   description: string;
-   fdc_id: string;
+type ItemNutrition = {
    nutrition: FoodNutrition;
-   data_type: string;
-   serving_size: number | string;
-   serving_size_unit: string;
-}
+};
+
+type AddToMealPlanType = FoodItem & FdcId;
+
+type MealplanItem = AddToMealPlanType & MealId & ItemNutrition;
+
+type CustomFoodInput = FoodItem & ItemNutrition;
 
 type FoodSearchResult = {
    data_type: string;
    nutrition: FoodNutrition;
    serving_size: number | null;
    serving_size_unit: string | null;
-   brand_name: string | null;
-   custom_food_brand_name: string | null;
+   brand_owner: string | null;
+   custom_food_brand_owner: string | null;
    description: string;
    fdc_id: string;
    custom_food_serving_size: number | null;
@@ -165,5 +154,4 @@ export {
    MetricsType,
    MealplanItem,
    CustomFoodInput,
-   RandomMealplanItem,
 };

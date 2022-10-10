@@ -11,14 +11,13 @@ import {
    Tooltip,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { RandomMealplanItem } from '../../../../../../../types/types';
-import { getFoodTitle } from '../../../../../../../utils/getFoodTitle';
+import { MealplanItem } from '../../../../../../../types/types';
 import { NutritionTable } from '../../../../../components/nutrition-table/NutritionTable';
 import { StyledTableCell } from '../../../../../components/styled-table-components/StyledTableCell';
 import { StyledTableRow } from '../../../../../components/styled-table-components/StyledTableRow';
 interface Props {
    slotName: string;
-   mealItem: RandomMealplanItem;
+   mealItem: MealplanItem;
 }
 
 export const SampleMealplanSlot = ({ slotName, mealItem }: Props) => {
@@ -71,12 +70,7 @@ export const SampleMealplanSlot = ({ slotName, mealItem }: Props) => {
                            </IconButton>
                         </Tooltip>
                      </TableCell>
-                     <TableCell>
-                        {getFoodTitle(
-                           mealItem.brand_name,
-                           mealItem.description
-                        )}
-                     </TableCell>
+                     <TableCell>mealItem.description</TableCell>
                      <TableCell>
                         {servingSize} {mealItem.serving_size_unit}
                      </TableCell>

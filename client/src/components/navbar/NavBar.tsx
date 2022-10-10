@@ -43,6 +43,7 @@ const NavBar = () => {
    );
 
    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+      console.log('event.currentTarget: ', event.currentTarget);
       setAnchorElNav(event.currentTarget);
    };
 
@@ -108,7 +109,7 @@ const NavBar = () => {
                   <Box
                      sx={{
                         flexGrow: 1,
-                        display: { xs: 'flex', lg: 'none' },
+                        display: { xs: 'flex', md: 'none' },
                         paddingLeft: { xs: 0, sm: '350px' },
                      }}
                   >
@@ -184,13 +185,13 @@ const NavBar = () => {
                         </Button>
                      ) : null}
                   </Box>
-                  {/* ONLY ON LARGE AND ABOVE SCREENS*/}
+                  {/* ONLY ON MD AND ABOVE SCREENS*/}
                   <Box
                      sx={{
                         flexGrow: 1,
-                        display: { xs: 'none', lg: 'flex' },
+                        display: { xs: 'none', md: 'flex' },
                         gap: 4,
-                        // pl: { xs: 0, sm: '350px' },
+                        pl: { xs: 0, sm: '350px' },
                         width: '100%',
                         justifyContent: 'center',
                      }}

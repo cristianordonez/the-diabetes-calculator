@@ -36,7 +36,8 @@ interface Props {
    currentModifier: string | null | undefined;
    currentServingSizes: number[];
    currentServingSizeUnit: string;
-   currentTitle: string;
+   currentDescription: string;
+   currentBrand: string;
    setOpenDialog: Dispatch<SetStateAction<boolean>>;
    setAlertMessage: Dispatch<SetStateAction<string>>;
    setOpenSnackbar: Dispatch<SetStateAction<boolean>>;
@@ -51,7 +52,8 @@ export const AddToCartModal = ({
    currentServingSizes,
    currentModifier,
    currentServingSizeUnit,
-   currentTitle,
+   currentDescription,
+   currentBrand,
    setOpenDialog,
    setAlertMessage,
    setOpenSnackbar,
@@ -65,7 +67,8 @@ export const AddToCartModal = ({
       data_type: currentDataType,
       serving_size: currentServingSizes[0],
       serving_size_unit: currentServingSizeUnit,
-      title: currentTitle,
+      description: currentDescription,
+      brand_owner: currentBrand,
    });
 
    const handleSelectSlot = (event: SelectChangeEvent) => {
@@ -111,7 +114,7 @@ export const AddToCartModal = ({
          serving_size_unit: currentServingSizeUnit,
          slot: 1,
          date: format(startOfToday(), 'yyyy-MM-dd'),
-         title: currentTitle,
+         description: currentDescription,
       });
    }, [id]);
 

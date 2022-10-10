@@ -6,7 +6,7 @@ import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 import subDays from 'date-fns/subDays';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { RandomMealplanItem } from '../../../../../types/types';
+import { MealplanItem } from '../../../../../types/types';
 import { MealPlanWeekText } from '../../../components/mealplan-week-text/MealPlanWeekText';
 import { SampleMealPlanDay } from './sample-mealplan-day/SampleMealplanDay';
 import './SampleMealPlanPage.scss';
@@ -27,9 +27,9 @@ interface Props {
    setNutritionSummary: Dispatch<SetStateAction<any>>;
    setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
    setOpenAlert: Dispatch<SetStateAction<boolean>>;
-   setRandomMealplanItems: Dispatch<SetStateAction<RandomMealplanItem[]>>;
+   setRandomMealplanItems: Dispatch<SetStateAction<MealplanItem[]>>;
    setAlertMessage: Dispatch<SetStateAction<string>>;
-   randomMealplanItems: RandomMealplanItem[];
+   randomMealplanItems: MealplanItem[];
 }
 
 const SampleMealPlanPage = ({

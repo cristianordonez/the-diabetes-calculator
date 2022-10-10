@@ -37,7 +37,7 @@ export const MealplanDay = ({
       slot: 1 as 1 | 2 | 3 | 4,
       data_type: 'custom',
       servings: 1,
-      brand_name: '',
+      brand_owner: '',
       description: '',
       serving_size: 100,
       serving_size_unit: 'g',
