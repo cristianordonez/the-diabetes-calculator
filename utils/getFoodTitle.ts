@@ -1,11 +1,13 @@
 export const getFoodTitle = (
-   brand_name: string | null,
+   brand_name: string | null | undefined,
    description: string
 ) => {
+   console.log('brand_name: ', brand_name);
+   console.log('description: ', description);
    let brand_name_updated = '';
    let description_updated = '';
    let title = '';
-   if (brand_name !== null && brand_name !== '') {
+   if (brand_name !== null && brand_name !== '' && brand_name !== undefined) {
       const brandNameArr = brand_name.split(' ');
       for (let i = 0; i < brandNameArr.length; i++) {
          brandNameArr[i] =

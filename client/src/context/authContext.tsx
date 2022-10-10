@@ -1,14 +1,14 @@
 import React, {
    createContext,
-   useState,
-   useContext,
-   useEffect,
    Dispatch,
    SetStateAction,
+   useContext,
+   useEffect,
+   useState,
 } from 'react';
 
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
    children: React.ReactNode;
@@ -72,7 +72,6 @@ const AuthProvider = ({ children }: Props) => {
                   });
             } else {
                setIsLoggedIn(false);
-               navigate(-1);
             }
             setIsLoading(false);
          })

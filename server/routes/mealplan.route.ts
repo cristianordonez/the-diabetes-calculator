@@ -4,6 +4,7 @@ import {
    createCustomItem,
    deleteMealPlanItem,
    getMealPlanDay,
+   getRandomMealplanDay,
 } from '../controllers/mealplan.controller';
 
 const router = Router();
@@ -23,6 +24,10 @@ router.delete('/:id', (req: Request, res: Response) => {
 
 router.post('/custom', (req: Request, res: Response) => {
    createCustomItem(req, res);
+});
+
+router.get('/random', (req: Request, res: Response) => {
+   getRandomMealplanDay(req, res);
 });
 
 export { router };

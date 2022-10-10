@@ -5,8 +5,9 @@
    @include set-size(100%);
    justify-content: center;
    @include devices(mobile) {
-      padding-top: 1rem;
+      padding-top: 0;
    }
+   padding-top: 10vh;
    .signup-form {
       @include set-size(100%);
       @include flex-center();

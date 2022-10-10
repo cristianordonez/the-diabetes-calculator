@@ -16,16 +16,13 @@ export const SampleMealplanSidebarContents = ({
    nutritionSummary,
    goals,
 }: Props): ReactJSXElement => {
-   let calories = Math.floor(
-      (parseInt(nutritionSummary.total_calories) / goals.total_calories) * 100
-   );
    return (
       <React.Fragment>
          <Typography variant='h4' component='h1' align='center'>
             Today's Goals
          </Typography>
          <CaloriesCircularProgress
-            calories={calories}
+            calories={parseInt(nutritionSummary.total_calories)}
             goalCalories={goals.total_calories}
          />
          <Stack direction='column' spacing={2} sx={{ p: '1rem' }}>

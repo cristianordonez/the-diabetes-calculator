@@ -13,7 +13,20 @@ import {
    deleteFood,
    getByDay,
    getNutritionSummaryByDay,
+   getRandomDay,
+   getRandomDayNutritionSummary,
 } from '../models/mealplan.model';
+
+const getRandomMealplanDay = async (req: Request, res: Response) => {
+   try {
+      const randomItems = await getRandomDay();
+      const nutritionSummary = await getRandomDayNutritionSummary(randomItems);
+      res.status(200).send({ randomItems, nutritionSummary });
+   } catch (err) {
+      console.log('err getting random meals: ', err);
+      res.status(400).send('Unable to get random meal plan days');
+   }
+};
 
 //# adds item to users meals, then updates the user_meal_nutrition table
 //# for this item in seperate query
@@ -123,4 +136,5 @@ export {
    getMealPlanDay,
    deleteMealPlanItem,
    createCustomItem,
+   getRandomMealplanDay,
 };

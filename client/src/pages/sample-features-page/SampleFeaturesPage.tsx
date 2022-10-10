@@ -8,7 +8,12 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
-import { CurrentGoals, Query } from '../../../../types/types';
+import {
+   CurrentGoals,
+   NutritionSummaryMealplan,
+   Query,
+   RandomMealplanItem,
+} from '../../../../types/types';
 import { CustomAlert } from '../../components/custom-alert/CustomAlert';
 import { getMetrics } from '../../utils/get-metrics/getMetrics';
 import SampleMealPlanPage from './sample-app-mealplan-page/SampleMealPlanPage';
@@ -33,18 +38,18 @@ const initialState = {
 };
 
 const initialGoals = {
-   total_carbohydrates: 135,
-   total_protein: 135,
-   total_fat: 100,
-   total_calories: 2000,
+   total_carbohydrates: 250,
+   total_protein: 100,
+   total_fat: 75,
+   total_calories: 2075,
    goal: 'weight_loss' as 'weight_loss' | 'maintain' | 'gain_muscle',
 };
 
 const initialNutritionSummary = {
-   calories: 0,
-   fat: 0,
-   carbohydrates: 0,
-   protein: 0,
+   total_calories: '0',
+   total_fat: '0',
+   total_carbohydrates: '0',
+   total_protein: '0',
 };
 
 const SampleFeaturesPage = () => {
@@ -55,7 +60,9 @@ const SampleFeaturesPage = () => {
    const [alertMessage, setAlertMessage] = useState<string>('');
    const [values, setValues] = useState<Query>(initialState);
    const [openAlert, setOpenAlert] = useState<boolean>(false);
-   // const [mealplanItems, setMealplanItems] = useState<FoodItemType[] | []>([]);
+   const [randomMealplanItems, setRandomMealplanItems] = useState<
+      RandomMealplanItem[] | []
+   >([]);
    const [age, setAge] = useState<number>(18);
    const [height, setHeight] = useState<number>(60);
    const [weight, setWeight] = useState<number>(200);
@@ -63,11 +70,10 @@ const SampleFeaturesPage = () => {
    const [goal, setGoal] = React.useState<
       'weight_loss' | 'maintain' | 'gain_muscle'
    >('weight_loss');
-   const [gender, setGender] = useState('male');
+   const [gender, setGender] = useState<'male' | 'female'>('male');
 
-   const [nutritionSummary, setNutritionSummary] = useState(
-      initialNutritionSummary
-   );
+   const [nutritionSummary, setNutritionSummary] =
+      useState<NutritionSummaryMealplan>(initialNutritionSummary);
 
    const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
@@ -184,11 +190,9 @@ const SampleFeaturesPage = () => {
                            setNutritionSummary={setNutritionSummary}
                            setAlertSeverity={setAlertSeverity}
                            setOpenAlert={setOpenAlert}
-                           // setSampleMealplanItems={setSampleMealplanItems}
-                           // setMealplanItems={setMealplanItems}
+                           setRandomMealplanItems={setRandomMealplanItems}
                            setAlertMessage={setAlertMessage}
-                           // mealplanItems={mealplanItems}
-                           // sampleMealplanItems={sampleMealplanItems}
+                           randomMealplanItems={randomMealplanItems}
                         />
                      </>
                   }
@@ -238,10 +242,7 @@ const SampleFeaturesPage = () => {
                   setOpenAlert,
                   setValues,
                   setAlertMessage,
-                  // setSampleMealplanItems,
-                  // setMealplanItems,
                   isLoading,
-                  // mealplanItems,
                   alertSeverity,
                   alertMessage,
                   goals,

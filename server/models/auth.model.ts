@@ -31,13 +31,6 @@ const updatePassword = (userId: string, password: string) => {
    return dbResponse;
 };
 
-const createUserIntolerances = function (intolerances: Intolerances) {
-   let dbQuery = `UPDATE users SET intolerances = '{${intolerances.intolerances}}'
-   `;
-   let result = db.query(dbQuery);
-   return result;
-};
-
 const getGoogleUser = (email: string) => {
    const getGoogleUserQuery = `SELECT username, email, user_id FROM users WHERE email='${email}'`;
    const user = db.query(getGoogleUserQuery);
@@ -49,16 +42,9 @@ const getHash = (usernameOrEmail: string) => {
                          INNER JOIN users 
                          ON user_hash.user_id = users.user_id
                          WHERE username = '${usernameOrEmail}' 
-                         OR email = '${usernameOrEmail}' RETURNING user_id`;
+                         OR email = '${usernameOrEmail}'`;
    const hash = db.query(getHashQuery);
    return hash;
 };
 
-export {
-   createUser,
-   updatePassword,
-   createUserIntolerances,
-   getHash,
-   getGoogleUser,
-   createGoogleUser,
-};
+export { createUser, updatePassword, getHash, getGoogleUser, createGoogleUser };

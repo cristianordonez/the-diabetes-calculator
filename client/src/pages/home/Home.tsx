@@ -2,7 +2,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { AlertColor, IconButton, Toolbar, Tooltip } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import {
    CurrentGoals,
    FoodSearchResult,
@@ -12,10 +12,12 @@ import {
 } from '../../../../types/types';
 import { CustomAlert } from '../../components/custom-alert/CustomAlert';
 import { SideBar } from '../../components/sidebar/SideBar';
+import { useAuth } from '../../context/authContext';
 import MealPlanPage from './meal-plan-page/MealPlanPage';
 import { SearchForm } from './search-page/search-form';
 
 const Home = () => {
+   const { isLoggedIn } = useAuth();
    const [goals, setGoals] = useState({} as CurrentGoals);
    const [mobileOpen, setMobileOpen] = useState(false);
    const [searchResults, setSearchResults] = useState<FoodSearchResult[]>([]);
@@ -148,14 +150,24 @@ const Home = () => {
       />
    );
 
+   const navigate = useNavigate();
+
+   //#navigate to home if user is not logged in, do not reroute in useAuth since we don't want user to reroute to landing page if they go straight to loggedin page or resetpassword page
    useEffect(() => {
-      let promise = axios.get('/api/goals', { withCredentials: true });
-      promise.then((results) => {
-         setGoals(results.data);
-      });
-      promise.catch((err) => {
-         console.log(err);
-      });
+      if (isLoggedIn === false) {
+         navigate('/', {
+            state: { showError: false },
+            replace: true,
+         });
+      } else {
+         let promise = axios.get('/api/goals', { withCredentials: true });
+         promise.then((results) => {
+            setGoals(results.data);
+         });
+         promise.catch((err) => {
+            console.log(err);
+         });
+      }
    }, []);
 
    return (

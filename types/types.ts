@@ -1,3 +1,60 @@
+type Food = {
+   data_type: string;
+   serving_size: number;
+   serving_size_unit: string;
+};
+
+interface AddToMealPlanType extends Food {
+   date: Date | string;
+   slot: 1 | 2 | 3 | 4;
+   fdc_id: number;
+   servings: number | string;
+   title: string;
+}
+
+interface FoodItem extends Food {
+   date: string;
+   slot: 1 | 2 | 3 | 4;
+   servings: number;
+   nutrition: FoodNutrition;
+}
+
+interface MealplanItem extends FoodItem {
+   meal_id: number;
+   title: string;
+   fdc_id: string;
+}
+
+interface CustomFoodInput extends FoodItem {
+   brand_name: string;
+   description: string;
+}
+
+interface RandomMealplanItem {
+   brand_name: string;
+   description: string;
+   fdc_id: string;
+   nutrition: FoodNutrition;
+   data_type: string;
+   serving_size: number | string;
+   serving_size_unit: string;
+}
+
+type FoodSearchResult = {
+   data_type: string;
+   nutrition: FoodNutrition;
+   serving_size: number | null;
+   serving_size_unit: string | null;
+   brand_name: string | null;
+   custom_food_brand_name: string | null;
+   description: string;
+   fdc_id: string;
+   custom_food_serving_size: number | null;
+   custom_food_serving_size_unit: string | null;
+   gram_weight: number | null;
+   modifier: string | null;
+};
+
 type CurrentGoals = {
    user_id?: number;
    goal: 'weight_loss' | 'gain_muscle' | 'maintain';
@@ -40,17 +97,6 @@ type PassportGoogleUser = {
    username: string;
    email: string;
    user_id: number;
-};
-
-type AddToMealPlanType = {
-   date: Date | string;
-   slot: 1 | 2 | 3 | 4;
-   data_type: string;
-   fdc_id: number;
-   servings: number | string;
-   serving_size: number;
-   serving_size_unit: string;
-   title: string;
 };
 
 type Intolerances = {
@@ -96,52 +142,11 @@ type FoodNutrition = {
    vitamin_d: number | string | null;
 };
 
-type FoodSearchResult = {
-   brand_name: string | null;
-   custom_food_brand_name: string | null;
-   description: string;
-   fdc_id: string;
-   serving_size: number | null;
-   custom_food_serving_size: number | null;
-   serving_size_unit: string | null;
-   custom_food_serving_size_unit: string | null;
-   data_type: string;
-   nutrition: FoodNutrition;
-   gram_weight: number | null;
-   modifier: string | null;
-};
-
-type CustomFoodInput = {
-   date: string;
-   slot: 1 | 2 | 3 | 4;
-   data_type: string;
-   servings: number;
-   brand_name: string;
-   description: string;
-   serving_size: number;
-   serving_size_unit: string;
-   nutrition: FoodNutrition;
-};
-
 type NutritionSummaryMealplan = {
    total_calories: string;
    total_carbohydrates: string;
    total_fat: string;
    total_protein: string;
-};
-
-type MealplanItem = {
-   data_type: string;
-   date: string;
-   fdc_id: string;
-   ingredients: string;
-   nutrition: FoodNutrition;
-   serving_size: number;
-   serving_size_unit: string;
-   meal_id: number;
-   servings: number;
-   slot: 1 | 2 | 3 | 4;
-   title: string;
 };
 
 export {
@@ -160,4 +165,5 @@ export {
    MetricsType,
    MealplanItem,
    CustomFoodInput,
+   RandomMealplanItem,
 };

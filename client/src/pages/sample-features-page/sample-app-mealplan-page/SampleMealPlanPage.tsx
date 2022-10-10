@@ -1,13 +1,15 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import './SampleMealPlanPage.scss';
-
-import { AlertColor, Tab, Tabs } from '@mui/material';
+import { AlertColor, CircularProgress, Tab, Tabs } from '@mui/material';
 import { Box } from '@mui/system';
+import axios from 'axios';
 import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 import subDays from 'date-fns/subDays';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { RandomMealplanItem } from '../../../../../types/types';
 import { MealPlanWeekText } from '../../../components/mealplan-week-text/MealPlanWeekText';
+import { SampleMealPlanDay } from './sample-mealplan-day/SampleMealplanDay';
+import './SampleMealPlanPage.scss';
 
 const days = [
    'Sunday',
@@ -25,26 +27,26 @@ interface Props {
    setNutritionSummary: Dispatch<SetStateAction<any>>;
    setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
    setOpenAlert: Dispatch<SetStateAction<boolean>>;
-   // setMealplanItems: Dispatch<SetStateAction<FoodItemType[]>>;
+   setRandomMealplanItems: Dispatch<SetStateAction<RandomMealplanItem[]>>;
    setAlertMessage: Dispatch<SetStateAction<string>>;
-   // mealplanItems: FoodItemType[];
+   randomMealplanItems: RandomMealplanItem[];
 }
 
 const SampleMealPlanPage = ({
    setNutritionSummary,
    setAlertSeverity,
    setOpenAlert,
-   // setMealplanItems,
+   setRandomMealplanItems,
+   randomMealplanItems,
    setAlertMessage,
-}: // mealplanItems,
-Props) => {
+}: Props) => {
    const [dayIndex, setDayIndex] = useState<number>(getDay(Date.now())); //used for tab highlighting
 
    const [value, setValue] = React.useState<any>(new Date(Date.now()));
 
    const [currentDay, setCurrentDay] = useState(
       format(new Date(Date.now()), 'yyyy-MM-dd')
-   ); //spoonacular api needs date in format '2022-07-13'
+   );
 
    const handleClose = (event: React.SyntheticEvent | Event) => {
       setOpenAlert(false);
@@ -52,15 +54,6 @@ Props) => {
 
    //need to configure so that day is also changed when tab changes
    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-      //TODO uncomment this line when set meal plan items is fixed
-      // setMealplanItems([]); //when tab changes, reset the nutrition summary and the mealplan items
-      setNutritionSummary({
-         calories: 0,
-         protein: 0,
-         fat: 0,
-         carbohydrates: 0,
-      });
-
       const prevDate = currentDay; //create variable to store the previous date and previous tab index
       const prevDayIndex = dayIndex;
       let differenceInDays = newValue - dayIndex; //find out how many days before or after current date is new selected date by finding difference between previous tab and current tab
@@ -93,36 +86,23 @@ Props) => {
       return { year, month, day };
    };
 
-   // TODO fix useeffect with correct types and data
-   // useEffect(() => {
-   //    axios
-   //       .get('/api/mealplan/sample')
-   //       .then((response) => {
-   //          setNutritionSummary(response.data.nutrients);
-   //          const currentMealplanItems = response.data.meals;
-   //          setSampleMealplanItems(currentMealplanItems);
-   //          const promises = currentMealplanItems.map(
-   //             (item: SampleMealplanItem) => {
-   //                return axios
-   //                   .get(`/api/recipes/${item.id}`)
-   //                   .then((response) => {
-   //                      return response.data;
-   //                   });
-   //             }
-   //          );
-   //          Promise.all(promises).then((mealItems) => {
-   //             setMealplanItems(mealItems);
-   //          });
-   //       })
-   //       .catch((err) => {
-   //          setAlertMessage(
-   //             'Unable to retrieve meal plan items. Please try again later.'
-   //          );
-   //          setAlertSeverity('error');
-   //          setOpenAlert(true);
-   //       });
-   // }, [currentDay]);
+   useEffect(() => {
+      axios
+         .get('/api/mealplan/random')
+         .then((response) => {
+            setNutritionSummary(response.data.nutritionSummary[0]);
+            setRandomMealplanItems(response.data.randomItems);
+         })
+         .catch((err) => {
+            setAlertMessage(
+               'Unable to retrieve meal plan items. Please try again later.'
+            );
+            setAlertSeverity('error');
+            setOpenAlert(true);
+         });
+   }, [currentDay]);
 
+   console.log('sampleMealplanItems: ', randomMealplanItems);
    return (
       <>
          <div className='sample-mealplan-page'>
@@ -140,15 +120,11 @@ Props) => {
                   ))}
                </Tabs>
             </Box>
-            {/* TODO fix this page as well */}
-            {/* {mealplanItems.length > 0 && sampleMealplanItems.length > 0 ? (
-               <SampleMealPlanDay
-                  mealplanItems={mealplanItems}
-                  sampleMealplanItems={sampleMealplanItems}
-               />
+            {randomMealplanItems.length > 0 ? (
+               <SampleMealPlanDay randomMealplanItems={randomMealplanItems} />
             ) : (
                <CircularProgress size={100} />
-            )} */}
+            )}
          </div>
       </>
    );

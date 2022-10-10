@@ -1,4 +1,4 @@
-import { AddToMealPlanType } from '../../types/types';
+import { AddToMealPlanType, MealplanItem } from '../../types/types';
 import { db } from '../database/db';
 
 const createMeal = (mealplan: AddToMealPlanType, user_id: number) => {
@@ -13,7 +13,6 @@ const createMeal = (mealplan: AddToMealPlanType, user_id: number) => {
      '${mealplan.date}', '${title}') 
     RETURNING meal_id
 	`;
-   console.log('dbQuery: ', dbQuery);
    const results = db.query(dbQuery);
    return results;
 };
@@ -114,10 +113,39 @@ const deleteFood = (user_id: number, mealId: string) => {
    return db.query(deleteFoodQuery);
 };
 
+const getRandomDay = () => {
+   const randomInt = Math.floor(Math.random() * 1500);
+   const getRandomDayQuery = `
+		SELECT data_type,
+		description,
+		brand_name
+		serving_size, 
+		serving_size_unit, 
+		food.fdc_id,  
+		row_to_json(food_nutrition) AS nutrition 
+		FROM food INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
+		INNER JOIN branded_food ON branded_food.fdc_id = food.fdc_id
+		WHERE calories is NOT null and brand_name is not null
+		OFFSET ${randomInt} LIMIT 3`;
+   return db.query(getRandomDayQuery);
+};
+
+const getRandomDayNutritionSummary = (items: MealplanItem[]) => {
+   const getRandomDayNutritionSummaryQuery = `
+   	SELECT SUM(calories) as total_calories,
+   	SUM(total_fat) as total_fat,
+   	SUM(protein) as total_protein,
+   	SUM(total_carbohydrates) as total_carbohydrates
+   	FROM food INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
+   	WHERE food.fdc_id IN (${items[0].fdc_id}, ${items[1].fdc_id}, ${items[2].fdc_id})`;
+   return db.query(getRandomDayNutritionSummaryQuery);
+};
 export {
    createMeal,
    createMealNutrition,
    getByDay,
    getNutritionSummaryByDay,
    deleteFood,
+   getRandomDay,
+   getRandomDayNutritionSummary,
 };
