@@ -25,11 +25,17 @@ export const getFoodTitle = (
       brand_name_updated = brandNameArr.join(' ');
    }
 
-   if (description !== null) {
+   if (
+      description !== null &&
+      description !== undefined &&
+      description !== ''
+   ) {
       const descriptionArr = description.split(' ');
       for (let i = 0; i < descriptionArr.length; i++) {
-         descriptionArr[i] =
-            descriptionArr[i][0] + descriptionArr[i].slice(1).toLowerCase();
+         if (descriptionArr[i] !== '') {
+            descriptionArr[i] =
+               descriptionArr[i][0] + descriptionArr[i].slice(1).toLowerCase();
+         }
       }
       description_updated = descriptionArr.join(' ');
    }
