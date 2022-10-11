@@ -6,10 +6,12 @@ import {
    Toolbar,
    Tooltip,
 } from '@mui/material';
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import {
    CurrentGoals,
+   FoodSearchResult,
    MealplanItem,
    NutritionSummaryMealplan,
    Query,
@@ -22,7 +24,6 @@ import './SampleFeaturesPage.scss';
 
 const initialState = {
    query: '',
-   brand_name: '',
    category: 'All',
    allergy: '',
    minCalories: '',
@@ -64,15 +65,17 @@ const SampleFeaturesPage = () => {
    const [mobileOpen, setMobileOpen] = React.useState(false);
    const [isLoading, setIsLoading] = useState<boolean>(false);
    const [goals, setGoals] = useState<CurrentGoals>(initialGoals);
-   const [mealPlanGoals, setMealplanGoals] =
-      useState<CurrentGoals>(initialMealplanGoals);
    const [alertSeverity, setAlertSeverity] = useState<AlertColor>('error');
+   const [showLoadMoreBtn, setShowLoadMoreBtn] = useState<boolean>(false);
    const [alertMessage, setAlertMessage] = useState<string>('');
    const [values, setValues] = useState<Query>(initialState);
    const [openAlert, setOpenAlert] = useState<boolean>(false);
-   const [randomMealplanItems, setRandomMealplanItems] = useState<
+   const [sampleMealplanItems, setSampleMealplanItems] = useState<
       MealplanItem[] | []
    >([]);
+   const [searchResults, setSearchResults] = useState<FoodSearchResult[]>(
+      [] as FoodSearchResult[]
+   );
    const [age, setAge] = useState<number>(18);
    const [height, setHeight] = useState<number>(60);
    const [weight, setWeight] = useState<number>(200);
@@ -81,7 +84,6 @@ const SampleFeaturesPage = () => {
       'weight_loss' | 'maintain' | 'gain_muscle'
    >('weight_loss');
    const [gender, setGender] = useState<'male' | 'female'>('male');
-
    const [nutritionSummary, setNutritionSummary] =
       useState<NutritionSummaryMealplan>(initialNutritionSummary);
 
@@ -89,34 +91,44 @@ const SampleFeaturesPage = () => {
       setMobileOpen(!mobileOpen);
    };
 
-   //TODO fix the handleSearch function below
    const handleSearch = async (event: React.SyntheticEvent) => {
-      // let newValues = { ...values, offset: 0 }; //declare new values so that there are no async bugs, and reset offset to 0 in case user changed it
-      // setValues(newValues);
-      // try {
-      //    setIsLoading(true);
-      //    event.preventDefault();
-      //    // let foodItems = await axios.get(`/api/${route}`, {G
-      //    //    params: newValues,
-      //    //    withCredentials: true,
-      //    // });
-      //    if (foodItems.data.length === 0) {
-      //       setIsLoading(false);
-      //       setAlertMessage(
-      //          'No options matched your search. Try again with a broader search'
-      //       );
-      //       setAlertSeverity('warning');
-      //       setOpenAlert(true);
-      //    } else {
-      //       setValues(initialState);
-      //       setAlertSeverity('success');
-      //       setAlertMessage('Success! Here are your matching items.');
-      //       setOpenAlert(true);
-      //    }
-      //    setIsLoading(false); //used to trigger the loading circle
-      // } catch (err) {
-      //    setIsLoading(false); //used to trigger the loading circle
-      // }
+      try {
+         event.preventDefault();
+         const newValues = { ...values, offset: 0 }; //declare new values so that there are no async bugs, and reset offset to 0 in case user changed it
+         setValues(newValues);
+         setIsLoading(true);
+         const searchResultItems = await axios.get(`/api/food`, {
+            params: newValues,
+            withCredentials: true,
+         });
+         if (searchResultItems.data.length === 0) {
+            setAlertMessage(
+               'No options matched your search. Try again with a broader search'
+            );
+            setAlertSeverity('warning');
+            setOpenAlert(true);
+            setShowLoadMoreBtn(false);
+         } else {
+            setAlertSeverity('success');
+            setAlertMessage('Success! Here are your matching items.');
+            setOpenAlert(true);
+            if (searchResultItems.data.length < 10) {
+               setShowLoadMoreBtn(false);
+            } else {
+               setShowLoadMoreBtn(true);
+            }
+            setSearchResults(searchResultItems.data);
+         }
+         setIsLoading(false);
+      } catch (err) {
+         setIsLoading(false);
+         setAlertSeverity('error');
+         setAlertMessage(
+            'Unable to get search results. Please try again later.'
+         );
+         setOpenAlert(true);
+         console.log(err);
+      }
    };
 
    const handleSubmit = (event: React.SyntheticEvent) => {
@@ -135,6 +147,29 @@ const SampleFeaturesPage = () => {
          'Your custom macronutrient values have been calculated! View the sidebar to see your calculations'
       );
       setOpenAlert(true);
+   };
+
+   const handleLoadMore = async (event: React.SyntheticEvent) => {
+      try {
+         setIsLoading(true);
+         let newValues = { ...values, offset: values.offset + 10 }; //update new offset so that we only receive the correct items from API
+         setValues(newValues);
+         const searchResultItems = await axios.get(`/api/food`, {
+            params: newValues,
+            withCredentials: true,
+         });
+
+         if (searchResultItems.data.length < 10) {
+            setShowLoadMoreBtn(false);
+         } else {
+            setShowLoadMoreBtn(true);
+         }
+         setSearchResults(searchResults.concat(searchResultItems.data));
+         setIsLoading(false);
+      } catch (err) {
+         setIsLoading(false);
+         console.log(err);
+      }
    };
 
    const handleAlert = () => {
@@ -199,9 +234,9 @@ const SampleFeaturesPage = () => {
                            setNutritionSummary={setNutritionSummary}
                            setAlertSeverity={setAlertSeverity}
                            setOpenAlert={setOpenAlert}
-                           setRandomMealplanItems={setRandomMealplanItems}
+                           setSampleMealplanItems={setSampleMealplanItems}
                            setAlertMessage={setAlertMessage}
-                           randomMealplanItems={randomMealplanItems}
+                           sampleMealplanItems={sampleMealplanItems}
                         />
                      </>
                   }
@@ -255,8 +290,10 @@ const SampleFeaturesPage = () => {
                   alertSeverity,
                   alertMessage,
                   goals,
+                  searchResults,
                   setGoals,
                   setGender,
+                  setSearchResults,
                   gender,
                   age,
                   setAge,
@@ -264,6 +301,8 @@ const SampleFeaturesPage = () => {
                   setHeight,
                   weight,
                   setWeight,
+                  handleLoadMore,
+                  showLoadMoreBtn,
                   activityLevel,
                   goal,
                   setGoal,

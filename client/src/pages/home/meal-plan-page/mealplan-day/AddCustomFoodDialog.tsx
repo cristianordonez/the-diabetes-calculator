@@ -97,8 +97,8 @@ export const AddCustomFoodDialog = ({
                      <Box display='flex' flexDirection='column' gap='10px'>
                         <CreateFoodTextInput
                            inputValue={createFoodData.brand_owner}
-                           title='Brand name'
-                           id={'brand_name'}
+                           title='Brand owner'
+                           id={'brand_owner'}
                            textFieldError={false}
                            handleInputChange={handleInputChange}
                         />
@@ -120,7 +120,7 @@ export const AddCustomFoodDialog = ({
                            <Typography
                               sx={{ minWidth: '25%' }}
                               variant='body2'
-                              align='center'
+                              align='left'
                            >
                               Serving Size
                            </Typography>

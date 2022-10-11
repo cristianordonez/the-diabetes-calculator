@@ -94,10 +94,10 @@ const get = (query: Query) => {
    const selectQuery = `SELECT 
  	food.fdc_id, 
  	food.description, 
- 	branded_food.brand_name,
+ 	branded_food.brand_owner,
    modifier,
    gram_weight,
-	custom_food.brand_name as custom_food_brand_name,
+	custom_food.brand_owner as custom_food_brand_owner,
    custom_food.serving_size AS custom_food_serving_size,
    custom_food.serving_size_unit AS custom_food_serving_size_unit,
  	branded_food.serving_size,
@@ -121,8 +121,8 @@ const getByBrand = (query: Query) => {
    const selectQuery = `SELECT 
  	food.fdc_id, 
  	food.description, 
- 	branded_food.brand_name,
-	custom_food.brand_name as custom_food_brand_name,
+ 	branded_food.brand_owner,
+	custom_food.brand_name as custom_food_brand_owner,
    custom_food.serving_size AS custom_food_serving_size,
    custom_food.serving_size_unit AS custom_food_serving_size_unit,
  	branded_food.serving_size,
@@ -133,7 +133,7 @@ const getByBrand = (query: Query) => {
  	INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
    LEFT JOIN branded_food ON food.fdc_id = branded_food.fdc_id
    LEFT JOIN custom_food on custom_food.fdc_id = food.fdc_id
-   WHERE (branded_food.brand_name ~* '${query.brand_name}' OR custom_food.brand_name ~* '${query.brand_name}')
+   WHERE (branded_food.brand_owner ~* '${query.query}' OR custom_food.brand_owner ~* '${query.query}')
  	LIMIT ${query.number} OFFSET ${query.offset}
       `;
    const matchingItems = db.query(selectQuery);
@@ -144,8 +144,8 @@ const getAdvanced = (query: Query) => {
    const selectContentsQuery = `SELECT 
     food.fdc_id,
     food.description,
-    branded_food.brand_name,
-    custom_food.brand_name as custom_food_brand_name,
+    branded_food.brand_owner,
+    custom_food.brand_owner as custom_food_brand_owner,
     custom_food.serving_size AS custom_food_serving_size,
     custom_food.serving_size_unit AS custom_food_serving_size_unit,
     branded_food.serving_size,
@@ -182,8 +182,8 @@ const getAdvancedByBrand = (query: Query) => {
    const selectContentsQuery = `SELECT 
     food.fdc_id,
     food.description,
-    branded_food.brand_name,
-    custom_food.brand_name as custom_food_brand_name,
+    branded_food.brand_owner,
+    custom_food.brand_owner as custom_food_brand_owner,
     custom_food.serving_size AS custom_food_serving_size,
     custom_food.serving_size_unit AS custom_food_serving_size_unit,
     branded_food.serving_size,
@@ -194,9 +194,9 @@ const getAdvancedByBrand = (query: Query) => {
 	 INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
     LEFT JOIN branded_food ON food.fdc_id = branded_food.fdc_id
     LEFT JOIN custom_food on custom_food.fdc_id = food.fdc_id
-    WHERE (branded_food.brand_name ~* '${
-       query.brand_name
-    }' OR custom_food.brand_name ~* '${query.brand_name}') 
+    WHERE (branded_food.brand_owner ~* '${
+       query.query
+    }' OR custom_food.brand_owner ~* '${query.query}') 
     AND calories BETWEEN ${Number(query.minCalories)} AND ${Number(
       query.maxCalories
    )}
@@ -275,7 +275,26 @@ const createFoodNutrition = (
    return dbResponse;
 };
 
-const updateNutritionCustomFoods = () => {};
+const getSampleItems = () => {
+   const getSampleItemsQuery = `SELECT food.fdc_id, 
+ 	food.description, 
+ 	branded_food.brand_owner,
+   modifier,
+   gram_weight,
+ 	branded_food.serving_size,
+   branded_food.serving_size_unit,
+   food.data_type,
+   row_to_json(food_nutrition.*) AS nutrition
+   FROM food
+ 	INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
+   LEFT JOIN branded_food ON food.fdc_id = branded_food.fdc_id
+   LEFT JOIN food_portion on food.fdc_id = food_portion.fdc_id
+   WHERE calories IS NOT null
+   AND data_type = 'branded_food'
+   LIMIT 10`;
+
+   return db.query(getSampleItemsQuery);
+};
 
 export {
    get,
@@ -284,5 +303,5 @@ export {
    getAdvancedByBrand,
    createFood,
    createFoodNutrition,
-   updateNutritionCustomFoods,
+   getSampleItems,
 };

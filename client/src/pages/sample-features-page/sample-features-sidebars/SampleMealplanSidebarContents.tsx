@@ -44,9 +44,9 @@ export const SampleMealplanSidebarContents = ({
                nutrientsInMealPlan={parseInt(nutritionSummary.total_fat)}
             />
             <Typography variant='caption' align='center' sx={{ pt: '5rem' }}>
-               Note: goals and mealplan items are generated randomly. Please log
-               in or create an account to search and save items to your meal
-               plan.
+               Note: This is a sample meal plan using our own nutrition goals.
+               Please log in or create an account to search and save items to
+               your meal plan.
             </Typography>
          </Stack>
       </React.Fragment>

@@ -22,11 +22,11 @@ import React, {
    useEffect,
    useState,
 } from 'react';
-import { AddToMealPlanType } from '../../../../../../../types/types';
-import { DatePickerTextField } from '../../../../../components/form-input-components/DatePickerTextField';
-import { DialogSelectServingSize } from '../../../../../components/form-input-components/DialogSelectServingSize';
-import { DialogSelectSlot } from '../../../../../components/form-input-components/DialogSelectSlot';
-import { FormNumberInput } from '../../../../../components/form-input-components/FormNumberInput';
+import { AddToMealPlanType } from '../../../../../types/types';
+import { DatePickerTextField } from '../../form-input-components/DatePickerTextField';
+import { DialogSelectServingSize } from '../../form-input-components/DialogSelectServingSize';
+import { DialogSelectSlot } from '../../form-input-components/DialogSelectSlot';
+import { FormNumberInput } from '../../form-input-components/FormNumberInput';
 
 interface Props {
    openDialog: boolean;
@@ -115,6 +115,7 @@ export const AddToCartModal = ({
          slot: 1,
          date: format(startOfToday(), 'yyyy-MM-dd'),
          description: currentDescription,
+         brand_owner: currentBrand,
       });
    }, [id]);
 

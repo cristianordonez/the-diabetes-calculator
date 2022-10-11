@@ -36,7 +36,6 @@ const Home = () => {
    const [alertSeverity, setAlertSeverity] = useState<AlertColor>('error');
    const [values, setValues] = useState<Query>({
       query: '',
-      brand_name: '',
       category: '',
       allergy: '',
       minCalories: '',
@@ -97,10 +96,15 @@ const Home = () => {
          const newValues = { ...values, offset: 0 }; //declare new values so that there are no async bugs, and reset offset to 0 in case user changed it
          setValues(newValues);
          setIsSearching(true);
-         const searchResultItems = await axios.get(`/api/food`, {
-            params: newValues,
-            withCredentials: true,
-         });
+         const searchResultItems = sendAdvancedRequest
+            ? await axios.get(`/api/food`, {
+                 params: newValues,
+                 withCredentials: true,
+              })
+            : await axios.get('/api/food/all', {
+                 params: newValues,
+                 withCredentials: true,
+              });
          if (searchResultItems.data.length === 0) {
             setAlertMessage(
                'No options matched your search. Try again with a broader search'

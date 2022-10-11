@@ -58,8 +58,7 @@ export const DialogSelectServingSize = ({
                         </MenuItem>
                      ) : (
                         <MenuItem key={size} value={size}>
-                           {size} {currentServingSizeUnit} ( 1 {currentModifier}
-                           )
+                           {size} {currentServingSizeUnit} ( {currentModifier})
                         </MenuItem>
                      )
                   )}

@@ -16,9 +16,9 @@ import React, {
    SetStateAction,
    useState,
 } from 'react';
-import { FoodSearchResult } from '../../../../../../types/types';
-import { StyledTableCell } from '../../../../components/styled-table-components/StyledTableCell';
-import { StyledTableRow } from '../../../../components/styled-table-components/StyledTableRow';
+import { FoodSearchResult } from '../../../../types/types';
+import { StyledTableCell } from '../styled-table-components/StyledTableCell';
+import { StyledTableRow } from '../styled-table-components/StyledTableRow';
 import { AddToCartModal } from './add-to-cart-modal/AddToCartModal';
 import { FoodListRow } from './food-list-row/FoodListRow';
 import './index.scss';
@@ -73,7 +73,7 @@ export const FoodSearchList = ({
    const handleOpeningDialog = () => {
       setOpenDialog(!openDialog);
    };
-
+   console.log('searchResults: ', searchResults);
    return (
       <>
          <div className='food-search-list'>
@@ -84,7 +84,10 @@ export const FoodSearchList = ({
             >
                <MenuBookIcon />
                <Typography variant='body1'>
-                  Click on any item to add it to your mealplan
+                  Note: Nutrition Facts for results may differ from those seen
+                  on their nutrition label as they are standardized per 100
+                  grams. This is to help better compare the nutrition of
+                  different foods to each other.
                </Typography>
             </Stack>
             <Typography variant='h6' align='left'>
@@ -97,7 +100,7 @@ export const FoodSearchList = ({
                         <StyledTableRow>
                            <StyledTableCell variant='head' />
                            <StyledTableCell>
-                              Food&nbsp;(100g per serving)
+                              Food&nbsp;(per 100g)
                            </StyledTableCell>
                            <StyledTableCell align='right'>
                               Calories

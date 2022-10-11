@@ -12,18 +12,18 @@ import {
    deleteFood,
    getByDay,
    getNutritionSummaryByDay,
-   getRandomDay,
-   getRandomDayNutritionSummary,
+   getSampleFoods,
+   getSampleFoodsNutritionSummary,
 } from '../models/mealplan.model';
 
-const getRandomMealplanDay = async (req: Request, res: Response) => {
+const getSampleMealplanDay = async (req: Request, res: Response) => {
    try {
-      const randomItems = await getRandomDay();
-      const nutritionSummary = await getRandomDayNutritionSummary(randomItems);
-      res.status(200).send({ randomItems, nutritionSummary });
+      const sampleItems = await getSampleFoods();
+      const nutritionSummary = await getSampleFoodsNutritionSummary();
+      res.status(200).send({ sampleItems, nutritionSummary });
    } catch (err) {
-      console.log('err getting random meals: ', err);
-      res.status(400).send('Unable to get random meal plan days');
+      console.log('err getting sample meals: ', err);
+      res.status(400).send('Unable to get sample meal plan');
    }
 };
 
@@ -136,5 +136,5 @@ export {
    getMealPlanDay,
    deleteMealPlanItem,
    createCustomItem,
-   getRandomMealplanDay,
+   getSampleMealplanDay,
 };

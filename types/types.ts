@@ -61,7 +61,6 @@ type Session = {
 
 type Query = {
    query: string;
-   brand_name: string;
    category: string;
    allergy: string;
    minCalories: number | string;

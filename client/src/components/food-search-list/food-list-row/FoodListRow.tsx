@@ -2,9 +2,10 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { IconButton, TableCell } from '@mui/material';
 import React, { useState } from 'react';
-import { FoodSearchResult } from '../../../../../../../types/types';
-import { NutritionTable } from '../../../../../components/nutrition-table/NutritionTable';
-import { StyledTableRow } from '../../../../../components/styled-table-components/StyledTableRow';
+import { FoodSearchResult } from '../../../../../types/types';
+import { getFoodTitle } from '../../../../../utils/getFoodTitle';
+import { NutritionTable } from '../../nutrition-table/NutritionTable';
+import { StyledTableRow } from '../../styled-table-components/StyledTableRow';
 import './FoodListRow.scss';
 interface Props extends FoodSearchResult {
    handleOpeningAddToMealplanDialog: (
@@ -39,20 +40,17 @@ export const FoodListRow = ({
    let servingSizesArr = [100];
    let finalModifier: string | null = '';
    if (data_type === 'custom' && custom_food_brand_owner !== null) {
-      // brand = getFoodTitle(custom_food_brand_name, description);
       brand = custom_food_brand_owner;
       current_serving_size_unit = custom_food_serving_size_unit;
       current_serving_size = custom_food_serving_size;
       finalModifier = 'Custom input';
    } else if (data_type === 'branded_food' && brand_owner !== null) {
       brand = brand_owner;
-      // brand = getFoodTitle(brand_name, description);
       current_serving_size_unit = serving_size_unit;
       current_serving_size = serving_size;
       finalModifier = '1 serving as per nutrition label';
    } else if (brand_owner !== null) {
       brand = brand_owner;
-      // brand = getFoodTitle(brand_name, description);
       current_serving_size_unit = 'g';
       current_serving_size = gram_weight;
       finalModifier = modifier;
@@ -98,7 +96,7 @@ export const FoodListRow = ({
                </IconButton>
             </TableCell>
             <TableCell component='th' scope='row'>
-               {brand}
+               {getFoodTitle(brand, description)}
             </TableCell>
             <TableCell align='right'>{nutrition.calories}</TableCell>
             <TableCell className='desktop-table-view' align='right'>

@@ -5,6 +5,7 @@ import {
    getAdvanced,
    getAdvancedByBrand,
    getByBrand,
+   getSampleItems,
 } from '../models/food.model';
 
 const getFoodItemsSimple = async (req: Request, res: Response) => {
@@ -51,9 +52,20 @@ const getFoodItemsAdvancedByBrand = async (req: Request, res: Response) => {
    }
 };
 
+const getSampleFoodItems = async (req: Request, res: Response) => {
+   try {
+      const foodItems = await getSampleItems();
+      console.log('foodItems: ', foodItems);
+      res.status(200).send(foodItems);
+   } catch (err) {
+      console.log('err: ', err);
+      res.status(400).send('Unable to retrieve search results.');
+   }
+};
 export {
    getFoodItemsAdvanced,
    getFoodItemsSimpleByBrand,
    getFoodItemsSimple,
    getFoodItemsAdvancedByBrand,
+   getSampleFoodItems,
 };

@@ -3,7 +3,7 @@ import React from 'react';
 interface Props {
    inputValue: string;
    handleInputChange: React.ChangeEventHandler;
-   title: 'Brand name' | 'Description';
+   title: 'Brand owner' | 'Description';
    id: string;
    textFieldError: boolean;
 }
@@ -31,9 +31,9 @@ export const CreateFoodTextInput = ({
                sx={{ flexGrow: '1' }}
                id={id}
                error={textFieldError}
-               label={title === 'Brand name' ? 'Optional' : 'Required'}
+               label={title === 'Brand owner' ? 'Optional' : 'Required'}
                value={inputValue}
-               required={title === 'Brand name' ? false : true}
+               required={title === 'Brand owner' ? false : true}
                onChange={handleInputChange}
             />
          </Stack>

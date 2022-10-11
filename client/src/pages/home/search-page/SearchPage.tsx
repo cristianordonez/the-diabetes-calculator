@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from '@mui/material';
 import React, { useEffect } from 'react';
+import { FoodSearchList } from '../../../components/food-search-list';
 import { useHomeOutlet } from '../../../hooks/useHomeOutlet';
-import { FoodSearchList } from './food-search-list';
 import './SearchPage.scss';
 
 const SearchPage = () => {

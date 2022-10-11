@@ -24,6 +24,7 @@ import {
    MealplanItem,
    NutritionSummaryMealplan,
 } from '../../../../../../types/types';
+import { getFoodTitle } from '../../../../../../utils/getFoodTitle';
 import { NutritionTable } from '../../../../components/nutrition-table/NutritionTable';
 import { StyledTableCell } from '../../../../components/styled-table-components/StyledTableCell';
 import { StyledTableRow } from '../../../../components/styled-table-components/StyledTableRow';
@@ -137,7 +138,9 @@ export const MealplanSlot = ({
                                  </IconButton>
                               </Tooltip>
                            </TableCell>
-                           <TableCell>{meal.description}</TableCell>
+                           <TableCell>
+                              {getFoodTitle(meal.brand_owner, meal.description)}
+                           </TableCell>
                            <TableCell>
                               {Number(meal.serving_size) *
                                  Number(meal.servings)}{' '}

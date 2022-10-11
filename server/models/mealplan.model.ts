@@ -1,27 +1,29 @@
-import { AddToMealPlanType, MealplanItem } from '../../types/types';
+import { AddToMealPlanType } from '../../types/types';
 import { db } from '../database/db';
 
 const createMeal = (mealplan: AddToMealPlanType, user_id: number) => {
    let description = mealplan.description.replace(`'`, '');
+   let brand = mealplan.brand_owner.replace(`'`, '');
    //TODO remove title after using parameterized queries
    const dbQuery = `INSERT INTO user_meal (user_id, fdc_id, slot, 
     data_type, servings, serving_size, serving_size_unit, date, description, brand_owner)
     VALUES (${user_id}, ${mealplan.fdc_id}, ${mealplan.slot}, '${mealplan.data_type}',
     ${mealplan.servings}, ${mealplan.serving_size}, '${mealplan.serving_size_unit}',
-     '${mealplan.date}', '${description}', '${mealplan.brand_owner}') 
+     '${mealplan.date}', '${description}', '${brand}') 
     RETURNING meal_id
 	`;
+
    const results = db.query(dbQuery);
    return results;
 };
 
 const createMealNutrition = (meal_id: number) => {
-   const userMealNutritionQuery = `INSERT INTO user_meal_nutrition (meal_id, total_carbohydrate, total_fat, protein, calories,
+   const userMealNutritionQuery = `INSERT INTO user_meal_nutrition (meal_id, total_carbohydrates, total_fat, protein, calories,
      dietary_fiber, saturated_fat, trans_fat, sugar, polyunsaturated_fat, monounsaturated_fat,
      cholesterol, sodium, calcium, iron, potassium, vitamin_a, vitamin_c, vitamin_d)
      select ${meal_id}, (CASE WHEN user_meal.serving_size = 100 THEN food_nutrition.total_carbohydrates * user_meal.servings
 	ELSE food_nutrition.total_carbohydrates * food.serving_size_conversion_factor * user_meal.servings
-	END) as total_carbohydrate,
+	END) as total_carbohydrates,
 	(CASE WHEN user_meal.serving_size = 100 THEN food_nutrition.total_fat * user_meal.servings
 	ELSE food_nutrition.total_fat * food.serving_size_conversion_factor * user_meal.servings
 	END) as total_fat,
@@ -78,6 +80,7 @@ const createMealNutrition = (meal_id: number) => {
     INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
     WHERE user_meal.meal_id = ${meal_id}
         `;
+
    const result = db.query(userMealNutritionQuery);
    return result;
 };
@@ -96,7 +99,7 @@ const getByDay = (date: Date | string, user_id: number) => {
 const getNutritionSummaryByDay = (date: Date | string, user_id: number) => {
    const getSummaryQuery = `SELECT 
     COALESCE(SUM(calories), 0) AS total_calories,
-	COALESCE(SUM(total_carbohydrate), 0) AS total_carbohydrates,
+	COALESCE(SUM(total_carbohydrates), 0) AS total_carbohydrates,
 	COALESCE(SUM(total_fat), 0) AS total_fat,
 	COALESCE(SUM(protein), 0) AS total_protein
 	FROM user_meal_nutrition INNER JOIN user_meal ON user_meal.meal_id = user_meal_nutrition.meal_id 
@@ -112,7 +115,7 @@ const deleteFood = (user_id: number, mealId: string) => {
    return db.query(deleteFoodQuery);
 };
 
-const getRandomDay = () => {
+const getRandomFoods = () => {
    const randomInt = Math.floor(Math.random() * 1500);
    const getRandomDayQuery = `
 		SELECT data_type,
@@ -129,22 +132,35 @@ const getRandomDay = () => {
    return db.query(getRandomDayQuery);
 };
 
-const getRandomDayNutritionSummary = (items: MealplanItem[]) => {
-   const getRandomDayNutritionSummaryQuery = `
-   	SELECT SUM(calories) as total_calories,
-   	SUM(total_fat) as total_fat,
-   	SUM(protein) as total_protein,
-   	SUM(total_carbohydrates) as total_carbohydrates
-   	FROM food INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
-   	WHERE food.fdc_id IN (${items[0].fdc_id}, ${items[1].fdc_id}, ${items[2].fdc_id})`;
-   return db.query(getRandomDayNutritionSummaryQuery);
+const getSampleFoods = () => {
+   const getSampleQuery = `
+	SELECT
+	sample_user_meal.meal_id, slot, data_type, servings, serving_size, serving_size_unit, fdc_id, 
+   	description, brand_owner, row_to_json(sample_user_meal_nutrition) 
+	AS nutrition FROM sample_user_meal INNER JOIN sample_user_meal_nutrition ON sample_user_meal.meal_id = sample_user_meal_nutrition.meal_id 
+	`;
+   return db.query(getSampleQuery);
 };
+
+const getSampleFoodsNutritionSummary = () => {
+   const getSampleNutritionSummaryQuery = `
+	SELECT 
+    COALESCE(SUM(calories), 0) AS total_calories,
+	COALESCE(SUM(total_carbohydrates), 0) AS total_carbohydrates,
+	COALESCE(SUM(total_fat), 0) AS total_fat,
+	COALESCE(SUM(protein), 0) AS total_protein
+	FROM sample_user_meal_nutrition INNER JOIN sample_user_meal ON sample_user_meal.meal_id = sample_user_meal_nutrition.meal_id 
+	`;
+   return db.query(getSampleNutritionSummaryQuery);
+};
+
 export {
    createMeal,
    createMealNutrition,
    getByDay,
    getNutritionSummaryByDay,
    deleteFood,
-   getRandomDay,
-   getRandomDayNutritionSummary,
+   getRandomFoods,
+   getSampleFoods,
+   getSampleFoodsNutritionSummary,
 };
