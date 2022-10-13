@@ -87,17 +87,14 @@ const Home = () => {
       }
    };
 
-   //todo use usecallback
    const handleAlert = (event: React.SyntheticEvent | Event) => {
       setOpenAlert(false);
    };
 
-   //TODO use usecallback
    const handleChange = (event: React.SyntheticEvent, currentValue: string) => {
       setCurrentTab(currentValue);
    };
 
-   //todo use usecallback
    const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
    };
@@ -200,8 +197,6 @@ const Home = () => {
       }
    }, []);
 
-   console.log('goals: ', goals);
-   console.log('isLoading: ', isLoading);
    return (
       <>
          {!isSearching && !isLoading && Object.keys(goals).length > 0 ? (
