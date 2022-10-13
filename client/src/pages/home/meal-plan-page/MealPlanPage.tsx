@@ -76,6 +76,7 @@ const MealPlanPage = ({
             params: { date: currentDay },
             withCredentials: true,
          });
+         console.log('dbResponse: ', dbResponse);
          if (dbResponse.data.mealplanItems.length === 0) {
             setAlertSeverity('info');
             setAlertMessage(
