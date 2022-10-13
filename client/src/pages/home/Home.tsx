@@ -4,6 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import {
+   CurrentGoals,
    FoodSearchResult,
    MealplanItem,
    NutritionSummaryMealplan,
@@ -15,9 +16,19 @@ import { useAuth } from '../../context/authContext';
 import MealPlanPage from './meal-plan-page/MealPlanPage';
 import { SearchForm } from './search-page/search-form';
 
+const initialGoals = {
+   goal: 'weight_loss',
+   total_calories: 0,
+   total_carbohydrates: 0,
+   total_protein: 0,
+   total_fat: 0,
+};
+
 const Home = () => {
    const navigate = useNavigate();
-   const { isLoggedIn, isLoading, goals, setGoals } = useAuth();
+   const { isLoggedIn, isLoading } = useAuth();
+   const [goals, setGoals] = useState({} as CurrentGoals);
+
    // const [goals, setGoals] = useState({} as CurrentGoals);
    const [mobileOpen, setMobileOpen] = useState(false);
    const [searchResults, setSearchResults] = useState<FoodSearchResult[]>([]);
@@ -163,10 +174,34 @@ const Home = () => {
             state: { showError: false },
             replace: true,
          });
+      } else {
+         const initialGoals = {
+            goal: 'weight_loss',
+            total_calories: 0,
+            total_carbohydrates: 0,
+            total_protein: 0,
+            total_fat: 0,
+         };
+         axios
+            .get('/api/goals')
+            .then((response) => {
+               console.log('response: ', response);
+               if (response.data === '') {
+                  setGoals(initialGoals as CurrentGoals);
+                  navigate('/home/macrocalculator');
+               } else {
+                  console.log('response in useauth: ', response);
+                  setGoals(response.data);
+               }
+            })
+            .catch((err) => {
+               console.log(err);
+            });
       }
    }, []);
 
    console.log('goals: ', goals);
+   console.log('isLoading: ', isLoading);
    return (
       <>
          {!isSearching && !isLoading && Object.keys(goals).length > 0 ? (

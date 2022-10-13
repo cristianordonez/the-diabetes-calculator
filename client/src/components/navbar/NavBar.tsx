@@ -3,13 +3,11 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import MenuIcon from '@mui/icons-material/Menu';
 import {
    AppBar,
-   Avatar,
    Box,
    Button,
    IconButton,
    Link,
    Menu,
-   MenuItem,
    Stack,
    Toolbar,
    Tooltip,
@@ -19,10 +17,10 @@ import { useTheme } from '@mui/material/styles';
 import React, { useContext } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
-import DefaultAvatar from '../../img/default-avatar.svg';
 import { ColorModeContext } from '../../pages/App';
 import { MainTitleLogo } from '../main-title-logo';
 import { LogoIcon } from '../main-title-logo/LogoIcon';
+import { UserMenu } from '../nav-menus/UserMenu';
 import './Navbar.scss';
 
 const pages = ['Search', 'Macro Calculator'];
@@ -34,9 +32,7 @@ const NavBar = () => {
    const navigate = useNavigate();
    const { isLoading, isLoggedIn, handleLogout } = useAuth(); //used to check if data is still being retrieved from database
 
-   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-      null
-   );
+   // const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>();
 
    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
       null
@@ -46,22 +42,22 @@ const NavBar = () => {
       setAnchorElNav(event.currentTarget);
    };
 
-   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-      setAnchorElUser(event.currentTarget);
-   };
+   // const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+   //    setAnchorElUser(event.currentTarget);
+   // };
 
    const handleCloseNavMenu = () => {
       setAnchorElNav(null);
    };
 
-   const handleCloseUserMenu = () => {
-      setAnchorElUser(null);
-   };
+   // const handleCloseUserMenu = () => {
+   //    setAnchorElUser(null);
+   // };
 
-   const handleUserProfileClick = () => {
-      setAnchorElUser(null);
-      navigate('/home/settings');
-   };
+   // const handleUserProfileClick = () => {
+   //    // setAnchorElUser(null);
+   //    navigate('/home/settings');
+   // };
 
    return (
       <AppBar
@@ -122,6 +118,7 @@ const NavBar = () => {
                      >
                         <MenuIcon />
                      </IconButton>
+                     {/* HERE ************ */}
                      <Menu
                         id='menu-appbar'
                         anchorEl={anchorElNav}
@@ -241,7 +238,9 @@ const NavBar = () => {
                         </>
                      )}
                   </Box>
-                  <Box sx={{ flexGrow: 0 }}>
+                  <UserMenu />
+                  {/* HERE **** */}
+                  {/* <Box sx={{ flexGrow: 0 }}>
                      <Tooltip title='Open settings'>
                         <IconButton
                            onClick={handleOpenUserMenu}
@@ -259,7 +258,6 @@ const NavBar = () => {
                            vertical: 'top',
                            horizontal: 'right',
                         }}
-                        keepMounted={false}
                         transformOrigin={{
                            vertical: 'top',
                            horizontal: 'right',
@@ -279,7 +277,7 @@ const NavBar = () => {
                            <Typography textAlign='center'>Logout</Typography>
                         </MenuItem>
                      </Menu>
-                  </Box>
+                  </Box> */}
                </>
             ) : // END USER IS LOGGED IN
             isLoading === false ? (

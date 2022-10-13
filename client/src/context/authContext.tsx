@@ -21,21 +21,12 @@ type Context = {
    handleLogout: any;
 };
 
-const initialGoals = {
-   goal: 'weight_loss',
-   total_calories: 0,
-   total_carbohydrates: 0,
-   total_protein: 0,
-   total_fat: 0,
-};
 const AuthContext = createContext<any>({
    isLoggedIn: false,
    setIsLoggedIn: null,
    username: '',
    handleLogout: null,
    isLoading: true,
-   goals: initialGoals,
-   setGoals: null,
 });
 
 //# sends request to server to see if user is still logged in or not, redirects if they are not
@@ -44,7 +35,6 @@ const AuthProvider = ({ children }: Props) => {
    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
    const [isLoading, setIsLoading] = useState<Context | boolean>(true);
    const [username, setUsername] = useState<string>('');
-   const [goals, setGoals] = useState(initialGoals);
 
    const handleLogout = async () => {
       try {
@@ -69,22 +59,7 @@ const AuthProvider = ({ children }: Props) => {
             if (response.status === 201) {
                setUsername(response.data);
                setIsLoggedIn(true);
-               axios
-                  .get('/api/goals')
-                  .then((response) => {
-                     if (response.data === '') {
-                        setGoals(initialGoals);
-                        navigate('/home/macrocalculator');
-                        setIsLoading(false);
-                     } else {
-                        console.log('response in useauth: ', response);
-                        setGoals(response.data);
-                        setIsLoading(false);
-                     }
-                  })
-                  .catch((err) => {
-                     console.log(err);
-                  });
+               setIsLoading(false);
             } else {
                setIsLoggedIn(false);
                setIsLoading(false);
@@ -111,8 +86,6 @@ const AuthProvider = ({ children }: Props) => {
                username,
                handleLogout,
                setIsLoggedIn,
-               goals,
-               setGoals,
             }}
          >
             {children}
