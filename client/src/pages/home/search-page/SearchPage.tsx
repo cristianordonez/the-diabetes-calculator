@@ -2,6 +2,7 @@ import { Box, CircularProgress } from '@mui/material';
 import React, { useEffect } from 'react';
 import { FoodSearchList } from '../../../components/food-search-list';
 import { useHomeOutlet } from '../../../hooks/useHomeOutlet';
+import { SearchForm } from './search-form';
 import './SearchPage.scss';
 
 const SearchPage = () => {
@@ -12,9 +13,15 @@ const SearchPage = () => {
       setOpenAlert,
       setAlertSeverity,
       showLoadMoreBtn,
-      SearchFormComponent,
       searchResults,
       setIsSearching,
+      handleSubmit,
+      values,
+      setValues,
+      goals,
+      setShowLoadMoreBtn,
+      setSearchResults,
+      setSendAdvancedRequest,
    } = useHomeOutlet();
 
    useEffect(() => {
@@ -37,7 +44,19 @@ const SearchPage = () => {
                      />
                   </>
                ) : (
-                  <>{SearchFormComponent}</>
+                  <SearchForm
+                     handleSubmit={handleSubmit}
+                     values={values}
+                     setValues={setValues}
+                     goals={goals}
+                     setAlertMessage={setAlertMessage}
+                     setAlertSeverity={setAlertSeverity}
+                     setIsSearching={setIsSearching}
+                     setOpenAlert={setOpenAlert}
+                     setShowLoadMoreBtn={setShowLoadMoreBtn}
+                     setSearchResults={setSearchResults}
+                     setSendAdvancedRequest={setSendAdvancedRequest}
+                  />
                )}
                {isSearching ? <CircularProgress size={68} /> : null}
             </Box>

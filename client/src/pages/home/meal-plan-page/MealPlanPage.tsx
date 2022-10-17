@@ -5,19 +5,12 @@ import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 import subDays from 'date-fns/subDays';
-import React, {
-   Dispatch,
-   ReactNode,
-   SetStateAction,
-   useEffect,
-   useState,
-} from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
    MealplanItem,
    NutritionSummaryMealplan,
 } from '../../../../../types/types';
 import { MealPlanWeekText } from '../../../components/mealplan-week-text/MealPlanWeekText';
-import { useAuth } from '../../../context/authContext';
 import { DateSelectForm } from './date-select-form/DateSelectForm';
 import { MealplanDay } from './mealplan-day';
 import './MealPlanPage.scss';
@@ -33,11 +26,9 @@ const days = [
 ];
 
 interface Props {
-   handleDrawerToggle: () => void;
    setAlertMessage: Dispatch<SetStateAction<string>>;
    setOpenAlert: Dispatch<SetStateAction<boolean>>;
    setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
-   SearchFormComponent: ReactNode;
    setNutritionSummary: Dispatch<SetStateAction<NutritionSummaryMealplan>>;
    setMealplanItems: Dispatch<SetStateAction<MealplanItem[]>>;
    mealplanItems: MealplanItem[];
@@ -52,7 +43,6 @@ const initialNutritionSummary = {
 };
 
 const MealPlanPage = ({
-   handleDrawerToggle,
    setAlertMessage,
    setOpenAlert,
    setAlertSeverity,
@@ -63,7 +53,6 @@ const MealPlanPage = ({
 }: Props) => {
    const [dayIndex, setDayIndex] = useState<number>(getDay(Date.now()));
    const [value, setValue] = React.useState<any>(new Date(Date.now()));
-   const { goals, setGoals } = useAuth();
    const [currentDay, setCurrentDay] = useState(
       format(new Date(Date.now()), 'yyyy-MM-dd')
    );

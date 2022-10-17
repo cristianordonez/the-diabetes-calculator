@@ -14,7 +14,6 @@ import { CustomAlert } from '../../components/custom-alert/CustomAlert';
 import { SideBar } from '../../components/sidebar/SideBar';
 import { useAuth } from '../../context/authContext';
 import MealPlanPage from './meal-plan-page/MealPlanPage';
-import { SearchForm } from './search-page/search-form';
 
 const initialGoals = {
    goal: 'weight_loss',
@@ -30,7 +29,6 @@ const Home = () => {
    const [goals, setGoals] = useState({} as CurrentGoals);
    const [mobileOpen, setMobileOpen] = useState(false);
    const [searchResults, setSearchResults] = useState<FoodSearchResult[]>([]);
-   const [currentTab, setCurrentTab] = useState<string>('advanced-search');
    const [openAlert, setOpenAlert] = useState<boolean>(false);
    const [isSearching, setIsSearching] = useState<boolean>(false);
    const [alertMessage, setAlertMessage] = useState<string>('');
@@ -89,10 +87,6 @@ const Home = () => {
       setOpenAlert(false);
    };
 
-   const handleChange = (event: React.SyntheticEvent, currentValue: string) => {
-      setCurrentTab(currentValue);
-   };
-
    const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
    };
@@ -143,24 +137,22 @@ const Home = () => {
       }
    };
 
-   //# SearchForm component is rendered in the sidebar as well as on main content of page
-   const SearchFormComponent: JSX.Element = (
-      <SearchForm
-         handleSubmit={handleSubmit}
-         handleChange={handleChange}
-         currentTab={currentTab}
-         values={values}
-         setValues={setValues}
-         goals={goals}
-         setAlertMessage={setAlertMessage}
-         setAlertSeverity={setAlertSeverity}
-         setIsSearching={setIsSearching}
-         setOpenAlert={setOpenAlert}
-         setShowLoadMoreBtn={setShowLoadMoreBtn}
-         setSearchResults={setSearchResults}
-         setSendAdvancedRequest={setSendAdvancedRequest}
-      />
-   );
+   // //# SearchForm component is rendered in the sidebar as well as on main content of page
+   // const SearchFormComponent: JSX.Element = (
+   //    <SearchForm
+   //       handleSubmit={handleSubmit}
+   //       values={values}
+   //       setValues={setValues}
+   //       goals={goals}
+   //       setAlertMessage={setAlertMessage}
+   //       setAlertSeverity={setAlertSeverity}
+   //       setIsSearching={setIsSearching}
+   //       setOpenAlert={setOpenAlert}
+   //       setShowLoadMoreBtn={setShowLoadMoreBtn}
+   //       setSearchResults={setSearchResults}
+   //       setSendAdvancedRequest={setSendAdvancedRequest}
+   //    />
+   // );
 
    //#navigate to home if user is not logged in, do not reroute in useAuth since we don't want user to reroute to landing page if they go straight to loggedin page or resetpassword page
    useEffect(() => {
@@ -180,12 +172,10 @@ const Home = () => {
          axios
             .get('/api/goals')
             .then((response) => {
-               console.log('response: ', response);
                if (response.data === '') {
                   setGoals(initialGoals as CurrentGoals);
                   navigate('/home/macrocalculator');
                } else {
-                  console.log('response in useauth: ', response);
                   setGoals(response.data);
                }
             })
@@ -197,15 +187,24 @@ const Home = () => {
 
    return (
       <>
-         {!isSearching && !isLoading && Object.keys(goals).length > 0 ? (
+         {!isLoading && Object.keys(goals).length > 0 ? (
             <SideBar
                mobileOpen={mobileOpen}
                handleDrawerToggle={handleDrawerToggle}
-               SearchFormComponent={SearchFormComponent}
                isSearching={isSearching}
                goals={goals}
                searchResults={searchResults}
                nutritionSummary={nutritionSummary}
+               handleSubmit={handleSubmit}
+               values={values}
+               setValues={setValues}
+               setAlertMessage={setAlertMessage}
+               setAlertSeverity={setAlertSeverity}
+               setIsSearching={setIsSearching}
+               setOpenAlert={setOpenAlert}
+               setShowLoadMoreBtn={setShowLoadMoreBtn}
+               setSearchResults={setSearchResults}
+               setSendAdvancedRequest={setSendAdvancedRequest}
             />
          ) : null}
          <Tooltip title='Open Sidebar'>
@@ -228,14 +227,12 @@ const Home = () => {
                element={
                   <>
                      <MealPlanPage
-                        handleDrawerToggle={handleDrawerToggle}
                         setAlertMessage={setAlertMessage}
                         setOpenAlert={setOpenAlert}
                         setAlertSeverity={setAlertSeverity}
                         setNutritionSummary={setNutritionSummary}
                         setMealplanItems={setMealplanItems}
                         mealplanItems={mealplanItems}
-                        SearchFormComponent={SearchFormComponent}
                         setIsSearching={setIsSearching}
                      />
                   </>
@@ -251,13 +248,16 @@ const Home = () => {
                setOpenAlert,
                setAlertSeverity,
                showLoadMoreBtn,
-               SearchFormComponent,
                setNutritionSummary,
-               setMealplanItems,
                searchResults,
                goals,
                setGoals,
-               mealplanItems,
+               handleSubmit,
+               values,
+               setValues,
+               setShowLoadMoreBtn,
+               setSearchResults,
+               setSendAdvancedRequest,
             }}
          />
          <CustomAlert
