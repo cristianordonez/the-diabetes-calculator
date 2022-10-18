@@ -5,15 +5,15 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import {
    CurrentGoals,
+   FoodLogItem,
    FoodSearchResult,
-   MealplanItem,
-   NutritionSummaryMealplan,
+   NutritionSummaryFoodLog,
    Query,
 } from '../../../../types/types';
 import { CustomAlert } from '../../components/custom-alert/CustomAlert';
 import { SideBar } from '../../components/sidebar/SideBar';
 import { useAuth } from '../../context/authContext';
-import MealPlanPage from './meal-plan-page/MealPlanPage';
+import FoodLogPage from './food-log-page/FoodLogPage';
 
 const initialGoals = {
    goal: 'weight_loss',
@@ -32,12 +32,12 @@ const Home = () => {
    const [openAlert, setOpenAlert] = useState<boolean>(false);
    const [isSearching, setIsSearching] = useState<boolean>(false);
    const [alertMessage, setAlertMessage] = useState<string>('');
-   const [mealplanItems, setMealplanItems] = useState<MealplanItem[]>(
-      [] as MealplanItem[]
+   const [foodLogItems, setFoodLogItems] = useState<FoodLogItem[]>(
+      [] as FoodLogItem[]
    );
    const [showLoadMoreBtn, setShowLoadMoreBtn] = useState<boolean>(false);
    const [nutritionSummary, setNutritionSummary] =
-      useState<NutritionSummaryMealplan>({} as NutritionSummaryMealplan);
+      useState<NutritionSummaryFoodLog>({} as NutritionSummaryFoodLog);
    const [sendAdvancedRequest, setSendAdvancedRequest] = useState(false);
    const [alertSeverity, setAlertSeverity] = useState<AlertColor>('error');
    const [values, setValues] = useState<Query>({
@@ -137,23 +137,6 @@ const Home = () => {
       }
    };
 
-   // //# SearchForm component is rendered in the sidebar as well as on main content of page
-   // const SearchFormComponent: JSX.Element = (
-   //    <SearchForm
-   //       handleSubmit={handleSubmit}
-   //       values={values}
-   //       setValues={setValues}
-   //       goals={goals}
-   //       setAlertMessage={setAlertMessage}
-   //       setAlertSeverity={setAlertSeverity}
-   //       setIsSearching={setIsSearching}
-   //       setOpenAlert={setOpenAlert}
-   //       setShowLoadMoreBtn={setShowLoadMoreBtn}
-   //       setSearchResults={setSearchResults}
-   //       setSendAdvancedRequest={setSendAdvancedRequest}
-   //    />
-   // );
-
    //#navigate to home if user is not logged in, do not reroute in useAuth since we don't want user to reroute to landing page if they go straight to loggedin page or resetpassword page
    useEffect(() => {
       if (isLoggedIn === false && isLoading === false) {
@@ -226,13 +209,13 @@ const Home = () => {
                path=''
                element={
                   <>
-                     <MealPlanPage
+                     <FoodLogPage
                         setAlertMessage={setAlertMessage}
                         setOpenAlert={setOpenAlert}
                         setAlertSeverity={setAlertSeverity}
                         setNutritionSummary={setNutritionSummary}
-                        setMealplanItems={setMealplanItems}
-                        mealplanItems={mealplanItems}
+                        setFoodLogItems={setFoodLogItems}
+                        foodLogItems={foodLogItems}
                         setIsSearching={setIsSearching}
                      />
                   </>

@@ -67,7 +67,7 @@ export const SearchForm = ({
    };
 
    return (
-      <div className='search-form'>
+      <div className={'search-form'}>
          <Stack direction='row' spacing={1}>
             <ScreenSearchDesktopIcon />
             <Typography variant='body1'>

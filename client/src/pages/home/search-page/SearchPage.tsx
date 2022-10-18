@@ -27,6 +27,7 @@ const SearchPage = () => {
    useEffect(() => {
       setIsSearching(false);
    }, []);
+
    return (
       <>
          <>
@@ -39,7 +40,7 @@ const SearchPage = () => {
                         setAlertMessage={setAlertMessage}
                         setOpenSnackbar={setOpenAlert}
                         setAlertSeverity={setAlertSeverity}
-                        enableAddToMealplanFeature={true}
+                        enableAddToFoodLogFeature={true}
                         showLoadMoreBtn={showLoadMoreBtn}
                      />
                   </>

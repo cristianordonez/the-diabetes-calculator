@@ -11,7 +11,7 @@ interface OutletContext {
    setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
    showLoadMoreBtn: boolean;
    setNutritionSummary: Dispatch<SetStateAction<[]>>;
-   setMealplanItemsFound: Dispatch<SetStateAction<boolean>>;
+   setFoodLogItemsFound: Dispatch<SetStateAction<boolean>>;
    setIsSearching: Dispatch<SetStateAction<boolean>>;
    searchResults: FoodSearchResult[];
    goals: CurrentGoals;

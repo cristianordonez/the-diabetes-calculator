@@ -13,19 +13,19 @@ import { useLocation } from 'react-router-dom';
 import {
    CurrentGoals,
    FoodSearchResult,
-   NutritionSummaryMealplan,
+   NutritionSummaryFoodLog,
    Query,
 } from '../../../../types/types';
 import { SearchForm } from '../../pages/home/search-page/search-form';
+import { DailyGoalsFoodLog } from '../daily-goals/daily-goals-foodlog/DailyGoalsFoodLog';
 import { DailyGoals } from '../daily-goals/daily-goals-main/DailyGoalsMain';
-import { DailyGoalsMealplan } from '../daily-goals/daily-goals-mealplan/DailyGoalsMealplan';
 import { MainTitleLogo } from '../main-title-logo/index';
 interface Props {
    mobileOpen: boolean | undefined;
    handleDrawerToggle: MouseEventHandler;
    searchResults?: FoodSearchResult[];
    goals: CurrentGoals;
-   nutritionSummary: NutritionSummaryMealplan;
+   nutritionSummary: NutritionSummaryFoodLog;
    isSearching: boolean;
    handleSubmit: (event: React.SyntheticEvent) => Promise<void>;
    values: Query;
@@ -63,13 +63,16 @@ export const SideBar = ({
 
    let page;
    if (location.pathname === '/home') {
-      page = 'mealplan';
+      page = 'foodlog';
    } else if (location.pathname === '/home/search') {
       page = 'search';
    } else {
       page = 'other';
    }
 
+   console.log('goals: ', goals);
+   console.log('nutritionSummary: ', nutritionSummary);
+   console.log('page: ', page);
    return (
       <>
          {/* MOBILE */}
@@ -129,15 +132,15 @@ export const SideBar = ({
                      setSendAdvancedRequest={setSendAdvancedRequest}
                   />
                ) : null}{' '}
-               {/* RENDER GOALS WHEN THERE ARE NO SEARCH RESULTS, AND PAGE IS NOT MEALPLAN */}
-               {page !== 'mealplan' &&
+               {/* RENDER GOALS WHEN THERE ARE NO SEARCH RESULTS, AND PAGE IS NOT FoodLog */}
+               {page !== 'foodlog' &&
                searchResults != undefined &&
                searchResults.length === 0 ? (
                   <DailyGoals goals={goals} />
                ) : null}
-               {/* RENDER GOALSMEALPLAN WHEN PAGE IS MEALPLAN AND THERE IS NUTRITION SUMMARY */}
-               {page === 'mealplan' && nutritionSummary !== undefined ? (
-                  <DailyGoalsMealplan
+               {/* RENDER GOALSFoodLog WHEN PAGE IS FoodLog AND THERE IS NUTRITION SUMMARY */}
+               {page === 'foodlog' && nutritionSummary !== undefined ? (
+                  <DailyGoalsFoodLog
                      goals={goals}
                      nutritionSummary={nutritionSummary}
                   />
@@ -190,15 +193,15 @@ export const SideBar = ({
                      setSendAdvancedRequest={setSendAdvancedRequest}
                   />
                ) : null}{' '}
-               {/* RENDER GOALS WHEN THERE ARE NO SEARCH RESULTS, AND PAGE IS NOT MEALPLAN */}
-               {page !== 'mealplan' &&
+               {/* RENDER GOALS WHEN THERE ARE NO SEARCH RESULTS, AND PAGE IS NOT FoodLog */}
+               {page !== 'foodlog' &&
                searchResults != undefined &&
                searchResults.length === 0 ? (
                   <DailyGoals goals={goals} />
                ) : null}
-               {/* RENDER GOALSMEALPLAN WHEN PAGE IS MEALPLAN AND THERE IS NUTRITION SUMMARY */}
-               {page === 'mealplan' && nutritionSummary !== undefined ? (
-                  <DailyGoalsMealplan
+               {/* RENDER GOALSFoodLog WHEN PAGE IS FoodLog AND THERE IS NUTRITION SUMMARY */}
+               {page === 'foodlog' && nutritionSummary !== undefined ? (
+                  <DailyGoalsFoodLog
                      goals={goals}
                      nutritionSummary={nutritionSummary}
                   />

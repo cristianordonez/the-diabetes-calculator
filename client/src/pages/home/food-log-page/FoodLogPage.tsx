@@ -7,13 +7,13 @@ import getDay from 'date-fns/getDay';
 import subDays from 'date-fns/subDays';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
-   MealplanItem,
-   NutritionSummaryMealplan,
+   FoodLogItem,
+   NutritionSummaryFoodLog,
 } from '../../../../../types/types';
-import { MealPlanWeekText } from '../../../components/mealplan-week-text/MealPlanWeekText';
+import { FoodLogWeekText } from '../../../components/foodlog-week-text/FoodLogWeekText';
 import { DateSelectForm } from './date-select-form/DateSelectForm';
-import { MealplanDay } from './mealplan-day';
-import './MealPlanPage.scss';
+import { FoodLogDay } from './foodlog-day';
+import './FoodLogPage.scss';
 
 const days = [
    'Sunday',
@@ -29,9 +29,9 @@ interface Props {
    setAlertMessage: Dispatch<SetStateAction<string>>;
    setOpenAlert: Dispatch<SetStateAction<boolean>>;
    setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
-   setNutritionSummary: Dispatch<SetStateAction<NutritionSummaryMealplan>>;
-   setMealplanItems: Dispatch<SetStateAction<MealplanItem[]>>;
-   mealplanItems: MealplanItem[];
+   setNutritionSummary: Dispatch<SetStateAction<NutritionSummaryFoodLog>>;
+   setFoodLogItems: Dispatch<SetStateAction<FoodLogItem[]>>;
+   foodLogItems: FoodLogItem[];
    setIsSearching: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -42,14 +42,14 @@ const initialNutritionSummary = {
    total_carbohydrates: '0',
 };
 
-const MealPlanPage = ({
+const FoodLogPage = ({
    setAlertMessage,
    setOpenAlert,
    setAlertSeverity,
    setNutritionSummary,
-   setMealplanItems,
+   setFoodLogItems,
    setIsSearching,
-   mealplanItems,
+   foodLogItems,
 }: Props) => {
    const [dayIndex, setDayIndex] = useState<number>(getDay(Date.now()));
    const [value, setValue] = React.useState<any>(new Date(Date.now()));
@@ -63,18 +63,18 @@ const MealPlanPage = ({
 
    const handleDateChange = async () => {
       try {
-         const dbResponse = await axios.get('/api/mealplan/day', {
+         const dbResponse = await axios.get('/api/foodLog/day', {
             params: { date: currentDay },
             withCredentials: true,
          });
-         if (dbResponse.data.mealplanItems.length === 0) {
+         if (dbResponse.data.foodLogItems.length === 0) {
             setAlertSeverity('info');
             setAlertMessage(
-               'You have no items saved on this day for your mealplan.'
+               'You have no items saved on this day for your food log.'
             );
             setOpenAlert(true);
          }
-         setMealplanItems(dbResponse.data.mealplanItems);
+         setFoodLogItems(dbResponse.data.foodLogItems);
          setNutritionSummary(dbResponse.data.nutritionSummary);
          setIsSearching(false);
       } catch (err) {
@@ -117,9 +117,9 @@ const MealPlanPage = ({
 
    return (
       <>
-         <div className='mealplan-page'>
-            <MealPlanWeekText currentDay={currentDay} />
-            <div className='mealplan-page-main-content'>
+         <div className='food-log-page'>
+            <FoodLogWeekText currentDay={currentDay} />
+            <div className='food-log-page-main-content'>
                <Stack
                   direction='row'
                   spacing={{ xs: 1, sm: 4 }}
@@ -152,7 +152,7 @@ const MealPlanPage = ({
                      onChange={handleTabChange}
                      variant='scrollable'
                      scrollButtons='auto'
-                     aria-label='change mealplan date'
+                     aria-label='change FoodLog date'
                   >
                      {days.map((day) => (
                         <Tab key={day} label={day} />
@@ -160,10 +160,10 @@ const MealPlanPage = ({
                   </Tabs>
                </div>
 
-               <MealplanDay
-                  setMealPlanItems={setMealplanItems}
+               <FoodLogDay
+                  setFoodLogItems={setFoodLogItems}
                   currentDay={currentDay}
-                  mealplanItems={mealplanItems}
+                  foodLogItems={foodLogItems}
                   setOpenAlert={setOpenAlert}
                   setAlertSeverity={setAlertSeverity}
                   setAlertMessage={setAlertMessage}
@@ -175,4 +175,4 @@ const MealPlanPage = ({
    );
 };
 
-export default MealPlanPage;
+export default FoodLogPage;
