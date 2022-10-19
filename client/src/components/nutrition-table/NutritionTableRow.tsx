@@ -1,5 +1,9 @@
-import { TableRow } from '@mui/material';
+import { TableRow, Typography } from '@mui/material';
 import React from 'react';
+import {
+   getNutrientFormattedName,
+   getNutrientUnitSize,
+} from '../../utils/getNutrientUnitInfoArray';
 import { StyledTableCell } from '../styled-table-components/StyledTableCell';
 
 interface Props {
@@ -8,35 +12,59 @@ interface Props {
    serving_size_conversion_factor: number;
 }
 
+const nutrientMap = {};
+
 export const NutritionTableRow = ({
    nutrientName,
    nutrientAmount,
    serving_size_conversion_factor,
 }: Props) => {
-   const getFormattedName = (name: string) => {
-      let arrOfWords = name.replace('_', ' ').split(' ');
-      let result = arrOfWords.map(
-         (word) => (word = word.slice(0, 1).toUpperCase() + word.slice(1))
-      );
-      return result.join(' ');
-   };
-
-   if (nutrientName === 'fdc_id') {
+   if (nutrientName === 'fdc_id' || nutrientName === 'id') {
       return null;
+   } else if (
+      nutrientName === 'saturated_fat' ||
+      nutrientName === 'trans_fat' ||
+      nutrientName === 'dietary_fiber' ||
+      nutrientName === 'total_sugars'
+   ) {
+      return (
+         <>
+            <TableRow>
+               <StyledTableCell component='th' scope='row'>
+                  <Typography variant='body2' sx={{ pl: '20px' }}>
+                     {getNutrientFormattedName(nutrientName)}
+                  </Typography>
+               </StyledTableCell>
+               {nutrientAmount !== null ? (
+                  <StyledTableCell>
+                     {Math.round(
+                        Number(nutrientAmount) * serving_size_conversion_factor
+                     )}
+                     &nbsp;
+                     {getNutrientUnitSize(nutrientName)}
+                  </StyledTableCell>
+               ) : (
+                  <StyledTableCell>-</StyledTableCell>
+               )}
+            </TableRow>
+         </>
+      );
    } else {
       return (
          <>
             <TableRow>
-               <StyledTableCell
-                  sx={{ fontWeight: 'bold' }}
-                  component='th'
-                  scope='row'
-               >
-                  {getFormattedName(nutrientName)}
+               <StyledTableCell component='th' scope='row'>
+                  <Typography variant='body1' fontWeight={'bold'}>
+                     {getNutrientFormattedName(nutrientName)}
+                  </Typography>
                </StyledTableCell>
                {nutrientAmount !== null ? (
                   <StyledTableCell>
-                     {Math.round(Number(nutrientAmount))}
+                     {Math.round(
+                        Number(nutrientAmount) * serving_size_conversion_factor
+                     )}
+                     &nbsp;
+                     {getNutrientUnitSize(nutrientName)}
                   </StyledTableCell>
                ) : (
                   <StyledTableCell>-</StyledTableCell>
