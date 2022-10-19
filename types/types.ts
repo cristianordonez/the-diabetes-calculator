@@ -35,10 +35,7 @@ type FoodSearchResult = {
    custom_food_brand_owner: string | null;
    description: string;
    fdc_id: string;
-   custom_food_serving_size: number | null;
-   custom_food_serving_size_unit: string | null;
-   gram_weight: number | null;
-   modifier: string | null;
+   serving_size_conversion_factor: number;
 };
 
 type CurrentGoals = {
@@ -106,6 +103,8 @@ type MetricsType = {
 };
 
 type FoodNutrition = {
+   id?: number | null;
+   fdc_id?: number | null;
    calories: number | string | null;
    calcium: number | string | null;
    cholesterol: number | string | null;
