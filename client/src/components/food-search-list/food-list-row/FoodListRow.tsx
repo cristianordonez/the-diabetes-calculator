@@ -4,7 +4,7 @@ import { IconButton, TableCell, TableRow } from '@mui/material';
 import React, { useState } from 'react';
 import { FoodSearchResult } from '../../../../../types/types';
 import { getFoodTitle } from '../../../../../utils/getFoodTitle';
-import { NutritionTable } from '../../nutrition-table/NutritionTable';
+import { NutritionTable } from '../../nutrition-table';
 import './FoodListRow.scss';
 interface Props extends FoodSearchResult {
    handleOpeningAddToFoodLogDialog: (
@@ -108,6 +108,7 @@ export const FoodListRow = ({
             open={open}
             nutrition={nutrition}
             serving_size={serving_size}
+            showStandardizedCol={true}
          />
       </>
    );

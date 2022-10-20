@@ -26,7 +26,7 @@ import {
    NutritionSummaryFoodLog,
 } from '../../../../../../types/types';
 import { getFoodTitle } from '../../../../../../utils/getFoodTitle';
-import { NutritionTable } from '../../../../components/nutrition-table/NutritionTable';
+import { NutritionTable } from '../../../../components/nutrition-table';
 import { StyledTableCell } from '../../../../components/styled-table-components/StyledTableCell';
 
 interface Props {
@@ -171,6 +171,7 @@ export const FoodLogSlot = ({
                            open={open}
                            nutrition={meal.nutrition}
                            serving_size={100} //this is needed because Nutrition Table is expecting nutrition to be per 100 g or mL, but meals in food log are saved as is (not standardized to 100)
+                           showStandardizedCol={false}
                         />
                      </React.Fragment>
                   ))}

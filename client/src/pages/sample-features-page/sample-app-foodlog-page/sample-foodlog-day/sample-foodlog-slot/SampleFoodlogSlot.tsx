@@ -14,7 +14,7 @@ import {
 import React, { useState } from 'react';
 import { FoodLogItem } from '../../../../../../../types/types';
 import { getFoodTitle } from '../../../../../../../utils/getFoodTitle';
-import { NutritionTable } from '../../../../../components/nutrition-table/NutritionTable';
+import { NutritionTable } from '../../../../../components/nutrition-table';
 import { StyledTableCell } from '../../../../../components/styled-table-components/StyledTableCell';
 interface Props {
    key: number;
@@ -102,6 +102,7 @@ export const SampleFoodLogSlot = ({
                            open={open}
                            nutrition={meal.nutrition}
                            serving_size={100}
+                           showStandardizedCol={false}
                         />
                      </React.Fragment>
                   ))}
