@@ -38,7 +38,7 @@ export const DialogSelectServingSize = ({
             <Typography sx={{ minWidth: '25%' }} variant='body2'>
                Serving Size
             </Typography>
-            <FormControl>
+            <FormControl sx={{ width: '100%' }}>
                <InputLabel>Enter serving size</InputLabel>
                <Select
                   value={servingSize + ''}

@@ -21,7 +21,11 @@ export const NutritionTableRow = ({
 }: Props) => {
    console.log('nutrientName: ', nutrientName);
    console.log('nutrientAmount: ', nutrientAmount);
-   if (nutrientName === 'id' || nutrientName === 'meal_id') {
+   if (
+      nutrientName === 'id' ||
+      nutrientName === 'meal_id' ||
+      nutrientName === 'fdc_id'
+   ) {
       return null;
    } else if (
       nutrientName === 'saturated_fat' ||
