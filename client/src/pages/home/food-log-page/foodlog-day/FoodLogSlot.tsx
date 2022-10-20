@@ -170,7 +170,7 @@ export const FoodLogSlot = ({
                         <NutritionTable
                            open={open}
                            nutrition={meal.nutrition}
-                           serving_size_conversion_factor={1}
+                           serving_size={100} //this is needed because Nutrition Table is expecting nutrition to be per 100 g or mL, but meals in food log are saved as is (not standardized to 100)
                         />
                      </React.Fragment>
                   ))}

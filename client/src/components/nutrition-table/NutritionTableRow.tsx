@@ -9,7 +9,7 @@ import { StyledTableCell } from '../styled-table-components/StyledTableCell';
 interface Props {
    nutrientName: string;
    nutrientAmount: null | number | string;
-   serving_size_conversion_factor: number;
+   serving_size: number | null;
 }
 
 const nutrientMap = {};
@@ -17,9 +17,11 @@ const nutrientMap = {};
 export const NutritionTableRow = ({
    nutrientName,
    nutrientAmount,
-   serving_size_conversion_factor,
+   serving_size,
 }: Props) => {
-   if (nutrientName === 'fdc_id' || nutrientName === 'id') {
+   console.log('nutrientName: ', nutrientName);
+   console.log('nutrientAmount: ', nutrientAmount);
+   if (nutrientName === 'id' || nutrientName === 'meal_id') {
       return null;
    } else if (
       nutrientName === 'saturated_fat' ||
@@ -38,7 +40,7 @@ export const NutritionTableRow = ({
                {nutrientAmount !== null ? (
                   <StyledTableCell>
                      {Math.round(
-                        Number(nutrientAmount) * serving_size_conversion_factor
+                        (Number(nutrientAmount) / 100) * Number(serving_size)
                      )}
                      &nbsp;
                      {getNutrientUnitSize(nutrientName)}
@@ -54,14 +56,14 @@ export const NutritionTableRow = ({
          <>
             <TableRow>
                <StyledTableCell component='th' scope='row'>
-                  <Typography variant='body1' fontWeight={'bold'}>
+                  <Typography variant='body2' fontWeight={'bold'}>
                      {getNutrientFormattedName(nutrientName)}
                   </Typography>
                </StyledTableCell>
                {nutrientAmount !== null ? (
                   <StyledTableCell>
                      {Math.round(
-                        Number(nutrientAmount) * serving_size_conversion_factor
+                        (Number(nutrientAmount) / 100) * Number(serving_size)
                      )}
                      &nbsp;
                      {getNutrientUnitSize(nutrientName)}

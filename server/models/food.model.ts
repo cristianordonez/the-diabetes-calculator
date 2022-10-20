@@ -179,7 +179,7 @@ const getAdvancedByBrand = (query: Query) => {
 
 const createFood = (
    description: string,
-   serving_size_conversion_factor: number,
+   // serving_size_conversion_factor: number,
    brand_owner: string,
    serving_size: number | string,
    serving_size_unit: string,
@@ -188,7 +188,8 @@ const createFood = (
    standardized_conversion_factor: number
 ) => {
    const createFoodQuery = `With getId AS 
-   (INSERT INTO food (data_type, description, serving_size_conversion_factor, nutrition_label_serving_size, nutrition_label_serving_size_unit) 
+   (INSERT INTO food (data_type, description, 
+   nutrition_label_serving_size, nutrition_label_serving_size_unit) 
    VALUES ('custom', $1, $2, $3, $4) 
    RETURNING fdc_id)
    INSERT INTO custom_food 
@@ -199,7 +200,7 @@ const createFood = (
    return db.task(async (t: any) => {
       const fdc_id = await t.one(createFoodQuery, [
          description,
-         serving_size_conversion_factor,
+         // serving_size_conversion_factor,
          serving_size,
          serving_size_unit,
          brand_owner,
@@ -219,26 +220,22 @@ const createFood = (
       });
       const createFoodNutritionQuery = `INSERT INTO food_nutrition 
          (fdc_id, calories, total_fat, total_carbohydrates, protein, trans_fat,
-         polyunsaturated_fat, monounsaturated_fat, cholesterol, dietary_fiber,
-         sugar, vitamin_d, calcium, saturated_fat, sodium, iron, potassium, vitamin_a, vitamin_c)
+         cholesterol, dietary_fiber,
+         total_sugars, vitamin_d, calcium, saturated_fat, sodium, iron, potassium)
          VALUES ($<fdc_id.fdc_id>, $<nutrition.calories>, 
          $<nutrition.total_fat>,
          $<nutrition.total_carbohydrates>,
          $<nutrition.protein>,
          $<nutrition.trans_fat>,
-         $<nutrition.polyunsaturated_fat>,
-         $<nutrition.monounsaturated_fat>,
          $<nutrition.cholesterol>,
          $<nutrition.dietary_fiber>,
-         $<nutrition.sugar>,
+         $<nutrition.total_sugars>,
          $<nutrition.vitamin_d>,
          $<nutrition.calcium>,
          $<nutrition.saturated_fat>,
          $<nutrition.sodium>,
          $<nutrition.iron>,
-         $<nutrition.potassium>,
-         $<nutrition.vitamin_a>,
-         $<nutrition.vitamin_c>) RETURNING fdc_id`;
+         $<nutrition.potassium>) RETURNING fdc_id`;
       const nutritionFdcId = await t.one(createFoodNutritionQuery, {
          nutrition,
          fdc_id,

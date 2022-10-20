@@ -101,7 +101,7 @@ export const SampleFoodLogSlot = ({
                         <NutritionTable
                            open={open}
                            nutrition={meal.nutrition}
-                           serving_size_conversion_factor={1}
+                           serving_size={100}
                         />
                      </React.Fragment>
                   ))}

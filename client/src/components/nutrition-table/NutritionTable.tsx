@@ -16,13 +16,10 @@ import { NutritionTableRow } from './NutritionTableRow';
 interface Props {
    nutrition: FoodNutrition;
    open: boolean;
-   serving_size_conversion_factor: number;
+   serving_size: null | number;
 }
-export const NutritionTable = ({
-   open,
-   nutrition,
-   serving_size_conversion_factor,
-}: Props) => {
+export const NutritionTable = ({ open, nutrition, serving_size }: Props) => {
+   console.log('nutrition: ', nutrition);
    return (
       <TableRow>
          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -45,11 +42,10 @@ export const NutritionTable = ({
                      <TableBody>
                         {Object.entries(nutrition).map((nutrient) => (
                            <NutritionTableRow
+                              key={nutrient[0]}
                               nutrientName={nutrient[0]}
                               nutrientAmount={nutrient[1]}
-                              serving_size_conversion_factor={
-                                 serving_size_conversion_factor
-                              }
+                              serving_size={serving_size}
                            />
                         ))}
                      </TableBody>
