@@ -38,21 +38,6 @@ export const NutritionTableRow = ({
                      {getNutrientFormattedName(nutrientName)}
                   </Typography>
                </StyledTableCell>
-               {/* {nutrientAmount !== null ? (
-                  <>
-                     <StyledTableCell align='right'>
-                        {Math.round(
-                           (Number(nutrientAmount) / 100) * Number(serving_size)
-                        )}
-                        &nbsp;
-                        {getNutrientUnitSize(nutrientName)}
-                     </StyledTableCell>
-                  </>
-               ) : (
-                  <>
-                     <StyledTableCell align='right'>-</StyledTableCell>
-                  </>
-               )} */}
                <NutritionTableCell
                   nutrientAmount={nutrientAmount}
                   nutrientName={nutrientName}
@@ -77,21 +62,6 @@ export const NutritionTableRow = ({
                   showRegularAmount={showRegularAmount}
                   serving_size={serving_size}
                />
-               {/* {nutrientAmount !== null ? (
-                  <>
-                     <StyledTableCell align='right'>
-                        {Math.round(
-                           (Number(nutrientAmount) / 100) * Number(serving_size)
-                        )}
-                        &nbsp;
-                        {getNutrientUnitSize(nutrientName)}
-                     </StyledTableCell>
-                  </>
-               ) : (
-                  <>
-                     <StyledTableCell align='right'>-</StyledTableCell>
-                  </>
-               )} */}
             </TableRow>
          </>
       );

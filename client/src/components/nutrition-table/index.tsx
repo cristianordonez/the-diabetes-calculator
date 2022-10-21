@@ -6,6 +6,7 @@ import {
    MenuItem,
    Select,
    SelectChangeEvent,
+   Stack,
    Table,
    TableBody,
    TableCell,
@@ -19,7 +20,6 @@ import { StyledTableCell } from '../styled-table-components/StyledTableCell';
 import { NutritionTableRow } from './nutrition-table-row/NutritionTableRow';
 import './NutritionTable.scss';
 
-//TODO move select dropdown to own component
 interface Props {
    nutrition: FoodNutrition;
    open: boolean;
@@ -49,28 +49,35 @@ export const NutritionTable = ({
          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
             <Collapse in={open} timeout='auto' unmountOnExit>
                <Box sx={{ margin: 1 }}>
-                  <Typography variant='h6' gutterBottom component='div'>
-                     Nutrition Facts
-                  </Typography>
-                  {showStandardizedCol ? (
-                     <FormControl sx={{ width: '100%' }}>
-                        <InputLabel>Show</InputLabel>
-                        <Select
-                           value={showRegularAmount}
-                           onChange={handleSelectDataToShow}
-                           label='Show'
-                           required
-                           fullWidth
-                           id='data to show'
-                        >
-                           {options.map((option) => (
-                              <MenuItem value={option} key={option}>
-                                 {option}
-                              </MenuItem>
-                           ))}
-                        </Select>
-                     </FormControl>
-                  ) : null}
+                  <Stack
+                     direction='row'
+                     sx={{ width: '100%' }}
+                     alignItems='center'
+                  >
+                     <Typography variant='h6' gutterBottom component='div'>
+                        Nutrition Facts
+                     </Typography>
+                     {showStandardizedCol ? (
+                        <FormControl sx={{ width: '100%' }}>
+                           <InputLabel>Show</InputLabel>
+                           <Select
+                              value={showRegularAmount}
+                              onChange={handleSelectDataToShow}
+                              label='Show'
+                              required
+                              fullWidth
+                              size='small'
+                              id='data to show'
+                           >
+                              {options.map((option) => (
+                                 <MenuItem value={option} key={option}>
+                                    {option}
+                                 </MenuItem>
+                              ))}
+                           </Select>
+                        </FormControl>
+                     ) : null}
+                  </Stack>
                   <Table
                      size='small'
                      aria-label='additional nutrition data'

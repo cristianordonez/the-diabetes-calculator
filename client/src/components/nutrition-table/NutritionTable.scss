@@ -2,4 +2,5 @@
 
 .MuiCollapse-wrapperInner {
    @include flex-center();
+   min-width: 600px;
 }

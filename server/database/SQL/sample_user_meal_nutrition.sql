@@ -11,8 +11,8 @@ CREATE TABLE sample_user_meal_nutrition (
     dietary_fiber integer,
     total_sugars integer,
     protein integer,
-    vitamin_d integer
+    vitamin_d integer,
     calcium integer,
     iron integer,
-    potassium integer,
+    potassium integer
 );
