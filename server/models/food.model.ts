@@ -98,7 +98,6 @@ const get = (query: Query) => {
    custom_food.brand_owner as custom_food_brand_owner,
    food.nutrition_label_serving_size as serving_size,
    food.nutrition_label_serving_size_unit as serving_size_unit,
-   food.serving_size_conversion_factor,
    food.data_type,
    row_to_json(food_nutrition.*) AS nutrition
    FROM food
@@ -124,7 +123,6 @@ const getAdvanced = (query: Query) => {
     food.nutrition_label_serving_size AS serving_size,
     food.nutrition_label_serving_size_unit AS serving_size_unit,
     food.data_type,
-    food.serving_size_conversion_factor,
     row_to_json(food_nutrition.*) AS nutrition
     FROM food
 	 INNER JOIN food_nutrition ON food.fdc_id = food_nutrition.fdc_id
@@ -154,7 +152,6 @@ const getAdvancedByBrand = (query: Query) => {
     custom_food.brand_owner as custom_food_brand_owner,
     food.nutrition_label_serving_size AS serving_size,
     food.nutrition_label_serving_size_unit AS serving_size_unit,
-    food.serving_size_conversion_factor,
     food.data_type,
     row_to_json(food_nutrition.*) AS nutrition
     FROM food
@@ -179,7 +176,6 @@ const getAdvancedByBrand = (query: Query) => {
 
 const createFood = (
    description: string,
-   // serving_size_conversion_factor: number,
    brand_owner: string,
    serving_size: number | string,
    serving_size_unit: string,
@@ -190,17 +186,22 @@ const createFood = (
    const createFoodQuery = `With getId AS 
    (INSERT INTO food (data_type, description, 
    nutrition_label_serving_size, nutrition_label_serving_size_unit) 
-   VALUES ('custom', $1, $2, $3, $4) 
+   VALUES ('custom', $1, $2, $3) 
    RETURNING fdc_id)
    INSERT INTO custom_food 
    (brand_owner, user_id, fdc_id) 
-   VALUES ($5, $6, (SELECT fdc_id FROM getId))
+   VALUES ($4, $5, (SELECT fdc_id FROM getId))
    RETURNING fdc_id`;
+
+   console.log('brand_owner: ', brand_owner);
+   console.log('serving_size: ', serving_size);
+   console.log('nutrition: ', nutrition);
+   console.log('serving_size_unit: ', serving_size_unit);
+   console.log('user_id: ', user_id);
 
    return db.task(async (t: any) => {
       const fdc_id = await t.one(createFoodQuery, [
          description,
-         // serving_size_conversion_factor,
          serving_size,
          serving_size_unit,
          brand_owner,
@@ -251,7 +252,6 @@ const getSampleItems = () => {
  	branded_food.brand_owner,
    food.nutrition_label_serving_size AS serving_size,
    food.nutrition_label_serving_size_unit AS serving_size_unit,
-   food.serving_size_conversion_factor,
    food.data_type,
    row_to_json(food_nutrition.*) AS nutrition
    FROM food
