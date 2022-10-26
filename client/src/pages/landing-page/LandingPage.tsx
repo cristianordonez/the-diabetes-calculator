@@ -79,7 +79,7 @@ const LandingPage = () => {
                      textAlign={{ xs: 'center', sm: 'left' }}
                      variant='h2'
                   >
-                     The Macro Trainer
+                     The MacroTrainer
                   </Typography>
                   <Typography variant='body1' component='h5'>
                      Calculate your macronutrient needs and find food products
