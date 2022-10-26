@@ -78,6 +78,7 @@ const LandingPage = () => {
                   <Typography
                      textAlign={{ xs: 'center', sm: 'left' }}
                      variant='h2'
+                     sx={{ fontFamily: 'Lato' }}
                   >
                      The MacroTrainer
                   </Typography>
