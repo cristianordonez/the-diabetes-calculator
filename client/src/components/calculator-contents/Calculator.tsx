@@ -51,7 +51,7 @@ export const Calculator = ({
          >
             <ToggleButton value='weight_loss'>Weight loss</ToggleButton>
             <ToggleButton value='maintain'>Maintain</ToggleButton>
-            <ToggleButton value='gain_muscle'>Gain muscle</ToggleButton>
+            <ToggleButton value='gain_muscle'>Weight gain</ToggleButton>
          </ToggleButtonGroup>
          <ToggleButtonGroup
             color='primary'
@@ -75,7 +75,7 @@ export const Calculator = ({
          >
             <ToggleButton value='male'>Male</ToggleButton>
             <ToggleButton value='female'>Female</ToggleButton>
-            <ToggleButton value='other'>Other</ToggleButton>
+            <ToggleButton value='other'>Non-binary</ToggleButton>
          </ToggleButtonGroup>
          {/* AGE HEIGHT AND WEIGHT*/}
          <AgeInputField age={age} setAge={setAge} />
