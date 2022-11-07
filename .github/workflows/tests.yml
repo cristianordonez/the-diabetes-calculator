@@ -48,6 +48,10 @@ jobs:
           DATABASE_HOST: localhost
           DATABASE_PASSWORD: postgres
           NODE_ENV: test
+          GOOGLE_SIGNIN_CLIENT_ID: thisisafakeid1994
+          GOOGLE_SIGNIN_CLIENT_SECRET: thisisafakesecret
+          GMAIL_OAUTH_CLIENT_ID: thisisafakeid1994
+          GMAIL_OAUTH_CLIENT_SECRET: thisisafakesecret
           # The default PostgreSQL port
       - name: run tests
         run: npm run jest
