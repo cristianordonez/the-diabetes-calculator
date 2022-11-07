@@ -1,4 +1,4 @@
-name: PostgreSQL Service Example
+name: PostgreSQL unit integration tests
 on: push
 
 jobs:
@@ -54,13 +54,8 @@ jobs:
         run: npx ts-node server/database/db.ts
         # Environment variables used by the `client.js` script to create
         # a new PostgreSQL table.
-        env:
-          # The hostname used to communicate with the PostgreSQL service container
-          DATABASE_USER: postgres
-          DATABASE_HOST: localhost
-          DATABASE_PASSWORD: postgres
-          NODE_ENV: test
-          
-          # The default PostgreSQL port
+      - name: Create database
+        run: |
+          PGPASSWORD=postgres psql -U postgres -tc "SELECT 'CREATE DATABASE test_database' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'test_database')"
       - name: run tests
         run: npm run jest
