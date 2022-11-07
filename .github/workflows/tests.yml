@@ -44,6 +44,10 @@ jobs:
         # a new PostgreSQL table.
         env:
           # The hostname used to communicate with the PostgreSQL service container
-          POSTGRES_HOST: localhost
+          DATABASE_USER: postgres
+          DATABASE_HOST: localhost
+          DATABASE_PASSWORD: postgres
+          NODE_ENV: test
           # The default PostgreSQL port
-          POSTGRES_PORT: 5432
+      - name: run tests
+        run: npm run jest
