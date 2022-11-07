@@ -3,6 +3,7 @@ on: push
 
 jobs:
   # Label of the runner job
+          
   runner-job:
     # You must use a Linux environment when using service containers or container jobs
     runs-on: ubuntu-latest
@@ -35,7 +36,18 @@ jobs:
       # For more information, see https://docs.npmjs.com/cli/ci.html
       - name: Install dependencies
         run: npm ci
-
+      - name: create env file
+        run: |
+            touch .env
+            echo DATABASE_USER=${{ secrets.DATABASE_USER}} >> .env
+            echo DATABASE_HOST=${{ secrets.DATABASE_HOST}} >> .env
+            echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD}} >> .env
+            echo NODE_ENV=${{ secrets.NODE_ENV}} >> .env
+            echo GMAIL_OAUTH_CLIENT_SECRET=${{ secrets.GMAIL_OAUTH_CLIENT_SECRET}} >> .env
+            echo GMAIL_OAUTH_CLIENT_ID=${{ secrets.GMAIL_OAUTH_CLIENT_ID}} >> .env
+            echo GOOGLE_SIGNIN_CLIENT_SECRET=${{ secrets.GOOGLE_SIGNIN_CLIENT_SECRET}} >> .env
+            echo GOOGLE_SIGNIN_CLIENT_ID=${{ secrets.GOOGLE_SIGNIN_CLIENT_ID}} >> .env
+            echo GMAIL_REFRESH_TOKEN=${{ secrets.GMAIL_REFRESH_TOKEN}} >> .env
       - name: Connect to PostgreSQL
         # Runs a script that creates a PostgreSQL table, populates
         # the table with data, and then retrieves the data
@@ -48,10 +60,7 @@ jobs:
           DATABASE_HOST: localhost
           DATABASE_PASSWORD: postgres
           NODE_ENV: test
-          GOOGLE_SIGNIN_CLIENT_ID: thisisafakeid1994
-          GOOGLE_SIGNIN_CLIENT_SECRET: thisisafakesecret
-          GMAIL_OAUTH_CLIENT_ID: thisisafakeid1994
-          GMAIL_OAUTH_CLIENT_SECRET: thisisafakesecret
+          
           # The default PostgreSQL port
       - name: run tests
         run: npm run jest
