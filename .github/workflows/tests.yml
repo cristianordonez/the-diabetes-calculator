@@ -1,5 +1,5 @@
-name: PostgreSQL unit integration tests
-on: push
+name: Unit and Integration tests
+on: push, pull_request
 
 jobs:
   # Label of the runner job
