@@ -1,6 +1,9 @@
 name: Unit and Integration tests
-on: push, pull_request
-
+on: 
+  push:
+  pull_request:
+    branches: 
+      - main
 jobs:
   # Label of the runner job
           
