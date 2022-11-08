@@ -65,3 +65,5 @@ jobs:
           POSTGRES_PORT: 5432
       - name: run tests
         run: npm run jest
+        env: 
+          NODE_ENV: test
