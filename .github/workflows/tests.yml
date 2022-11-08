@@ -54,7 +54,6 @@ jobs:
         run: npx ts-node server/database/db.ts
         # Environment variables used by the `client.js` script to create
         # a new PostgreSQL table.
-      - name: create database
-        run: psql -c 'create database test_database;' -U postgres 
+  
       - name: run tests
         run: npm run jest
