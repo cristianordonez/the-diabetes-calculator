@@ -3,8 +3,7 @@ import { AlertColor, Button, Paper, Stack, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PasswordTextField } from '../../../components/form-input-components/password-textfield/PasswordTextField';
-import { UsernameTextField } from '../../../components/form-input-components/username-textfield/UsernameTextField';
+import { CustomTextField } from '../../../components/form-input-components/custom-textfield/CustomTextField';
 import { useAuth } from '../../../context/authContext';
 import LoginSvg from '../../../img/secure_login.svg';
 import './LoginForm.scss';
@@ -33,8 +32,9 @@ export const LoginForm = ({
    const navigate = useNavigate();
    const { setIsLoggedIn } = useAuth() as unknown as {
       setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
-   }; //used to check if data is still being retrieved from database
+   };
 
+   //# state value must be called 'username' for passport local strategy to work
    const [loginValues, setLoginValues] = useState({
       username: '',
       password: '',
@@ -56,7 +56,7 @@ export const LoginForm = ({
    const handleLogin = async (event: React.SyntheticEvent) => {
       event.preventDefault();
       try {
-         const response = await axios.post(`/api/login`, loginValues, {
+         const response = await axios.post('/api/login', loginValues, {
             withCredentials: true,
          });
          if (response.status === 201) {
@@ -66,6 +66,7 @@ export const LoginForm = ({
          }
       } catch (err) {
          setAlertSeverity('error');
+         console.log('err: ', err);
          setErrorMessage('No matching username and password found.'); //showTextFieldError message used in the snackbar
          setShowTextFieldError(true); //used to show showTextFieldError helper text in text field
          handleErrorAlert();
@@ -105,14 +106,28 @@ export const LoginForm = ({
                      </Typography>
                   </Button>
                   <Typography variant='h6'>or</Typography>
-                  <UsernameTextField
+                  <CustomTextField
+                     value={loginValues.username}
                      showSignup={showSignup}
                      handleLoginChange={handleLoginChange}
+                     name={'username'}
+                     showTextFieldError={undefined}
+                     label={'Email'}
+                     type='email'
+                     placeholder='Email'
+                     errorMessage=''
+                     helperText='Enter your email.'
                   />
-                  <PasswordTextField
+                  <CustomTextField
                      showTextFieldError={showTextFieldError}
                      showSignup={showSignup}
                      errorMessage={errorMessage}
+                     name='password'
+                     label='Password'
+                     type='password'
+                     helperText='Enter your password'
+                     placeholder='Password'
+                     value={loginValues.password}
                      handleLoginChange={handleLoginChange}
                   />
                   <Stack alignItems='flex-end' sx={{ width: '100%' }}>

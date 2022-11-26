@@ -69,13 +69,11 @@ type Query = {
 };
 
 type UserType = {
-   username: string;
    email: string;
    password: string;
 };
 
 type PassportGoogleUser = {
-   username: string;
    email: string;
    user_id: number;
 };
@@ -128,8 +126,20 @@ type NutritionSummaryFoodLog = {
    total_protein: string;
 };
 
+type CalculateGoalsArgs = {
+   goal: 'weight_loss' | 'maintain' | 'gain_muscle' | '';
+   activityLevel: 1 | 1.2 | 1.5;
+   gender: 'male' | 'female' | 'non_binary' | '';
+   age: number;
+   height: number;
+   heightMetric: 'ft' | 'cm';
+   weight: number;
+   weightMetric: 'lb' | 'kg';
+};
+
 export {
    CurrentGoals,
+   CalculateGoalsArgs,
    Session,
    Query,
    UserType,

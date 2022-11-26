@@ -11,7 +11,7 @@ const UserProfilePage = () => {
    const { setAlertMessage, setOpenAlert, setAlertSeverity, goals, setGoals } =
       useHomeOutlet();
 
-   const { isLoading, username } = useAuth();
+   const { isLoading } = useAuth();
 
    const handleSubmitUpdatedGoals = async (event: React.FormEvent) => {
       event.preventDefault();
@@ -50,9 +50,9 @@ const UserProfilePage = () => {
                >
                   <SettingsIcon />
                   <Typography variant='body1' align='left'>
-                     Welcome to your account, {username}! Edit your
-                     macronutrient goals to a custom amount (calories will be
-                     calculated based on your input).
+                     Welcome to your account! Edit your macronutrient goals to a
+                     custom amount (calories will be calculated based on your
+                     input for the three macronutrients).
                   </Typography>
                </Stack>
                <DailyGoalsUserProfile

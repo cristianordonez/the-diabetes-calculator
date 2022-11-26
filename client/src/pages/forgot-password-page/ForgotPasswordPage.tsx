@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { ChangeEvent, SyntheticEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomAlert } from '../../components/custom-alert/CustomAlert';
-import { EmailTextField } from '../../components/form-input-components/email-textfield/EmailTextField';
+import { CustomTextField } from '../../components/form-input-components/custom-textfield/CustomTextField';
 import './ForgotPasswordPage.scss';
 
 const ForgotPasswordPage = () => {
@@ -65,7 +65,18 @@ const ForgotPasswordPage = () => {
                   Enter your email address you used to sign up for an account
                   and we'll send you a recovery link.
                </Typography>
-               <EmailTextField handleCreateAccountChange={handleEmailChange} />
+               <CustomTextField
+                  showSignup={true}
+                  name='email'
+                  value={email}
+                  showTextFieldError={undefined}
+                  label={'Email'}
+                  type='email'
+                  placeholder='Email'
+                  helperText='Enter your email.'
+                  errorMessage=''
+                  handleCreateAccountChange={handleEmailChange}
+               />
                <Button type='submit' variant='contained'>
                   Send recovery email
                </Button>
