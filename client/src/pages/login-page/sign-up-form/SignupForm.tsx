@@ -2,10 +2,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { AlertColor, Button, Paper, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { ConfirmPasswordTextField } from '../../../components/form-input-components/confirm-password-textfield/ConfirmPasswordTextField';
-import { EmailTextField } from '../../../components/form-input-components/email-textfield/EmailTextField';
-import { PasswordTextField } from '../../../components/form-input-components/password-textfield/PasswordTextField';
-import { UsernameTextField } from '../../../components/form-input-components/username-textfield/UsernameTextField';
+import { CustomTextField } from '../../../components/form-input-components/custom-textfield/CustomTextField';
 import { MacroCalculatorContainer } from '../../../components/macro-calculator-container';
 import './SignupForm.scss';
 
@@ -35,7 +32,6 @@ export const SignupForm = ({
    const [showNextPage, setShowNextPage] = useState(false); //handles showing page 2 when creating account
 
    const [signupValues, setSignupValues] = useState({
-      username: '',
       email: '',
       password: '',
       confirmedPassword: '',
@@ -45,7 +41,7 @@ export const SignupForm = ({
       event: React.ChangeEvent<HTMLInputElement>
    ) => {
       let currentValue;
-      if (event.target.name === 'username' || event.target.name === 'email') {
+      if (event.target.name === 'email') {
          currentValue = event.target.value.toLowerCase();
       } else {
          currentValue = event.target.value;
@@ -80,7 +76,7 @@ export const SignupForm = ({
             console.log('err:', err);
             setAlertSeverity('error');
             setErrorMessage(
-               'An account with that username or email already exists. Try logging in instead.'
+               'An account with that email already exists. Try logging in instead.'
             );
             setOpenErrorAlert(true);
          }
@@ -126,23 +122,41 @@ export const SignupForm = ({
                <Typography variant='subtitle1'>
                   Please enter your details
                </Typography>
-               <UsernameTextField
+               <CustomTextField
+                  showSignup={true}
+                  errorMessage={''}
+                  handleCreateAccountChange={handleCreateAccountChange}
+                  name={'email'}
+                  label='Email'
+                  value={signupValues.email}
+                  type='email'
+                  helperText='Enter your email.'
+                  placeholder='Email'
+                  showTextFieldError={undefined}
+               />
+               <CustomTextField
                   showSignup={showSignup}
-                  handleCreateAccountChange={handleCreateAccountChange}
-               />
-               <EmailTextField
-                  handleCreateAccountChange={handleCreateAccountChange}
-               />
-               <PasswordTextField
-                  showTextFieldError={showTextFieldError}
-                  showSignup={showSignup}
-                  handleCreateAccountChange={handleCreateAccountChange}
                   errorMessage={errorMessage}
+                  handleCreateAccountChange={handleCreateAccountChange}
+                  name='password'
+                  label='Password'
+                  type='password'
+                  helperText='Enter your password'
+                  placeholder='Password'
+                  value={signupValues.password}
+                  showTextFieldError={showTextFieldError}
                />
-               <ConfirmPasswordTextField
+               <CustomTextField
                   errorMessage={errorMessage}
                   showTextFieldError={showTextFieldError}
                   handleCreateAccountChange={handleCreateAccountChange}
+                  type='password'
+                  name='confirmedPassword'
+                  placeholder='Confirm Password'
+                  label='Confirm Password'
+                  showSignup={true}
+                  helperText={'Confirm your password.'}
+                  value={signupValues.confirmedPassword}
                />
                <Button
                   data-testid='initial-signup-form-btn'

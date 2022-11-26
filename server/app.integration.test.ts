@@ -23,7 +23,6 @@ beforeAll(async () => {
    await db.query(schemas.sample_user_meal);
    await db.query(schemas.sample_user_meal_nutrition);
    const beforeResponse = await request.post('/api/signup').send({
-      username: 'test',
       email: 'test@email.com',
       password: 'password',
    });
@@ -50,7 +49,6 @@ describe('Authentication routes', () => {
 
    test('POST /signup: it should allow user to create an account and then set session', async () => {
       const response = await request.post('/api/signup').send({
-         username: 'test_user',
          email: 'testemail@email.com',
          password: 'password',
       });

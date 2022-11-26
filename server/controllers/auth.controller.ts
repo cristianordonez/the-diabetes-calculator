@@ -16,9 +16,7 @@ const createAccount = async (req: Request, res: Response) => {
       if (
          checkForExistingAccount !== null // if either email or username already exists in db, cancel the request
       ) {
-         res.status(401).send(
-            'An account with your email or username already exists.'
-         );
+         res.status(401).send('An account with your email already exists.');
       } else {
          const hash: string = await bcrypt.hash(body.password, saltRounds);
          body.password = hash;
@@ -38,8 +36,7 @@ const createAccount = async (req: Request, res: Response) => {
 const checkAuthentication = async (req: Request, res: Response) => {
    const session = req.session as unknown as Session;
    if (session.passport || session.user_id) {
-      const username = await userModel.getUserById(session.user_id);
-      res.status(201).send(username[0].username);
+      res.status(200).send('User is logged in.');
    } else {
       res.status(205).send('User is not logged in.');
    }

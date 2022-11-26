@@ -21,7 +21,6 @@ export const customGoogleStrategy = new GoogleStrategy(
                done(null, response.user_id);
             } else {
                const user = {} as PassportGoogleUser;
-               user.username = profile.displayName;
                user.email = profile.emails[0].value;
                createGoogleUser(user)
                   .then((userId: number) => {

@@ -69,13 +69,11 @@ type Query = {
 };
 
 type UserType = {
-   username: string;
    email: string;
    password: string;
 };
 
 type PassportGoogleUser = {
-   username: string;
    email: string;
    user_id: number;
 };

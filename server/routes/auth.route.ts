@@ -65,6 +65,7 @@ router.post('/resetPassword', (req: Request, res: Response) => {
 router.post('/logout', (req: Request, res: Response, next: NextFunction) => {
    req.logout(function (err: unknown) {
       if (err) {
+         console.log('err in router.post logout: ', err);
          return next(err);
       }
       const session = req.session as unknown as Session;
@@ -73,9 +74,9 @@ router.post('/logout', (req: Request, res: Response, next: NextFunction) => {
    });
 });
 
-//endpoint that gets redirect to when there is error logging in, used so that client can be sent error message from server
+//endpoint that gets redirect to when there is error logging out, used so that client can be sent error message from server
 router.get('/error', (req: Request, res: Response) => {
-   res.status(500).send('Incorrect username or password.');
+   res.status(500).send('Incorrect email or password.');
 });
 
 export { router };

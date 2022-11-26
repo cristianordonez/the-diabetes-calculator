@@ -67,9 +67,7 @@ passport.serializeUser((userId: unknown, done) => {
 });
 
 passport.deserializeUser((userId: string, cb) => {
-   db.any(`SELECT user_id, username, email FROM users WHERE user_id=$1`, [
-      Number(userId),
-   ])
+   db.any(`SELECT user_id, email FROM users WHERE user_id=$1`, [Number(userId)])
       .then(function (results: string[]) {
          cb(null, results[0]);
       })

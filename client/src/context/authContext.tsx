@@ -18,7 +18,6 @@ type Context = {
    isLoading: boolean;
    isLoggedIn: boolean;
    setIsLoggedIn: Dispatch<SetStateAction<boolean>> | null;
-   username: string;
    handleLogout:
       | MouseEventHandler<HTMLImageElement | HTMLLIElement>
       | undefined;
@@ -28,7 +27,6 @@ const AuthContext = createContext<Context>({
    isLoading: true,
    isLoggedIn: false,
    setIsLoggedIn: null,
-   username: '',
    handleLogout: undefined,
 });
 
@@ -37,7 +35,6 @@ const AuthProvider = ({ children }: Props) => {
    const navigate = useNavigate();
    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
    const [isLoading, setIsLoading] = useState<boolean>(true);
-   const [username, setUsername] = useState<string>('');
 
    const handleLogout = async () => {
       try {
@@ -59,8 +56,7 @@ const AuthProvider = ({ children }: Props) => {
          .get('/api/authentication')
          .then((response) => {
             //redirect user to macro calculator page if no daily goals are found
-            if (response.status === 201) {
-               setUsername(response.data);
+            if (response.status === 200) {
                setIsLoggedIn(true);
                setIsLoading(false);
             } else {
@@ -69,7 +65,7 @@ const AuthProvider = ({ children }: Props) => {
             }
          })
          .catch((err) => {
-            console.log('err in useeffect useauth: ', err);
+            console.log('Error:', err);
             setIsLoggedIn(false);
             navigate('/', {
                state: { showError: false },
@@ -86,7 +82,6 @@ const AuthProvider = ({ children }: Props) => {
             value={{
                isLoggedIn,
                isLoading,
-               username,
                handleLogout,
                setIsLoggedIn,
             }}

@@ -1,11 +1,10 @@
 import { AlertColor, Button, Paper, Typography } from '@mui/material';
+
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomAlert } from '../../components/custom-alert/CustomAlert';
-import { ConfirmPasswordTextField } from '../../components/form-input-components/confirm-password-textfield/ConfirmPasswordTextField';
-import { PasswordTextField } from '../../components/form-input-components/password-textfield/PasswordTextField';
-
+import { CustomTextField } from '../../components/form-input-components/custom-textfield/CustomTextField';
 function useQuery() {
    return new URLSearchParams(window.location.search);
 }
@@ -78,16 +77,29 @@ const ResetPasswordPage = () => {
                onSubmit={handleChangePasswordSubmit}
             >
                <Typography variant='h6'>Enter your new password</Typography>
-               <PasswordTextField
+               <CustomTextField
                   showTextFieldError={showTextFieldError}
                   showSignup={showSignup}
                   handleCreateAccountChange={handlePasswordChange}
                   errorMessage={errorMessage}
+                  name='password'
+                  label='Password'
+                  type='password'
+                  helperText='Enter your password'
+                  placeholder='Password'
+                  value={password}
                />
-               <ConfirmPasswordTextField
+               <CustomTextField
                   errorMessage={errorMessage}
                   showTextFieldError={showTextFieldError}
                   handleCreateAccountChange={handleConfirmPasswordChange}
+                  type='password'
+                  name='confirmedPassword'
+                  placeholder='Confirm Password'
+                  label='Confirm Password'
+                  showSignup={true}
+                  helperText={'Confirm your password.'}
+                  value={confirmPassword}
                />
                <Button type='submit' variant='contained' fullWidth>
                   Change password

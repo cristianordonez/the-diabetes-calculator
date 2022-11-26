@@ -7,26 +7,43 @@ interface Props {
       event: React.ChangeEvent<HTMLInputElement>
    ) => void;
    handleLoginChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+   name: string;
+   value: string;
+   label: string;
+   type: string;
+   placeholder: string;
+   errorMessage: string;
+   helperText: string;
+   showTextFieldError: boolean | undefined;
 }
 
-export const UsernameTextField = ({
+export const CustomTextField = ({
    showSignup,
+   errorMessage,
    handleCreateAccountChange,
    handleLoginChange,
+   name,
+   label,
+   value,
+   type,
+   helperText,
+   placeholder,
+   showTextFieldError,
 }: Props) => {
    return (
       <TextField
          inputProps={{ 'data-testid': 'username-textfield' }}
          required
+         error={showTextFieldError}
          onChange={showSignup ? handleCreateAccountChange : handleLoginChange}
-         label={showSignup ? 'Username' : 'Email'}
-         type='text'
+         label={label}
+         type={type}
          variant='filled'
-         name='username'
-         placeholder={showSignup ? 'Username' : 'Email'}
+         name={name}
+         placeholder={placeholder}
          fullWidth
-         id='username'
-         helperText={showSignup ? 'Enter your username' : 'Enter your email'}
+         helperText={showTextFieldError ? errorMessage : helperText}
+         value={value}
       />
    );
 };
