@@ -53,24 +53,37 @@ npm install
 
 -  Create a client/dist directory and a index.html file for webpack to output content to.
 
--  Then, if environment is set for development, run the application like so:
+```bash
+npm install
+```
+
+-  Create .env file using the keys from the sample.env file
+
+-  Then, during development, run the application like so:
 
 ```bash
 npm run dev
 ```
 
-This opens a development server in your local browser at port 3000.
+This uses the concurrently package to run a nodemon command (which uses ts-node under the hood as seen in the nodemon.json file) as well as a command to open a webpack-dev-server on port 3000. All requests sent to /api will be proxied to port 8080 for ease of development.
 
--  To allow code-splitting to work when building files, must first change tsconfig.json 'module' variable to 'esnext'. Feel free to change back to 'commonjs' after building files to avoid errors with using import statements instead of require statements for modules.
+-  Note: To allow code-splitting to work when building files, must first change tsconfig.json 'module' variable to 'esnext'. Change back to 'commonjs' after building files to avoid errors with using import statements instead of require statements for modules.
 
--  When application is ready for production, have webpack build your bundle and minimize your files and then start the Express server:
+-  When application is ready for production, first have webpack build your bundle and minimize your files:
 
 ```bash
 npm run build
+```
+
+This will build your client code into the client/dist folder.
+
+-  Then, use ts-node with --transpile-only commands (to avoid typechecking in production which may cause memory issues on EC2 instance) to start the server at port 8080 which will serve the static files (client/dist/index.html) for us:
+
+```bash
 npm start
 ```
 
--  If application is hosted on an AWS EC2 instance, push changes to build to Github, connect to instance, then pull the updated changes (note free tier EC2 instance has issues with lower CPU power and cannot handle building full TypeScript project locally)
+-  If application is hosted on an AWS EC2 instance, push changes to Github, connect to instance, then pull the updated changes (Note: if using t2.micro under the AWS free tier, you may experience issues with lower CPU power as it cannot handle building full TypeScript project locally)
 
 ```bash
 git push origin main
@@ -78,19 +91,18 @@ bash ec2-login.sh
 git pull
 ```
 
--  Then restart PM2 process
+-  Create persistent server using pm2, which runs the ts-node --transpile-only command under the hood:
 
 ```bash
+npm run pm2
+```
+
+-  When making changes, make sure to restart pm2 process as well as Nginx:
+
+````bash
 sudo pm2 restart themacrotrainer
-```
-
--  And also restart Nginx
-
-```bash
 sudo systemctl restart nginx
-```
 
-Then navigate to port 8080 in your browser to view your application.
 
 ## Testing
 
@@ -98,7 +110,7 @@ Then navigate to port 8080 in your browser to view your application.
 
 ```bash
 npm run jest
-```
+````
 
 -Then run end to end tests with Cypress:
 

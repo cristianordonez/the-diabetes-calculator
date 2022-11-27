@@ -15,7 +15,7 @@
       "webpack-dev": "webpack serve --config webpack.dev.js",
       "build:server": "tsc",
       "start": "ts-node --transpile-only ./server/server.ts",
-      "pm2": "pm2 start npm --name 'themacrotrainer' -- start "
+      "pm2": "sudo pm2 start npm --name 'themacrotrainer' -- start "
    },
    "repository": {
       "type": "git",
