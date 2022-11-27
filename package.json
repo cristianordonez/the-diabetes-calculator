@@ -11,7 +11,8 @@
       "cypress": "cypress open",
       "dev": "concurrently -n 'server, webpack' -c 'bgGreen.bold,bgBlue.bold' \"npm:start\" \"npx wait-on http://localhost:8080 && npm run webpack-dev\" ",
       "webpack-dev": "webpack serve --config webpack.dev.js",
-      "start": "nodemon server/server.js",
+      "start": "nodemon",
+      "start-prod": "ts-node -T ./server/server.ts",
       "build": "webpack --config webpack.prod.js"
    },
    "repository": {
