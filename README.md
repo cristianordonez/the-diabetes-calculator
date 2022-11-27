@@ -84,6 +84,12 @@ git pull
 sudo pm2 restart themacrotrainer
 ```
 
+-  And also restart Nginx
+
+```bash
+sudo systemctl restart nginx
+```
+
 Then navigate to port 8080 in your browser to view your application.
 
 ## Testing
