@@ -33,7 +33,7 @@ router.post(
       const user = req.user as string;
       const session = req.session as unknown as Session;
       session.user_id = user;
-      res.status(201).send('Successfully logged in.');
+      res.status(200).send('Successfully logged in.');
    }
 );
 

@@ -59,7 +59,7 @@ export const LoginForm = ({
          const response = await axios.post('/api/login', loginValues, {
             withCredentials: true,
          });
-         if (response.status === 201) {
+         if (response.status === 200) {
             setIsLoggedIn(true);
             setShowTextFieldError(false);
             navigate(`/home`, { replace: true });
