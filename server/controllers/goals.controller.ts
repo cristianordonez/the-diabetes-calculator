@@ -11,8 +11,8 @@ const calculateGoals = async (req: Request, res: Response) => {
          res.status(201).send(goals);
       }, 1000);
    } catch (err) {
-      console.log(err);
-      res.status(500).send('Unable to calculate goals.');
+      console.error(err);
+      res.status(500).send({ message: 'Unable to calculate goals.' });
    }
 };
 
@@ -21,10 +21,10 @@ const getGoals = async (req: Request, res: Response) => {
       const session = req.session as unknown as Session;
       const user_id = session.user_id;
       const userGoals: CurrentGoals[] = await get(user_id);
-      res.status(201).send(userGoals);
+      res.status(200).send(userGoals);
    } catch (err) {
-      console.log(err);
-      res.status(500).send('Unable to retrieve daily goals.');
+      console.error(err);
+      res.status(500).send({ message: 'Unable to retrieve daily goals.' });
    }
 };
 
@@ -37,8 +37,8 @@ const createGoals = async (req: Request, res: Response) => {
       await create(goals);
       res.status(201).json(session.user_id);
    } catch (err) {
-      console.log(err);
-      res.status(400).send(err);
+      console.error(err);
+      res.status(400).send({ message: 'Unable to create goals.' });
    }
 };
 
@@ -51,8 +51,8 @@ const updateGoals = async (req: Request, res: Response) => {
       const updatedGoals = await update(goals);
       res.status(201).send(updatedGoals);
    } catch (err) {
-      console.log(err);
-      res.status(400).send('Unable to update daily goals.');
+      console.error(err);
+      res.status(400).send({ message: 'Unable to update daily goals.' });
    }
 };
 

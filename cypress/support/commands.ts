@@ -44,7 +44,6 @@ Cypress.Commands.add('signup', () => {
       url: '/api/signup',
       method: 'POST',
       body: {
-         username: 'thisisatestuser',
          email: 'currenttestemail@email.com',
          password: 'password',
       },
@@ -116,7 +115,7 @@ Cypress.Commands.add('login', () => {
       url: '/api/login',
       method: 'POST',
       body: {
-         username: 'thisisatestuser',
+         username: 'currenttestemail@email.com',
          password: 'password',
       },
    });

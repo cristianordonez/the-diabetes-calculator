@@ -68,7 +68,7 @@ export const FoodLogSlot = ({
          setAlertMessage('Food item has been deleted');
          setOpenAlert(true);
       } catch (err) {
-         console.log('err: ', err);
+         console.error('err: ', err);
          setAlertSeverity('error');
          setAlertMessage('Unable to delete item. Please try again later.');
          setOpenAlert(true);

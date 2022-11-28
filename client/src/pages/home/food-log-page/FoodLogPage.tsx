@@ -73,7 +73,7 @@ const FoodLogPage = ({
          setNutritionSummary(dbResponse.data.nutritionSummary);
          setIsSearching(false);
       } catch (err) {
-         console.log(err);
+         console.error(err);
       }
    };
 

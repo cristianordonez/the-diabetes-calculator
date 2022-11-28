@@ -12,7 +12,7 @@ const createUser = (user: UserType) => {
       const dbResponse = db.one(createQuery, [user.email, user.password]);
       return dbResponse;
    } catch (err) {
-      console.log('err: ', err);
+      console.error(err);
       return err;
    }
 };
@@ -27,7 +27,7 @@ const createGoogleUser = async (user: { email: string }) => {
       ]);
       return createGoogleUserResponse;
    } catch (err) {
-      console.log('err: ', err);
+      console.error(err);
    }
 };
 
@@ -37,7 +37,7 @@ const updatePassword = async (userId: number, password: string) => {
       const dbResponse = db.none(passwordQuery, [password, userId]);
       return dbResponse;
    } catch (err) {
-      console.log('err: ', err);
+      console.error(err);
       return err;
    }
 };
@@ -48,7 +48,7 @@ const getGoogleUser = async (email: string) => {
       const user = db.oneOrNone(getGoogleUserQuery, email);
       return user;
    } catch (err) {
-      console.log('err: ', err);
+      console.error(err);
    }
 };
 

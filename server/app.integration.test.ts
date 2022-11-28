@@ -77,19 +77,18 @@ describe('Authentication routes', () => {
             username: 'testemail@email.com',
             password: 'password',
          });
-      expect(loginResponse.statusCode).toBe(201);
+      expect(loginResponse.statusCode).toBe(200);
    });
-   test('GET /metrics: should allow user to retrieve metrics from database', async () => {
+   test('GET /metrics: should allow user to retrieve goals from database', async () => {
       const metricsResponse = await request
          .get('/api/goals')
          .set('Cookie', cookie);
-      expect(metricsResponse.statusCode).toBe(201);
+      expect(metricsResponse.statusCode).toBe(200);
    });
    test('POST /logout: should allow user to logout', async () => {
       const logoutResponse = await request
          .post('/api/logout')
          .set('Cookie', cookie);
       expect(logoutResponse.statusCode).toBe(200);
-      expect(logoutResponse.text).toBe('You have been logged out');
    });
 });

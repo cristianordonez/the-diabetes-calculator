@@ -19,7 +19,9 @@ const createAccount = async (req: Request, res: Response) => {
       if (
          checkForExistingAccount !== null // if either email or username already exists in db, cancel the request
       ) {
-         res.status(401).send('An account with your email already exists.');
+         res.status(401).send({
+            message: 'An account with your email already exists.',
+         });
       } else {
          const hash: string = await bcrypt.hash(password, saltRounds);
          password = hash;
@@ -31,20 +33,22 @@ const createAccount = async (req: Request, res: Response) => {
          };
          const session = req.session as unknown as Session;
          session.user_id = dbResponse.user_id; //save user_id to session so that it can be retrieved with next request when getting metrics
-         res.status(201).send('You have successfully created an account!');
+         res.status(201).send({
+            message: 'You have successfully created an account!',
+         });
       }
    } catch (err) {
-      console.log('error creating an account:', err);
-      res.status(401).send('Unable to create an account.');
+      console.error('error creating an account:', err);
+      res.status(401).send({ message: 'Unable to create an account.' });
    }
 };
 
 const checkAuthentication = async (req: Request, res: Response) => {
    const session = req.session as unknown as Session;
    if (session.passport || session.user_id) {
-      res.status(200).send('User is logged in.');
+      res.status(200).send({ message: 'User is logged in.' });
    } else {
-      res.status(205).send('User is not logged in.');
+      res.status(205).send({ message: 'User is not logged in.' });
    }
 };
 
@@ -55,9 +59,10 @@ const forgotPassword = async (req: Request, res: Response) => {
          body.email
       )) as PassportGoogleUser;
       if (!user) {
-         res.status(403).send(
-            'No account registered to that email exists. Would you like to create an account instead?'
-         );
+         res.status(403).send({
+            message:
+               'No account registered to that email exists. Would you like to create an account instead?',
+         });
       } else {
          const currentToken = await tokensModel.findOne(user.user_id);
          if (!currentToken) {
@@ -76,13 +81,15 @@ const forgotPassword = async (req: Request, res: Response) => {
          const envVariables = process.env as unknown as { CLIENT_URL: string };
          const link = `${envVariables.CLIENT_URL}/passwordReset?token=${resetToken}&id=${user.user_id}`;
          await sendEmail(user.email, link);
-         res.status(200).send(
-            'Your account recovery link has been sent to your email.'
-         );
+         res.status(200).send({
+            message: 'Your account recovery link has been sent to your email.',
+         });
       }
    } catch (err) {
-      console.log('err:', err);
-      res.status(400).send('Unable to send an email. Please try again later.');
+      console.error('err:', err);
+      res.status(400).send({
+         message: 'Unable to send an email. Please try again later.',
+      });
    }
 };
 
@@ -99,22 +106,28 @@ const resetPassword = async (req: Request, res: Response) => {
          | null
          | [{ token: string }];
       if (!resetToken) {
-         res.status(403).send('Invalid or expired password reset token');
+         res.status(403).send({
+            message: 'Invalid or expired password reset token',
+         });
       } else {
          const isValidToken = await bcrypt.compare(
             body.token,
             resetToken[0].token
          );
          if (!isValidToken) {
-            res.status(403).send('Invalid or expired password reset token');
+            res.status(403).send({
+               message: 'Invalid or expired password reset token',
+            });
          } else {
             const hash = await bcrypt.hash(body.password, Number(saltRounds));
             await userModel.updatePassword(body.userId, hash);
-            res.status(200).send('Your password has been updated!');
+            res.status(200).send({
+               message: 'Your password has been updated!',
+            });
          }
       }
    } catch (err) {
-      res.status(403).send('Unable to change password');
+      res.status(403).send({ message: 'Unable to change password' });
    }
 };
 

@@ -65,8 +65,8 @@ export const LoginForm = ({
             navigate(`/home`, { replace: true });
          }
       } catch (err) {
+         console.error('err: ', err);
          setAlertSeverity('error');
-         console.log('err: ', err);
          setErrorMessage('No matching username and password found.'); //showTextFieldError message used in the snackbar
          setShowTextFieldError(true); //used to show showTextFieldError helper text in text field
          handleErrorAlert();

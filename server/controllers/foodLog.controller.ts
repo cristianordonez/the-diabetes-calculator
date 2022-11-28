@@ -21,8 +21,8 @@ const getSampleFoodLogDay = async (req: Request, res: Response) => {
       const nutritionSummary = await getSampleFoodsNutritionSummary();
       res.status(200).send({ sampleItems, nutritionSummary });
    } catch (err) {
-      console.log('err getting sample meals: ', err);
-      res.status(400).send('Unable to get sample food log');
+      console.error(err);
+      res.status(400).send({ message: 'Unable to get sample food log' });
    }
 };
 
@@ -33,10 +33,10 @@ const addFoodLogItem = async function (req: Request, res: Response) {
       const body = req.body as AddToFoodLogType;
       const session = req.session as unknown as Session;
       await createFoodLogItem(body, session.user_id);
-      res.status(201).send('Successfully posted food log item');
+      res.status(201).send({ message: 'Successfully posted food log item' });
    } catch (err) {
-      console.log('error', err);
-      res.status(400).send('Error adding item to foodlog');
+      console.error(err);
+      res.status(400).send({ message: 'Error adding item to foodlog' });
    }
 };
 
@@ -53,8 +53,8 @@ const getFoodLogDay = async function (req: Request, res: Response) {
       );
       res.status(200).send({ foodLogItems, nutritionSummary });
    } catch (err) {
-      console.log('err:', err);
-      res.status(400).send('Unable to get food log items');
+      console.error(err);
+      res.status(400).send({ message: 'Unable to get food log items' });
    }
 };
 
@@ -73,8 +73,8 @@ const deleteItem = async function (req: Request, res: Response) {
       );
       res.status(200).send({ updatedItems, updatedNutritionSummary });
    } catch (err) {
-      console.log('error', err);
-      res.status(400).send('Unable to delete food log item.');
+      console.error(err);
+      res.status(400).send({ message: 'Unable to delete food log item.' });
    }
 };
 
@@ -115,8 +115,8 @@ const createCustomItem = async (req: Request, res: Response) => {
       );
       res.status(200).send({ updatedFoodLogItems, updatedNutritionSummary });
    } catch (err) {
-      console.log('err: ', err);
-      res.status(400).send('Unable to createFoodLogItem new food');
+      console.error(err);
+      res.status(400).send({ message: 'Unable to createFoodLogItem new food' });
    }
 };
 

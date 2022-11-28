@@ -25,7 +25,7 @@ const MacroCalculatorPage = () => {
             setGoals(currentGoals.data);
          }
       } catch (err) {
-         console.log(err);
+         console.error(err);
       }
    };
    return isLoading ? null : (

@@ -59,10 +59,10 @@ const ResetPasswordPage = () => {
             });
          }
       } catch (err) {
+         console.error(err);
          setAlertSeverity('error');
          setAlertMessage('Unable to change password.');
          setOpenAlert(true);
-         console.log(err);
       }
    };
 

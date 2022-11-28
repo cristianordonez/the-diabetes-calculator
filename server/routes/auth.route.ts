@@ -33,7 +33,7 @@ router.post(
       const user = req.user as string;
       const session = req.session as unknown as Session;
       session.user_id = user;
-      res.status(200).send('Successfully logged in.');
+      res.status(200).send({ message: 'Successfully logged in.' });
    }
 );
 
@@ -64,12 +64,12 @@ router.post('/resetPassword', (req: Request, res: Response) => {
 router.post('/logout', (req: Request, res: Response, next: NextFunction) => {
    req.logout(function (err: unknown) {
       if (err) {
-         console.log('err in router.post logout: ', err);
+         console.error(err);
          return next(err);
       }
       const session = req.session as unknown as Session;
       session.destroy();
-      res.status(200).send('You have been logged out');
+      res.status(200).send({ message: 'You have been logged out' });
    });
 });
 

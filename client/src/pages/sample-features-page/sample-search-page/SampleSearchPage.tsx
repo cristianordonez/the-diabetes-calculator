@@ -25,8 +25,8 @@ const SampleSearchPage = () => {
             const data = response.data as unknown as FoodSearchResult[];
             setSearchResults(data);
          })
-         .catch((err: unknown) => {
-            console.log('err: ', err);
+         .catch((err) => {
+            console.error(err);
          });
    }, []);
    return (

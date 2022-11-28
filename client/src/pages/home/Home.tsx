@@ -71,7 +71,7 @@ const Home = () => {
          setIsSearching(false);
       } catch (err) {
          setIsSearching(false);
-         console.log(err);
+         console.error(err);
       }
    };
 
@@ -125,7 +125,7 @@ const Home = () => {
             'Unable to get search results. Please try again later.'
          );
          setOpenAlert(true);
-         console.log(err);
+         console.error(err);
       }
    };
 
@@ -155,7 +155,7 @@ const Home = () => {
                }
             })
             .catch((err) => {
-               console.log(err);
+               console.error(err);
             });
       }
    }, []);

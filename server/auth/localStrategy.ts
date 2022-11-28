@@ -34,8 +34,8 @@ export const customLocalStrategy = new LocalStrategy(
                });
             }
          })
-         .catch(function (err: unknown) {
-            console.log(err);
+         .catch(function (err) {
+            console.error(err);
             return cb(err);
          });
    }

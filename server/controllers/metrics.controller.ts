@@ -10,7 +10,7 @@ const getMetrics = async (req: Request, res: Response) => {
       res.status(201).send(userMetrics);
    } catch (err) {
       console.error(err);
-      res.status(500).send('Unable to find user metrics.');
+      res.status(500).send({ message: 'Unable to find user metrics.' });
    }
 };
 
@@ -30,10 +30,10 @@ const createMetrics = async (req: Request, res: Response) => {
       data.height = height;
       data.weight = weight;
       await create(data, user_id);
-      res.status(201).send('Successfully saved user metrics.');
+      res.status(201).send({ message: 'Successfully saved user metrics.' });
    } catch (err) {
       console.error(err);
-      res.status(400).send('Unable to save metrics.');
+      res.status(400).send({ message: 'Unable to save metrics.' });
    }
 };
 
@@ -53,10 +53,10 @@ const updateMetrics = async (req: Request, res: Response) => {
       const session = req.session as unknown as Session;
       const user_id = session.user_id;
       await update(data, user_id);
-      res.status(201).send('Metrics have been updated.');
+      res.status(201).send({ message: 'Metrics have been updated.' });
    } catch (err) {
-      console.error('err: ', err);
-      res.status(400).send('Metrics could not be updated.');
+      console.error(err);
+      res.status(400).send({ message: 'Metrics could not be updated.' });
    }
 };
 
@@ -65,10 +65,10 @@ const deleteUserMetrics = async (req: Request, res: Response) => {
       const session = req.session as unknown as Session;
       const user_id = session.user_id;
       await deleteMetrics(user_id);
-      res.status(201).send('Metrics have been deleted.');
+      res.status(201).send({ message: 'Metrics have been deleted.' });
    } catch (err) {
-      console.error('err: ', err);
-      res.status(400).send('Metrics could not be deleted.');
+      console.error(err);
+      res.status(400).send({ message: 'Metrics could not be deleted.' });
    }
 };
 

@@ -36,8 +36,8 @@ const ForgotPasswordPage = () => {
             state: { sentRecoveryEmail: true },
             replace: true,
          });
-      } catch (err: unknown) {
-         console.log('err: ', err);
+      } catch (err) {
+         console.error(err);
          setAlertSeverity('error');
          setAlertMessage(
             'No account with that email exists. Did you mean to log in?'

@@ -46,7 +46,7 @@ const AuthProvider = ({ children }: Props) => {
             navigate('/');
          }
       } catch (err) {
-         console.log('err:', err);
+         console.error(err);
       }
    };
 
@@ -65,7 +65,7 @@ const AuthProvider = ({ children }: Props) => {
             }
          })
          .catch((err) => {
-            console.log('Error:', err);
+            console.error(err);
             setIsLoggedIn(false);
             navigate('/', {
                state: { showError: false },

@@ -116,14 +116,14 @@ const SampleFeaturesPage = () => {
             }
             setIsLoading(false);
          })
-         .catch((err: unknown) => {
+         .catch((err) => {
             setIsLoading(false);
             setAlertSeverity('error');
             setAlertMessage(
                'Unable to get search results. Please try again later.'
             );
             setOpenAlert(true);
-            console.log(err);
+            console.error(err);
          });
    };
 
@@ -170,7 +170,7 @@ const SampleFeaturesPage = () => {
          setIsLoading(false);
       } catch (err) {
          setIsLoading(false);
-         console.log(err);
+         console.error(err);
       }
    };
 

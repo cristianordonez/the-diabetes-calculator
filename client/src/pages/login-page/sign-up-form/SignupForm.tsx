@@ -72,12 +72,10 @@ export const SignupForm = ({
             );
             setOpenErrorAlert(true);
             setShowNextPage(true);
-         } catch (err: unknown) {
-            console.log('err:', err);
+         } catch (err) {
+            console.error(err);
             setAlertSeverity('error');
-            setErrorMessage(
-               'An account with that email already exists. Try logging in instead.'
-            );
+            setErrorMessage('An account with your email already exists.');
             setOpenErrorAlert(true);
          }
       }
