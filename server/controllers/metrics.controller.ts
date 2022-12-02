@@ -7,7 +7,7 @@ const getMetrics = async (req: Request, res: Response) => {
       const session = req.session as unknown as Session;
       const user_id = session.user_id;
       const userMetrics: CalculateGoalsArgs = await get(user_id);
-      res.status(201).send(userMetrics);
+      res.status(200).send(userMetrics);
    } catch (err) {
       console.error(err);
       res.status(500).send({ message: 'Unable to find user metrics.' });

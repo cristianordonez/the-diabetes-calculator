@@ -11,15 +11,15 @@ const saltRounds = 10;
 const createAccount = async (req: Request, res: Response) => {
    try {
       const body = req.body as UserType;
-      const email = body.email.toLowerCase();
+      const email = body.email;
       let password = body.password;
 
       const checkForExistingAccount: null | { hash: string } =
-         await userModel.getHash(email);
+         await userModel.getUser(email);
       if (
-         checkForExistingAccount !== null // if either email or username already exists in db, cancel the request
+         checkForExistingAccount !== null // if email already exists in db, cancel the request
       ) {
-         res.status(401).send({
+         res.status(400).send({
             message: 'An account with your email already exists.',
          });
       } else {
@@ -39,7 +39,7 @@ const createAccount = async (req: Request, res: Response) => {
       }
    } catch (err) {
       console.error('error creating an account:', err);
-      res.status(401).send({ message: 'Unable to create an account.' });
+      res.status(400).send({ message: 'Unable to create an account.' });
    }
 };
 
@@ -48,16 +48,14 @@ const checkAuthentication = async (req: Request, res: Response) => {
    if (session.passport || session.user_id) {
       res.status(200).send({ message: 'User is logged in.' });
    } else {
-      res.status(205).send({ message: 'User is not logged in.' });
+      res.status(400).send({ message: 'User is not logged in.' });
    }
 };
 
 const forgotPassword = async (req: Request, res: Response) => {
    try {
       const body = req.body as { email: string };
-      const user = (await userModel.getGoogleUser(
-         body.email
-      )) as PassportGoogleUser;
+      const user = (await userModel.getUser(body.email)) as PassportGoogleUser;
       if (!user) {
          res.status(403).send({
             message:

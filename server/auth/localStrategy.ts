@@ -9,13 +9,14 @@ type HashResponse = {
 
 export const customLocalStrategy = new LocalStrategy(
    (username, password, cb) => {
+      const email = username.toLowerCase();
       //expects key in body called username, but will check email instead for authentication
       db.query(
          `SELECT hash, users.user_id FROM user_hash 
          INNER JOIN users
          ON user_hash.user_id=users.user_id
          WHERE email = $1`,
-         username
+         email
       )
          .then(function (result: HashResponse[]) {
             if (result.length) {
