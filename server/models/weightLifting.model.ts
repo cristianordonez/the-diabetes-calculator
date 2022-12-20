@@ -1,58 +1,94 @@
 import { db } from '../database/db';
 
-const getAllPrograms = async function () {
+const getAllProgramsByCategory = async function () {
    const currentQuery = `   
-select row_to_json(category) as categories
-from 
-(
-	select c.category_name, c.id as category_id,
-	(
-		select json_agg(program)
-		from 
-		(
-			select program.name, program.id as program_id, program.body, (
-				select json_agg(program_progression)
-				from 
-				(
-					select pp.description, pp.min_rep 
-					from program_progression as pp
-					where pp.program_id = program.id
-				) program_progression
-			) as progression, program.is_default,
-			(
-			select json_agg(workout)
-		from
-		(
-			select workout.week,workout.day, 
-			(
-				select json_agg(workout_set)
-				from 
-				(
-					select workout_set.amrap, workout_set.reps_target,
-					(
-						select json_agg(exercises)
-						from 
-						(
-							select w.name as exercise, w.body_part, w.gif_url, w.equipment, muscle.name as target
-							from weightlifting_exercise as w
-							inner join muscle on w.muscle_id = muscle.id
-							where w.id = workout_set.exercise_id
-						) as exercises
-					) exercises
-					from workout_set where workout_set.workout_id = workout.id
-				) workout_set
-			) as sets
-			from workout where workout.program_id = program.id
-			order by week, day
-		) workout
-			) as workouts
-			from program where c.id = program.category_id
-		) program
-	) as programs
-	from category as c
-) category;`;
+         SELECT c.category_name, c.id AS category_id,
+      	(
+      		SELECT json_agg(program)
+      		FROM 
+      		(
+      			SELECT program.name, program.id AS program_id, program.body, (
+      				SELECT json_agg(program_progression)
+      				FROM 
+      				(
+      					SELECT pp.description, pp.min_rep, pp.max_rep, pp.weight_to_add, pp.id  
+      					FROM program_progression AS pp
+      					WHERE pp.program_id = program.id
+      				) program_progression
+      			) AS progression, program.is_default,
+      			(
+      			SELECT json_agg(workout)
+      		FROM
+      		(	
+      			SELECT workout.week,workout.day, workout.id, 
+				(	
+      				SELECT json_agg(weightlifting_exercise)
+      				FROM 
+      				(
+						SELECT weightlifting_exercise.name, weightlifting_exercise.id, weightlifting_exercise.gif_url, (
+							SELECT json_agg(workout_set)
+							FROM (
+								SELECT workout_set.id, workout_set.set_number, workout_set.amrap, workout_set.percentage_rm, workout_set.reps_target
+								FROM workout_set INNER JOIN workout_exercise ON workout_set.workout_exercise_id = workout_exercise.id
+								WHERE workout_exercise.exercise_id = weightlifting_exercise.id
+								AND workout_exercise.workout_id = workout.id
+								ORDER BY exercise_rank_order, set_number
+							)workout_set
+						) AS SETS
+						FROM workout_exercise 
+						INNER JOIN weightlifting_exercise ON workout_exercise.exercise_id = weightlifting_exercise.id
+						INNER JOIN workout_set ON workout_exercise.id = workout_set.workout_exercise_id
+						WHERE workout.id = workout_exercise.workout_id
+						GROUP BY weightlifting_exercise.id
+						
+      				) weightlifting_exercise
+      			) AS exercises
+      			FROM workout WHERE workout.program_id = program.id
+      			ORDER BY week, day
+      		) workout
+      			) AS workouts
+      			FROM program where c.id = program.category_id
+      		) program
+      	) AS programs
+      	FROM category AS c
+   `;
    const dbResponse = await db.many(currentQuery);
    return dbResponse;
 };
 
-export { getAllPrograms };
+const getAllExercisesByMuscle = async function () {
+   const query = `
+	   SELECT m.name AS muscle, m.id, 
+	   (
+	   	SELECT json_agg(weightlifting_exercise) 
+	   	FROM
+	   	(
+	   		SELECT w.name, w.body_part, w.equipment, w.gif_url, w.id
+	   		FROM weightlifting_exercise AS w
+	   		WHERE w.muscle_id = m.id
+	   	) weightlifting_exercise
+	   ) AS exercises 
+	   FROM muscle AS m 
+      `;
+   const dbResponse = await db.many(query);
+   return dbResponse;
+};
+
+//todo adds program and upcoming workouts to user;
+
+type RepMax = {
+   max: number;
+   name: string;
+   reps: number;
+   weight: number;
+   weightMetric: string;
+};
+interface Body {
+   exerciseRepMaxes: RepMax[];
+}
+const create = async ({ exerciseRepMaxes }: Body) => {
+   const query = ``;
+   const dbResponse = await db.many(query);
+   return dbResponse;
+};
+export { getAllProgramsByCategory, getAllExercisesByMuscle, create };

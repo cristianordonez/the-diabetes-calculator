@@ -1,0 +1,58 @@
+[
+   {
+      "isError": false,
+      "max": 797,
+      "name": "barbell bench press",
+      "reps": "1",
+      "weight": "885",
+      "weightMetric": "lb"
+   },
+   {
+      "isError": false,
+      "max": 799,
+      "name": "barbell standing wide military press",
+      "reps": "1",
+      "weight": "888",
+      "weightMetric": "lb"
+   },
+   {
+      "isError": false,
+      "max": 500,
+      "name": "barbell sumo deadlift",
+      "reps": "1",
+      "weight": "555",
+      "weightMetric": "lb"
+   },
+   {
+      "isError": false,
+      "max": 500,
+      "name": "barbell high bar squat",
+      "reps": "1",
+      "weight": "555",
+      "weightMetric": "lb"
+   },
+   {
+      "isError": false,
+      "max": 500,
+      "name": "barbell close-grip bench press",
+      "reps": "1",
+      "weight": "555",
+      "weightMetric": "lb"
+   },
+   {
+      "isError": false,
+      "max": 200,
+      "name": "barbell deadlift",
+      "reps": "1",
+      "weight": "222",
+      "weightMetric": "lb"
+   },
+   {
+      "isError": false,
+      "max": 500,
+      "name": "barbell front squat",
+      "reps": "1",
+      "weight": "555",
+      "weightMetric": "lb"
+   }
+]
