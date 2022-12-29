@@ -1,4 +1,11 @@
+import { ExerciseTrainingMaxPostData } from '../../types/types';
 import { db } from '../database/db';
+
+const getUserProgram = async function (user_id: number | string) {
+   const query = `select program_id from users where user_id = $1;`;
+   const response = await db.oneOrNone(query, user_id);
+   return response;
+};
 
 const getAllProgramsByCategory = async function () {
    const currentQuery = `   
@@ -74,21 +81,55 @@ const getAllExercisesByMuscle = async function () {
    return dbResponse;
 };
 
-//todo adds program and upcoming workouts to user;
-
-type RepMax = {
-   max: number;
-   name: string;
-   reps: number;
-   weight: number;
-   weightMetric: string;
-};
-interface Body {
-   exerciseRepMaxes: RepMax[];
-}
-const create = async ({ exerciseRepMaxes }: Body) => {
-   const query = ``;
-   const dbResponse = await db.many(query);
+//updates user table to give them their selected program
+const updateSelectedProgram = async (
+   activeProgramId: number,
+   user_id: number
+) => {
+   const query = `
+   UPDATE users
+   SET program_id = $<activeProgramId>
+   WHERE user_id = $<user_id>
+	`;
+   const dbResponse = await db.none(query, { activeProgramId, user_id });
    return dbResponse;
 };
-export { getAllProgramsByCategory, getAllExercisesByMuscle, create };
+
+const deleteCurrentRepMaxes = async (user_id: number) => {
+   const query = `
+	DELETE FROM user_current_rm WHERE user_id = $1;
+	`;
+   const dbResponse = await db.none(query, user_id);
+   return dbResponse;
+};
+
+const createCurrentRepMaxes = async (
+   repMaxes: ExerciseTrainingMaxPostData['exerciseRepMaxes'],
+   user_id: number
+) => {
+   db.tx((t) => {
+      const queries = repMaxes.map((l) => {
+         return t.none(
+            'INSERT INTO user_current_rm(exercise_id, user_id, calculated_max ) VALUES((SELECT id FROM weightlifting_exercise WHERE name ~* $<l.name>), $<user_id>, $<l.max>)',
+            { l, user_id }
+         );
+      });
+      return t.batch(queries);
+   })
+      .then((data) => {
+         // SUCCESS
+         // data = array of null-s
+         return data;
+      })
+      .catch((error) => {
+         throw new Error(error);
+      });
+};
+export {
+   getUserProgram,
+   deleteCurrentRepMaxes,
+   getAllProgramsByCategory,
+   getAllExercisesByMuscle,
+   updateSelectedProgram,
+   createCurrentRepMaxes,
+};

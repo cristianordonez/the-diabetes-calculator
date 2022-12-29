@@ -137,6 +137,19 @@ type CalculateGoalsArgs = {
    weightMetric: 'lb' | 'kg';
 };
 
+type RepMax = {
+   max: number;
+   name: string;
+   reps: number;
+   weight: number;
+   weightMetric: string;
+};
+
+interface ExerciseTrainingMaxPostData {
+   exerciseRepMaxes: RepMax[];
+   activeProgramId: number;
+}
+
 export {
    CurrentGoals,
    CalculateGoalsArgs,
@@ -154,4 +167,5 @@ export {
    MetricsType,
    FoodLogItem,
    CustomFoodInput,
+   ExerciseTrainingMaxPostData,
 };
