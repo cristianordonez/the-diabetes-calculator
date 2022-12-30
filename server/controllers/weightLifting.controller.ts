@@ -23,7 +23,7 @@ const getInitWeightLiftingData = async (req: Request, res: Response) => {
    }
 };
 
-//todo allow user to save their selected program
+//allow user to save their selected program
 const saveUserProgram = async (req: Request, res: Response) => {
    const session = req.session as unknown as Session;
    const body = req.body as unknown as ExerciseTrainingMaxPostData;
