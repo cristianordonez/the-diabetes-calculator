@@ -32,21 +32,22 @@ const getAllProgramsByCategory = async function () {
       				SELECT json_agg(weightlifting_exercise)
       				FROM 
       				(
-						SELECT weightlifting_exercise.name, weightlifting_exercise.id, weightlifting_exercise.gif_url, (
+						SELECT weightlifting_exercise.name, weightlifting_exercise.id, weightlifting_exercise.gif_url, workout_exercise.exercise_rank_order, (
 							SELECT json_agg(workout_set)
 							FROM (
 								SELECT workout_set.id, workout_set.set_number, workout_set.amrap, workout_set.percentage_rm, workout_set.reps_target
 								FROM workout_set INNER JOIN workout_exercise ON workout_set.workout_exercise_id = workout_exercise.id
 								WHERE workout_exercise.exercise_id = weightlifting_exercise.id
 								AND workout_exercise.workout_id = workout.id
-								ORDER BY exercise_rank_order, set_number
+								ORDER BY set_number
 							)workout_set
 						) AS SETS
 						FROM workout_exercise 
 						INNER JOIN weightlifting_exercise ON workout_exercise.exercise_id = weightlifting_exercise.id
 						INNER JOIN workout_set ON workout_exercise.id = workout_set.workout_exercise_id
 						WHERE workout.id = workout_exercise.workout_id
-						GROUP BY weightlifting_exercise.id
+						GROUP BY weightlifting_exercise.id, workout_exercise.exercise_rank_order
+						ORDER BY workout_exercise.exercise_rank_order
 						
       				) weightlifting_exercise
       			) AS exercises
@@ -117,8 +118,6 @@ const createCurrentRepMaxes = async (
       return t.batch(queries);
    })
       .then((data) => {
-         // SUCCESS
-         // data = array of null-s
          return data;
       })
       .catch((error) => {
