@@ -111,7 +111,7 @@ const createCurrentRepMaxes = async (
    db.tx((t) => {
       const queries = repMaxes.map((l) => {
          return t.none(
-            'INSERT INTO user_current_rm(exercise_id, user_id, calculated_max ) VALUES((SELECT id FROM weightlifting_exercise WHERE name ~* $<l.name>), $<user_id>, $<l.max>)',
+            'INSERT INTO user_current_rm(exercise_id, user_id, max) VALUES((SELECT id FROM weightlifting_exercise WHERE name ~* $<l.name>), $<user_id>, $<l.max>)',
             { l, user_id }
          );
       });
@@ -124,6 +124,17 @@ const createCurrentRepMaxes = async (
          throw new Error(error);
       });
 };
+
+const getCurrentRepMaxes = async (user_id: number | string) => {
+   const query = `
+		SELECT max, weightlifting_exercise.id AS exercise_id, weightlifting_exercise.name 
+		FROM users INNER JOIN user_current_rm ON users.user_id = user_current_rm.user_id
+		INNER JOIN weightlifting_exercise ON user_current_rm.exercise_id = weightlifting_exercise.id
+		WHERE users.user_id = $1`;
+   const result = await db.manyOrNone(query, user_id);
+   return result;
+};
+
 export {
    getUserProgram,
    deleteCurrentRepMaxes,
@@ -131,4 +142,5 @@ export {
    getAllExercisesByMuscle,
    updateSelectedProgram,
    createCurrentRepMaxes,
+   getCurrentRepMaxes,
 };

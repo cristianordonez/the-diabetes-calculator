@@ -5,6 +5,7 @@ import {
    deleteCurrentRepMaxes,
    getAllExercisesByMuscle,
    getAllProgramsByCategory,
+   getCurrentRepMaxes,
    getUserProgram,
    updateSelectedProgram,
 } from '../models/weightLifting.model';
@@ -16,7 +17,13 @@ const getInitWeightLiftingData = async (req: Request, res: Response) => {
       const categories = await getAllProgramsByCategory();
       const muscles = await getAllExercisesByMuscle();
       const selectedProgram = await getUserProgram(session.user_id);
-      res.status(200).send({ categories, muscles, selectedProgram });
+      const exerciseRepMaxes = await getCurrentRepMaxes(session.user_id);
+      res.status(200).send({
+         categories,
+         muscles,
+         selectedProgram,
+         exerciseRepMaxes,
+      });
    } catch (err) {
       console.error(err);
       res.status(400).send({ message: 'Unable to retrieve programs.' });
