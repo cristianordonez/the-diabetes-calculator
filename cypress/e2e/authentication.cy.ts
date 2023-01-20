@@ -32,6 +32,7 @@ describe('The Login Page', () => {
       cy.findByText(
          'Change the current day by navigating through the tabs, or change the week by using the calendar dropdown to the right'
       ).should('be.visible');
+      cy.debug();
       cy.logout();
    });
 });

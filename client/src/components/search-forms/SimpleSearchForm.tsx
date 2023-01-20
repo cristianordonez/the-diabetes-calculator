@@ -66,7 +66,7 @@ export const SimpleSearchForm = ({
             'Unable to get search results. Please try again later.'
          );
          setOpenAlert(true);
-         console.log(err);
+         console.error(err);
       }
    };
 

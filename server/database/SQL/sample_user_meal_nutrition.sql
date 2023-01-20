@@ -1,6 +1,6 @@
 CREATE TABLE sample_user_meal_nutrition (
     id bigserial NOT NULL,
-    meal_id bigint REFERENCES sample_user_meal(meal_id),
+    meal_id bigint,
     calories integer,
     total_fat integer,
     saturated_fat integer,

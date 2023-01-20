@@ -64,13 +64,13 @@ const SampleFoodLogPage = ({
             setNutritionSummary(data.nutritionSummary[0]);
             setSampleFoodLogItems(data.sampleItems);
          })
-         .catch((err: unknown) => {
+         .catch((err) => {
             setAlertMessage(
                'Unable to retrieve food log items. Please try again later.'
             );
             setAlertSeverity('error');
             setOpenAlert(true);
-            console.log('err: ', err);
+            console.error(err);
          });
    }, [currentDay]);
 

@@ -101,7 +101,7 @@ export const FoodLogDay = ({
          setAlertMessage('Unable to add custom food to your food log');
          setOpenAlert(true);
          handleOpeningDialog();
-         console.log(err);
+         console.error(err);
       }
    };
 

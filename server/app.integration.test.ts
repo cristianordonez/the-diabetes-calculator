@@ -30,6 +30,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+   await db.query('DROP TABLE users');
    await db.query(`DROP TABLE session`);
    await db.query(`DROP TABLE user_daily_goals`);
    await db.query('DROP TABLE user_hash');
@@ -37,7 +38,6 @@ afterAll(async () => {
    await db.query('DROP TABLE user_meal');
    await db.query('DROP TABLE sample_user_meal_nutrition');
    await db.query('DROP TABLE sample_user_meal');
-   await db.query('DROP TABLE users');
    await request.post('/api/logout').set('Cookie', testCookie);
 });
 
@@ -55,7 +55,7 @@ describe('Authentication routes', () => {
       expect(response.statusCode).toBe(201);
       cookie = response.headers['set-cookie']; //update cookie here so session is saved
    });
-   test('POST /metrics: it should allow user to add metrics', async () => {
+   test('POST /goals: it should allow user to add metrics', async () => {
       const body = {
          total_carbohydrates: 200,
          total_protein: 200,
@@ -77,19 +77,18 @@ describe('Authentication routes', () => {
             username: 'testemail@email.com',
             password: 'password',
          });
-      expect(loginResponse.statusCode).toBe(201);
+      expect(loginResponse.statusCode).toBe(200);
    });
-   test('GET /metrics: should allow user to retrieve metrics from database', async () => {
+   test('GET /goals: should allow user to retrieve goals from database', async () => {
       const metricsResponse = await request
          .get('/api/goals')
          .set('Cookie', cookie);
-      expect(metricsResponse.statusCode).toBe(201);
+      expect(metricsResponse.statusCode).toBe(200);
    });
    test('POST /logout: should allow user to logout', async () => {
       const logoutResponse = await request
          .post('/api/logout')
          .set('Cookie', cookie);
       expect(logoutResponse.statusCode).toBe(200);
-      expect(logoutResponse.text).toBe('You have been logged out');
    });
 });

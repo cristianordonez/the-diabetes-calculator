@@ -1,5 +1,5 @@
 CREATE TABLE user_hash (
     id bigserial,
-    user_id bigint REFERENCES users(user_id),
+    user_id bigint,
     hash character varying(350)   
 )

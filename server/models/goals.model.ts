@@ -4,6 +4,7 @@ import { db } from '../database/db';
 const get = (user_id: string | number) => {
    const dbQuery = `SELECT total_carbohydrates,
     total_protein, total_fat, total_calories,
+    water, steps, calories_to_burn,
     user_id FROM user_daily_goals WHERE user_id = $1`;
    const getResponse = db.oneOrNone(dbQuery, user_id);
    return getResponse;

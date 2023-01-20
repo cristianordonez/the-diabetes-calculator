@@ -4,8 +4,6 @@ dotenv.config();
 const database =
    process.env.NODE_ENV === 'test' ? 'test_database' : 'the_macro_trainer';
 
-// const pgp = require('pg-promise')();
-
 import pgPromise from 'pg-promise';
 const pgp = pgPromise({});
 

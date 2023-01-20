@@ -1,6 +1,6 @@
 import GoogleStrategy from 'passport-google-oidc';
 import { PassportGoogleUser } from '../../types/types';
-import { createGoogleUser, getGoogleUser } from '../models/auth.model';
+import { createGoogleUser, getUser } from '../models/auth.model';
 
 export const customGoogleStrategy = new GoogleStrategy(
    {
@@ -14,7 +14,7 @@ export const customGoogleStrategy = new GoogleStrategy(
       profile: { displayName: string; emails: [{ value: string }] },
       done: (err?: string | null, user?: Express.User, info?: unknown) => void
    ) => {
-      getGoogleUser(profile.emails[0].value)
+      getUser(profile.emails[0].value)
          .then((response: PassportGoogleUser | null) => {
             //if user exists, redirect
             if (response !== null && response.user_id) {

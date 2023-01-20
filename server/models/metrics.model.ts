@@ -2,7 +2,7 @@ import { CalculateGoalsArgs } from '../../types/types';
 import { db } from '../database/db';
 
 const get = (user_id: string | number) => {
-   const dbQuery = `SELECT user_id, height, weight, age, gender, goal_name AS goal, activity_level,
+   const dbQuery = `SELECT user_id, height, weight, age, gender, goal_name AS goal, activity_level
     FROM user_metrics WHERE user_id = $1`;
    const getResponse = db.oneOrNone(dbQuery, user_id);
    return getResponse;

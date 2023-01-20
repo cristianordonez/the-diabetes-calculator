@@ -6,7 +6,7 @@ CREATE TABLE user_meal (
     serving_size integer NOT NULL,
     serving_size_unit character varying(50) NOT NULL,
     date timestamp without time zone NOT NULL,
-    user_id bigint REFERENCES users(user_id),
+    user_id bigint,
     fdc_id bigint,
     created_at timestamp with time zone DEFAULT now(),
     description character varying,
